@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户注册</title>
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
+</head>
+
+
+<form action="{% url olgg_register %}" method="post">
+{% csrf_token %}
+<div class="box-v">
+	<ul>
+		<li><span>用户名</span> <input name="username" type="text" required /> </li>
+		<li><span>密码</span> <input name="password" type="password" required /> </li>
+		<li><span>确认密码</span> <input name="confirm-password" type="password" required /> </li>
+		<li><span>电子邮箱</span> <input name="email" type="email" required /> </li>
+		<li><input type="submit" /></li>
+	</ul>
+	
+</div>
+</form>
