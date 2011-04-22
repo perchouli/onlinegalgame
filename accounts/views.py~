@@ -24,8 +24,10 @@ def register(request):
 
 @login_required
 def profile(request):
-    #:profile = User.get_profil
-	return render_to_response('accounts/profile.html', {'profile':profile} ,context_instance = RequestContext(request))
+    user = User.objects.get(username='admin')
+    profile['sex'] = user.get_profile().sex
+    profile['ai']  = 10
+    return render_to_response('accounts/profile.html', {'profile':profile} ,context_instance = RequestContext(request))
 
 
 @login_required

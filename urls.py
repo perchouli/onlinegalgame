@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     
     # url(r'^onlinegalgame/', include('onlinegalgame.foo.urls')),
     url(r'^accounts/', include('onlinegalgame.accounts.urls')),
-
+    url(r'^role/', include('onlinegalgame.role.urls')),
 	# Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

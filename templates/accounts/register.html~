@@ -6,6 +6,7 @@
 <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
 </head>
 
+{{form}}
 
 <form action="{% url olgg_register %}" method="post">
 {% csrf_token %}

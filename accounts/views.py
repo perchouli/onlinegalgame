@@ -4,7 +4,6 @@ from django.template.context import RequestContext
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 
-@login_required
 def register(request):
     if request.method == 'POST':
         form = request.POST
@@ -24,8 +23,13 @@ def register(request):
 
 @login_required
 def profile(request):
-    profile = User.get_profile
-	return render_to_response('accounts/profile.html', {'profile':profile} ,context_instance = RequestContext(request))
+    user = User.objects.get(username='admin')
+    profile = { 
+    'sex':user.get_profile().sex,
+    'ai' : 10
+    }
+    #profile['ai']  = 10
+    return render_to_response('accounts/profile.html', {'profile':profile} ,context_instance = RequestContext(request))
 
 
 @login_required

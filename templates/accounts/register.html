@@ -6,7 +6,28 @@
 <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
 </head>
 
-{{form}}
+  <header>
+    <hgroup>
+      <h1>Page title</h1>
+      <h2>Page subtitle</h2>
+    </hgroup>
+  </header>
+
+  <nav>
+   <ul>
+     Navigation...
+   </ul>
+  </nav>
+  <section>
+   <article>
+     <header>
+       <h1>Title</h1>
+     </header>
+     <section>
+       Content...
+     </section>
+   </article>
+   <article>
 
 <form action="{% url olgg_register %}" method="post">
 {% csrf_token %}
