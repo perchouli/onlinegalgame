@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>添加角色</title>
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
+<style>
+	input, textarea { display:block;}
+	
+	#hair, #cloth, #eye, #face, #glass, #other1, #other2, #other3 {
+		margin-left:30px;
+	    width: 267px;
+	    height: 400px;
+	    position: absolute;
+	    background-repeat: no-repeat;
+	}
+		#cloth {z-index: 3} 
+		#hair {z-index: 4}
+		#eye {z-index: 8}
+		#face {z-index: 10;}
+	#e_menu, #c_menu, #h_menu{
+		border:1px solid #CCCCCC;
+		overflow:hidden;
+		position:absolute;
+		text-align:left;
+		width:120px;
+		height:300px;
+		z-index:98;
+	}
+	#glass {z-index: 7}
+	#other1 {z-index: 7}
+	#other2 {z-index: 7;}
+	#other3 {z-index: 7;}
+</style>
+</head>
+
+<form id="role_form" action="{%url add_role %}" method="POST">
+	{% csrf_token %}
+	Name:<input type="text" name="rolename" id="rolename"/>
+	Gender:<input type="radio" name="gender" value="0">女
+	 <input type="radio" name="gender" value="1">男 
+	 <input type="radio" name="gender" value="2">？
+	birthday:<input type="date" id="birthday" name="birthday" min="1900-01-01" max="2199-12-31"/>
+	resume: <textarea id="resume" name="resume"></textarea>
+	<input type="hidden" id="profile" name="profile" value="" />
+	<p><input type="button" value="Submit" onclick="validator_role_from()" /></p>
+</form>
+<script>
+	function validator_role_from()
+	{
+		var profile = document.getElementById('profile');
+		
+		var cloth = document.getElementById('cloth').getAttribute('style');
+		var hair = document.getElementById('hair').getAttribute('style');
+		var face = document.getElementById('face').getAttribute('style');
+		var eye = document.getElementById('eye').getAttribute('style');
+		
+		var json = [];
+		json[0] = '"'+cloth+'"';
+		json[1] = '"'+hair+'"';
+		json[2] = '"'+face+'"';
+		json[3] = '"'+eye+'"';
+		profile.value = json;
+		document.getElementById('role_form').submit();
+	}
+	function change_role(name, value)
+	{
+		var el = document.getElementById(name);
+		el.setAttribute("style","background:url('{{ STATIC_URL }}role/"+name+"/"+value+"/1.gif')");
+	}
+	
+</script>
+<div>
+特殊：
+<select name="cloth" onchange="change_role(this.name,this.value)">
+{% for dress in dress_list %}
+	{% if dress.type == 'e' %}
+	<option value="{{ dress.id }}"> {{ dress.name }}</option>
+	{% endif %}
+{% endfor %}
+</select>
+
+长袖：
+<select name="cloth" onchange="change_role(this.name,this.value)">
+{% for dress in dress_list %}
+	{% if dress.type == 's' %}
+	<option value="{{ dress.id }}"> {{ dress.name }}</option>
+	{% endif %}
+{% endfor %}
+</select>
+
+短袖：
+<select name="cloth" onchange="change_role(this.name,this.value)">
+	<option value="1">女仆装</option>
+	<option value="2">女仆装</option>
+	<option value="3">女仆装</option>
+</select>
+</div>
+
+<div>
+短发:
+<select name="hair" onchange="change_role(this.name,this.value)">
+	<option value="1">短发</option>
+	<option value="2">女仆装</option>
+	<option value="3">女仆装</option>
+</select>
+
+长发:
+<select name="hair" onchange="change_role(this.name,this.value)">
+	<option value="1">短发</option>
+	<option value="2">女仆装</option>
+	<option value="3">女仆装</option>
+</select>
+</div>
+	<div id="role" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');margin-top:50px;width:500px;height:400px;border:1px solid #ccc;" >
+		<div id="hair"></div>
+		<div id="eye"></div>
+		<div id="face"></div>
+		<div id="cloth"></div>
+	</div>
+	
+	<script>
+	var role_dom = ['cloth', 'hair', 'face', 'eye'];
+	
+	for (var i in role_dom)
+	{
+		var el = document.getElementById(role_dom[i]);
+		el.setAttribute("style","background:url('{{ STATIC_URL }}role/"+(role_dom[i])+"/1/1.gif')");
+	}	
+
+	</script>

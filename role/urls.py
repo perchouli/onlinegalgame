@@ -10,7 +10,7 @@ urlpatterns = patterns('role.views',
 		'add_role', 
 		name='add_role'),
 
-    url(r'^(?P<role_id>\d+)/edit/', 
+    url(r'^(?P<role_id>\d+)/edit/$', 
 		'edit_role', 
 		name='edit_role'),
 	)
