@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>编辑角色</title>
+<title>编辑场景</title>
 <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
 <style>
 	input, textarea { display:block;}
@@ -34,17 +34,12 @@
 </style>
 </head>
 
-<form id="role_form" action="{%url edit_role role_id %}" method="POST">
+<form id="story_form" action="{%url edit_story story_id %}" method="POST">
 	{% csrf_token %}
-	Name:<input type="text" name="rolename" id="rolename" value="{{ role.name }}"/>
-
-	Gender:<input type="radio" name="gender" value="0" {% if role.gender  == '0' %} checked="checked" {% endif %}>女
-	 <input type="radio" name="gender" value="1" {% if role.gender == '1' %} checked="checked" {% endif %}>男 
-	 <input type="radio" name="gender" value="2" {% if role.gender == '2' %} checked="checked" {% endif %}>？
-	birthday:<input type="date" id="birthday" name="birthday" min="1900-01-01" max="2199-12-31" value="{{ role.birthday|safe}}"/>
-	resume: <textarea id="resume" name="resume" value="{{ role.resume }}">{{ role.resume}}</textarea>
-	<input type="hidden" id="profile" name="profile" value="" value="{{ role.profile }}"/>
-	<p><input type="button" value="Submit" onclick="validator_role_from()" /></p>
+	title:<input type="text" name="title" id="title" value="{{ story.title }}"/>
+	summary: <textarea id="summary" name="summary">{{ story.summary }}</textarea>
+	<input type="hidden" id="process" name="process" value="{{ story.process }}" />
+	<p><input type="submit" value="Submit"  /></p>
 </form>
 <script>
 	function validator_role_from()

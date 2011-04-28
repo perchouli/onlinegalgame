@@ -1,16 +1,16 @@
 from django.conf.urls.defaults import patterns, url
+from . import views
 
-
-urlpatterns = patterns('story.views',
+urlpatterns = patterns('',
     url(r'^list/$',
-		'story_list', 
+		views.story_list, 
 		name='story_list'),
 
     url(r'^add/$', 
-		'add_story', 
+		views.add_story, 
 		name='add_story'),
 
-    url(r'^(?P<role_id>\d+)/edit/$', 
-		'edit_role', 
-		name='edit_role'),
+    url(r'^edit/(?P<story_id>\d+)/$', 
+		views.edit_story, 
+		name='edit_story'),
 	)
