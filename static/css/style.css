@@ -1,0 +1,87 @@
+/*1.1public style*/
+body {
+ font-family: Arial, Helvetica, sans-serif, "宋体";
+ color: #838181;
+ font-size: 12px;
+ background:#fcfcfc;
+}
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, form, img, dl, dt, dd, table, th, td, blockquote, fieldset, div, strong, label, em { border: 0 none; margin: 0; padding: 0; }
+h1 { float: left; }
+table { border-collapse: collapse; border-spacing: 0; }
+img { border: 0 none; }
+ul, ol, li { list-style: none; }
+a { color: #4183C4; text-decoration: none; }
+/*a:link, a:visited {
+ color: #838181;
+ text-decoration: none;
+}*/
+a:hover { color: #00458F; text-decoration: none; cursor: pointer; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: inline-block; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* End hide from IE-mac */  
+#wrapper { margin: 0 auto; text-align: left; width: 960px; padding-bottom:20px; }
+.clear { clear: both; height: 0; overflow: hidden; }
+/*1.1public style end*/
+/*1.2top style*/
+#header { padding-top: 12px; height: 52px; background: url('/static/images/header.png') repeat-x;/*background-color:#DDDDD5;
+     background:-webkit-gradient(linear, left top, left bottom,
+     from(#F1F1F1), to(#c6c6c6));
+     border-bottom: 1px solid #c1c1c1;
+     */ }
+.con { width: 960px; margin: 0 auto; text-align: left; }
+#header_menu { height: 38px; float: right; }
+#header_menu li { float: left; display: inline; text-align: center; width: 80px; }
+#header_menu li a { line-height: 34px; display: block; }
+.breadcrumb { color:#5090D7; font-size: 14px; font-family: Helvetica, sans-serif; float: right; }
+/*1.2top style end*/
+/*1.3main style*/
+.top_pic { margin-bottom: 20px; width: 100%; background: #000; }
+#footer .copyright { width: 960px; margin: 0 auto; text-align: left; }
+/*1.3main style end*/
+/*1.4footer style*/
+#footer { padding: 8px 0 15px 0; background-color: #DDDDD5; line-height: 20px; -webkit-box-shadow: 5px 5px 5px #c9c9c9; /* Safari */ border: 1px solid; border-color: #c9c9c9; }
+#footer .footer-menu, #footer .footer-menu a {  margin: 0px 8px; text-align:center; }
+
+/* Delete
+ .footer-border {
+ height:10px;
+ background: url(../images/fborder.jpg) repeat-x scroll center;
+ }
+ */
+.footer img { margin-right: 20px; }
+/*1.4footer style end*/
+/* 2 list.html */
+.sidebar, .con-r { float: right; display: inline; }
+.sidebar { width: 222px; margin: 20px 29px 0px 10px; }
+.sidebar li { margin: 5px 60px 0px 0px; padding: 5px; }
+.sidebar .title { width: 200px;  font-weight: bold; font-size: 14px; padding: 5px; margin-top: 20px; border-radius: 3px; border-bottom:1px solid #DDD!important }
+.search-bar { line-height: 30px; padding-left: 10px; }
+.search-bar .t { border-radius:8px; padding:1px 4px; }
+.search-bar * { vertical-align:middle; }
+.con-r { width: 680px; }
+.conr-title { height: 20px; line-height: 28px; margin: 20px 0 15px 0; font-size: 20px; -webkit-box-reflect: below 3px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(255, 255, 255, 0.25))); }
+.conr-title h2 { font-size:18px; }
+.page { padding: 0px 7px 20px; }
+
+.role_list li h4 { font-size:14px; color:#ffb83b; text-align:center; }
+.role_list li { display: inline-block; vertical-align: top; min-height:100px; zoom: 1;  *display:inline;
+_height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; text-align:left; border-bottom:1px dashed #c6c6c6;}
+.role_list li img { border :1px solid #D0D0D0;}
+.role_list li .resume { text-indent:2em; height:30px; overflow:hidden;text-overflow: ellipsis;}
+#role_whocreaterole{ min-height:200px; }
+#role_whocreaterole li { background: url( /static/images/icon/news.png) no-repeat 0px 5px; padding-left:23px}
+#role_star li { background: url( /static/images/icon/star_blue.png) no-repeat 0px 5px; padding-left:23px}
+/* 2 list.html end*/
+
+#role_create_button {
+	display:block;
+	background:url(/static/images/role_create_back.png);
+	padding:20px 20px 10px 20px;
+	text-indent:2.4em;
+	font-size:18px;
+	text-shadow:-1px -0.5px 0 #C6C6C6;
+	font-weight:bold;
+	}
