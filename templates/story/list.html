@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}所有故事  {% endblock %}
+
+{% block content %}
+
+{% for story in story_list %}
+
+{{ story.title }}
+
+{% endfor %}
+
+{% endblock %}
