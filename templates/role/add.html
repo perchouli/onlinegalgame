@@ -1,108 +1,44 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>添加角色</title>
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
-<style>
-	input, textarea { display:block;}
-	
-	#hair, #cloth, #eye, #face, #glass, #other1, #other2, #other3 {
-		margin-left:30px;
-	    width: 267px;
-	    height: 400px;
-	    position: absolute;
-	    background-repeat: no-repeat;
-	}
-		#cloth {z-index: 3} 
-		#hair {z-index: 4}
-		#eye {z-index: 8}
-		#face {z-index: 10;}
-	#e_menu, #c_menu, #h_menu{
-		border:1px solid #CCCCCC;
-		overflow:hidden;
-		position:absolute;
-		text-align:left;
-		width:120px;
-		height:300px;
-		z-index:98;
-	}
-	#glass {z-index: 7}
-	#other1 {z-index: 7}
-	#other2 {z-index: 7;}
-	#other3 {z-index: 7;}
-</style>
-</head>
+{% extends "role/role_base.html" %}
+{% block title %}添加角色 {% endblock %}
 
-<form id="role_form" action="{%url add_role %}" method="POST">
-	{% csrf_token %}
-	Name:<input type="text" name="rolename" id="rolename"/>
-	Gender:<input type="radio" name="gender" value="0">女
-	 <input type="radio" name="gender" value="1">男 
-	 <input type="radio" name="gender" value="2">？
-	birthday:<input type="date" id="birthday" name="birthday" min="1900-01-01" max="2199-12-31"/>
-	resume: <textarea id="resume" name="resume"></textarea>
-	<input type="hidden" id="profile" name="profile" value="" />
-	<p><input type="button" value="Submit" onclick="validator_role_from()" /></p>
-</form>
-
-<div>
-特殊：
-<select name="cloth" onchange="change_role(this.name,this.value)">
-{% for dress in dress_list %}
-	{% if dress.type == 'e' %}
-	<option value="{{ dress.id }}"> {{ dress.name }}</option>
-	{% endif %}
-{% endfor %}
-</select>
-
-长袖：
-<select name="cloth" onchange="change_role(this.name,this.value)">
-{% for dress in dress_list %}
-	{% if dress.type == 's' %}
-	<option value="{{ dress.id }}"> {{ dress.name }}</option>
-	{% endif %}
-{% endfor %}
-</select>
-
-短袖：
-<select name="cloth" onchange="change_role(this.name,this.value)">
-	<option value="1">女仆装</option>
-	<option value="2">女仆装</option>
-	<option value="3">女仆装</option>
-</select>
+{% block left-nav %}
+ <!--START: left-nav -->
+<div class="sidebar">
+	<h2 class="title" >Basic Info</h2>
+	<form id="role_form" action="{%url add_role %}" method="POST">
+		{% csrf_token %}
+	<ul>
+		<li>
+			名字:<br/><input type="text" name="rolename" id="rolename"/>
+		</li>
+		<li>
+			性别:<br/>
+			<input type="radio" name="gender" value="0">女
+			<input type="radio" name="gender" value="1">男 
+			<input type="radio" name="gender" value="2">？
+		</li>
+		<li>
+			生日:<input type="date" id="birthday" name="birthday" min="1900-01-01" max="2199-12-31"/>
+		</li>
+		<li>
+			简历: <textarea id="resume" name="resume" rows="8"></textarea>
+			<input type="hidden" id="profile" name="profile" value="" />
+			<p><input type="button" value="Submit" onclick="validator_role_from()" /></p>
+		</li>
+	</ul>
+	</form>
+	<h2 class="title" >Your roles</h2>
+	<ul>
+		{% for role in my_role_list %}
+		<li></li>
+		{% endfor %}
+	</ul>
 </div>
+ <!--END: left-nav -->
+{% endblock %}
 
-<div>
-短发:
-<select name="hair" onchange="change_role(this.name,this.value)">
-	<option value="1">短发</option>
-	<option value="2">女仆装</option>
-	<option value="3">女仆装</option>
-</select>
 
-长发:
-<select name="hair" onchange="change_role(this.name,this.value,pos)">
-	<option value="1">短发</option>
-	<option value="2">女仆装</option>
-	<option value="3">女仆装</option>
-</select>
-
-站位
-正面1<input type="radio" name="rolepos" value="1" onclick="pos=this.value;change_pos(pos)">
-正面2<input type="radio" name="rolepos" value="2" onclick="pos=this.value;change_pos(pos)">
-正面3<input type="radio" name="rolepos" value="3" onclick="pos=this.value;change_pos(pos)">
-正面1<input type="radio" name="rolepos" value="4" onclick="pos=this.value;change_pos(pos)">
-正面1<input type="radio" name="rolepos" value="5" onclick="pos=this.value;change_pos(pos)">
-正面1<input type="radio" name="rolepos" value="6" onclick="pos=this.value;change_pos(pos)">
-</div>
-	<div id="role" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');margin-top:50px;width:500px;height:400px;border:1px solid #ccc;" >
-		<div id="hair"></div>
-		<div id="eye"></div>
-		<div id="face"></div>
-		<div id="cloth"></div>
-	</div>
-	
+{% block js %}
 	<script>
 	var role_dom = ['cloth', 'hair', 'face', 'eye'];
 	
@@ -144,3 +80,4 @@
 		}
 	}
 	</script>
+{% endblock %}

@@ -26,8 +26,9 @@ def edit_role(request, role_id):
         return redirect( '/role/list' )
     else:
         role = UserRole.objects.get(id=role_id)
-        dress_list = UserRoleDress.objects.all()
-        return render_to_response('role/edit.html', {'role_id': role_id, 'role':role, 'dress_list':dress_list }, context_instance = RequestContext(request))
+        cloth_list = UserRoleDress.objects.filter(category='cloth')
+        hair_list = UserRoleDress.objects.filter(category='hair')
+        return render_to_response('role/edit.html', {'role_id': role_id, 'role':role, 'cloth_list' : cloth_list,  'hair_list' : hair_list }, context_instance = RequestContext(request))
 
 @csrf_exempt
 @login_required
@@ -49,5 +50,6 @@ def add_role(request):
         print request.session.items()
         return redirect( '/role/list' )
     else:
-        dress_list = UserRoleDress.objects.all()
-        return render_to_response('role/add.html', {'dress_list' : dress_list }, context_instance = RequestContext(request))
+        cloth_list = UserRoleDress.objects.filter(category='cloth')
+        hair_list = UserRoleDress.objects.filter(category='hair')
+        return render_to_response('role/add.html', {'cloth_list' : cloth_list,  'hair_list' : hair_list}, context_instance = RequestContext(request))
