@@ -1,14 +1,35 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>用户登录</title>
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
-</head>
+{% extends "base.html" %}
+{% block title %} 用户登录  {% endblock %}
 
+{% block content %}
+<style>
+input { margin:10px;}
 
+</style>
+<div style="float:left;width:400px;height:400px;background:url({{ STATIC_URL}}images/login.jpg);"></div>
+<div style="float:left;">
+<h1>Tell me your Username and your password</h1>
 <form action="{% url olgg_login %}" method="post">
 {% csrf_token %}
 	{{ form.as_p }}
 	<input type="submit" />
 </form>
+<hr/>
+<h1>Or Register a New account</h1>
+<p class="clearfix"></p>
+<form action="{% url olgg_register %}" method="post">
+{% csrf_token %}
+<div class="box-v">
+	<ul>
+		<li><span>用户名</span> <input name="username" type="text" required /> </li>
+		<li><span>密码</span> <input name="password" type="password" required /> </li>
+		<li><span>确认密码</span> <input name="confirm-password" type="password" required /> </li>
+		<li><span>电子邮箱</span> <input name="email" type="email" required /> </li>
+		<li><input type="submit" /></li>
+	</ul>
+	
+</div>
+</form>
+</div>
+
+{% endblock %}

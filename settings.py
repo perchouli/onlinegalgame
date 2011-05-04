@@ -177,4 +177,6 @@ AUTHENTICATION_BACKENDS = (
 #To create users automatically when a new OpenID is used
 #OPENID_CREATE_USERS = True
 
-LOGIN_URL = '/openid/login/'
+#LOGIN_URL = '/openid/login/'
+
+LOGIN_URL = '/accounts/login/'

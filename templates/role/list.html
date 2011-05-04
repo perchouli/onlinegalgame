@@ -50,25 +50,23 @@
 
 <div class="con-r">
 	<div class="conr-title">
-		<div class="breadcrumb"> <a href="index.html">Home </a>&gt; <a href="contact.html">Products</a> &gt; List </div>
+		<div class="breadcrumb">  </div>
 		<h2>Role List</h2>
 	</div>
 	<div class="page">
-
-   <div class="role_list">
-		<ul>
-	 {% for role in role_list %}
-			<li>
-				<div style="float:left;margin-right:20px"><img src="{{ STATIC_URL }}images/avatar.jpg" width="85" alt="Good info"/><h4>{{ role.name }}</h4></div>
-				<p><a href="{{ role.author_id }}">Admin</a> 的 <a href="#">代理人</a> </p>
-				<p>生日: {{ role.birthday|safe }}</p>
-				<p>在 105 个故事中登场</p><br/>
-				<p class="resume"> {{ role.resume }} </p>
-			</li>
-	 {% endfor %}
-		</ul>
-	</div>
-   <!--carcenter end--> 
+		<div class="role_list">
+			<ul>
+	 		{% for role in role_list %}
+				<li>
+					<div style="float:left;margin-right:20px"><img src="{{ STATIC_URL }}images/avatar.jpg" width="85" alt="Good info"/><h4>{{ role.name }}</h4></div>
+					<p><a href="{{ role.author_id }}">Admin</a> 的 <a href="#">代理人</a> </p>
+					<p>生日: {{ role.birthday|safe }}</p>
+					<p>在 105 个故事中登场</p><br/>
+					<p class="resume"> {{ role.resume }} </p>
+				</li>
+		 {% endfor %}
+			</ul>
+		</div>
 	</div>
 </div>
 
