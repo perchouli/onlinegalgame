@@ -1,44 +1,51 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>用户注册</title>
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
-</head>
+{% extends "base.html" %}
+{% block title %} 用户注册  {% endblock %}
 
-  <header>
-    <hgroup>
-      <h1>Page title</h1>
-      <h2>Page subtitle</h2>
-    </hgroup>
-  </header>
+{% block content %}
 
-  <nav>
-   <ul>
-     Navigation...
-   </ul>
-  </nav>
-  <section>
-   <article>
-     <header>
-       <h1>Title</h1>
-     </header>
-     <section>
-       Content...
-     </section>
-   </article>
-   <article>
+<style>
+form {
+margin-left: 8px;
+padding: 16px 50px 10px 16px;
+font-weight: normal;
+-moz-border-radius: 11px;
+-khtml-border-radius: 11px;
+-webkit-border-radius: 11px;
+border-radius: 5px;
+background: white;
+border: 1px solid #E5E5E5;
+-moz-box-shadow: rgba(200, 200, 200, 1) 0 4px 18px;
+-webkit-box-shadow: rgba(200, 200, 200, 1) 0 4px 18px;
+-khtml-box-shadow: rgba(200, 200, 200, 1) 0 4px 18px;
+box-shadow: rgba(200, 200, 20);
+}
 
+
+label {height:20px;width:60px;float:left;margin:10px 20px 0 0;text-align:right;}
+input{font-size: 24px;
+width: 200px;
+padding: 3px;
+margin-top: 2px;
+margin-right: 6px;
+margin-bottom: 16px;
+border: 1px solid #C6C6C6;
+background: #fff;}
+.errorlist{color:#ff0000}
+</style>
+<div style="float:left;width:400px;height:400px;background:url({{ STATIC_URL}}images/login.jpg);"></div>
+<div style="float:left;">
+<br/>
+<h1><img src="{{ STATIC_URL }}images/register_title.png"/></h1><p class="clearfix"></p><br/>
 <form action="{% url olgg_register %}" method="post">
 {% csrf_token %}
-<div class="box-v">
 	<ul>
-		<li><span>用户名</span> <input name="username" type="text" required /> </li>
-		<li><span>密码</span> <input name="password" type="password" required /> </li>
-		<li><span>确认密码</span> <input name="confirm-password" type="password" required /> </li>
-		<li><span>电子邮箱</span> <input name="email" type="email" required /> </li>
+		<li><label>用户名</label> <input name="username" type="text" required /> </li>
+		<li><label>密码</label> <input name="password" type="password" required /> </li>
+		<li><label>确认密码</label> <input name="confirm-password" type="password" required /> </li>
+		<li><label>电子邮箱</label> <input name="email" type="email" required /> </li>
 		<li><input type="submit" /></li>
 	</ul>
-	
-</div>
 </form>
+</div>
+
+{% endblock %}

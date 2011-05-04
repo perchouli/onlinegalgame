@@ -2,34 +2,55 @@
 {% block title %} 用户登录  {% endblock %}
 
 {% block content %}
-<style>
-input { margin:10px;}
 
+<style>
+form {
+margin-left: 8px;
+padding: 16px 50px 10px 16px;
+font-weight: normal;
+-moz-border-radius: 11px;
+-khtml-border-radius: 11px;
+-webkit-border-radius: 11px;
+border-radius: 5px;
+background: white;
+border: 1px solid #E5E5E5;
+-moz-box-shadow: rgba(200, 200, 200, 1) 0 4px 18px;
+-webkit-box-shadow: rgba(200, 200, 200, 1) 0 4px 18px;
+-khtml-box-shadow: rgba(200, 200, 200, 1) 0 4px 18px;
+box-shadow: rgba(200, 200, 20);
+}
+
+
+input { margin:10px;}
+label { padding-left:10px;font-family:Arial;font-size:14px; display:block; font-weight:bold;}
+#id_username ,#id_password{font-size: 24px;
+width: 200px;
+padding: 3px;
+margin-top: 2px;
+margin-right: 6px;
+margin-bottom: 16px;
+border: 1px solid #C6C6C6;
+background: #fff;}
+.errorlist{color:#ff0000}
 </style>
 <div style="float:left;width:400px;height:400px;background:url({{ STATIC_URL}}images/login.jpg);"></div>
 <div style="float:left;">
-<h1>Tell me your Username and your password</h1>
+<br/>
+<h1><img src="{{ STATIC_URL }}images/login_title.png"/></h1><p class="clearfix"></p><br/>
+
 <form action="{% url olgg_login %}" method="post">
+	
 {% csrf_token %}
 	{{ form.as_p }}
 	<input type="submit" />
 </form>
-<hr/>
-<h1>Or Register a New account</h1>
-<p class="clearfix"></p>
-<form action="{% url olgg_register %}" method="post">
-{% csrf_token %}
-<div class="box-v">
-	<ul>
-		<li><span>用户名</span> <input name="username" type="text" required /> </li>
-		<li><span>密码</span> <input name="password" type="password" required /> </li>
-		<li><span>确认密码</span> <input name="confirm-password" type="password" required /> </li>
-		<li><span>电子邮箱</span> <input name="email" type="email" required /> </li>
-		<li><input type="submit" /></li>
-	</ul>
-	
-</div>
-</form>
+<ul style="margin:20px 0px 0px 10px">
+	<li><a href="{% url olgg_register %}">加入我们, 创建一个新账号!</a></li>
+	<li><a href="#">找回密码</a></li>
+	<br/>
+	<li><a href="{% url role_list %}">寻找你喜欢的角色</a></li>
+	<li><a href="{% url story_list %}">查看其他人的故事</a></li>
+</ul>
 </div>
 
 {% endblock %}
