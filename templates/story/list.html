@@ -59,9 +59,8 @@
 			{% for story in story_list %}
 				<li>
 					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="{{ STATIC_URL }}images/avatar.jpg" width="85" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
-					<p><a href="{{ role.author_id }}">Admin</a> 的 <a href="#">代理人</a> </p>
-					<p></p>
-					<p>在 105 个故事中登场</p><br/>
+					<p><a href="{{ role.author_id }}">网站演示</a> 的 <a href="#">第一个场景</a> </p>
+					<p>登场人物： <a href="#">DantaLion</a>, <a href="">Other</a></p><br/>
 					<p class="resume"> {{ story.summary }} </p>
 				</li>
 			{% endfor %}

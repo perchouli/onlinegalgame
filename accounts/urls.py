@@ -24,6 +24,6 @@ urlpatterns = patterns('',
     url(r'^logout/$', 
 		auth_views.logout,
 		#import logout template
-		{'template_name': 'accounts/login.html'}, 
+		{'template_name': 'index.html'}, 
 		name='olgg_logout'),
 	)

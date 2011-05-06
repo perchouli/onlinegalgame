@@ -8,6 +8,7 @@ class UserRole(models.Model):
     name = models.CharField(unique=True, max_length=32)
     birthday = models.DateField(blank=True)
     gender = models.CharField(max_length=8)
+    relation = models.CharField(max_length=16)
     author = models.ForeignKey(User)
     resume = models.TextField()
     profile = models.TextField()

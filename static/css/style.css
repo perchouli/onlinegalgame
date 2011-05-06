@@ -33,7 +33,7 @@ a:hover { color: #00458F; text-decoration: none; cursor: pointer; }
      */ }
 .con { width: 960px; margin: 0 auto; text-align: left; }
 #header_menu { height: 38px; float: right; }
-#header_menu li { float: left; display: inline; text-align: center; width: 80px; }
+#header_menu li { float: left; display: inline; text-align: center; width: 80px; font-size: 14px;}
 #header_menu li a { line-height: 34px; display: block; }
 .breadcrumb { color:#5090D7; font-size: 14px; font-family: Helvetica, sans-serif; float: right; }
 /*1.2top style end*/

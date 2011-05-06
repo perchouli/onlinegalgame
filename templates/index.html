@@ -1,2 +1,33 @@
 {% extends "base.html" %}
 {% block title %}网站首页  {% endblock %}
+
+{% block content %}
+<style>
+	#step img {margin-right:50px; -moz-border-radius:5px;-webkit-border-radius:5px}
+	#follow {margin-top:20px;padding-top:10px; border-top:1px dashed #C6C6C6;}
+	#follow li {margin:3px 0px 0px 18px;}
+</style>
+<br/>
+<table id="step">
+	<tr>
+		<td><img src="{{STATIC_URL}}images/step1.png" /></td>
+		<td><img src="{{STATIC_URL}}images/step2.png" /></td>
+		<td><img src="{{STATIC_URL}}images/step3.png" /></td>
+	</tr>
+	<tr>
+		<td><a href="{%url add_role %}"><img src="{{STATIC_URL}}images/step1.jpg" height="160" width="260" /></a></td>
+		<td><a href="{%url add_story %}"><img src="{{STATIC_URL}}images/step2.jpg" height="160" width="260" /></a></td>
+		<td><img src="{{STATIC_URL}}images/step3.jpg" height="160" width="260" /></td>
+	</tr>
+</table>
+
+<div id="follow">
+	<img src="{{STATIC_URL}}images/icon/logo.png" /> <span style=" font-weight:bold; font-family:Arial;font-size:12px ">In here , You can make a online Galgame by yourself</span>
+	<ul>
+		<li><a href="{%url role_list %}">查看其他人的角色</a></li>
+		<li><a href="{%url story_list %}">查看其他人的剧本</a></li>
+		<li><a href="#">在论坛讨论</a></li>
+		<li><a href="mailto:jp.chenyang@gmail.com">联系管理员</a></li>
+	</ul>
+</div>
+{% endblock %}

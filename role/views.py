@@ -20,6 +20,7 @@ def edit_role(request, role_id):
         userrole.name = data['rolename']
         userrole.birthday = data['birthday']
         userrole.gender = data['gender']
+        userrole.relation = data['relation']
         userrole.profile = data['profile']
         userrole.resume = data['resume']
         userrole.save()
@@ -42,6 +43,7 @@ def add_role(request):
             name            = data['rolename'],
             birthday        = data['birthday'],
             gender          = data['gender'],
+            relation			= data['relation'],
             resume          = data['resume'],
             profile         = data['profile'],
             author          = User.objects.get(id=uid)

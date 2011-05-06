@@ -21,7 +21,7 @@ box-shadow: rgba(200, 200, 20);
 }
 
 
-label {height:20px;width:60px;float:left;margin:10px 20px 0 0;text-align:right;}
+label {height:20px;width:60px;float:left;margin:10px 20px 0 0;text-align:right;font-family:Arial;font-size:14px; display:block; font-weight:bold;}
 input{font-size: 24px;
 width: 200px;
 padding: 3px;
@@ -29,8 +29,22 @@ margin-top: 2px;
 margin-right: 6px;
 margin-bottom: 16px;
 border: 1px solid #C6C6C6;
-background: #fff;}
+background: #fff;
+border-radius:3px;
+-moz-border-radius:3px;
+}
 .errorlist{color:#ff0000}
+#button { border-color: #333;
+font-weight: bold;
+color: white;
+background: #333;
+text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+border-radius:4px;
+-moz-border-radius:4px;
+width:100px;
+height:30px;
+font-size:14px;
+}
 </style>
 <div style="float:left;width:400px;height:400px;background:url({{ STATIC_URL}}images/login.jpg);"></div>
 <div style="float:left;">
@@ -39,11 +53,11 @@ background: #fff;}
 <form action="{% url olgg_register %}" method="post">
 {% csrf_token %}
 	<ul>
-		<li><label>用户名</label> <input name="username" type="text" required /> </li>
-		<li><label>密码</label> <input name="password" type="password" required /> </li>
-		<li><label>确认密码</label> <input name="confirm-password" type="password" required /> </li>
-		<li><label>电子邮箱</label> <input name="email" type="email" required /> </li>
-		<li><input type="submit" /></li>
+		<li><label>Username</label> <input name="username" type="text" required /> </li>
+		<li><label>Password</label> <input name="password" type="password" required /> </li>
+		<li><label>Confirm<br>Password</label> <input name="confirm-password" type="password" required /> </li>
+		<li><label>E-mail</label> <input name="email" type="email" required /> </li>
+		<li><input id="button" type="submit" value="Register" /></li>
 	</ul>
 </form>
 </div>

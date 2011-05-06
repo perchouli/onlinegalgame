@@ -38,18 +38,27 @@
 	
 	#dialog {
 		z-index:11;
-		width: 267px;
-		height:50px;
+		width: 400px;
+		height:70px;
 		background:#c6c6c6;
 		position: absolute;
-		margin-top:350px;
+		margin:280px 0 0 30px;
+		border-radius:5px;
+		-webkit-border-radius:5px;
+		opacity:0.5;
+		padding:20px;
+		font-size:14px;
+		color:#000;
+		text-shadow:rgba(0, 0, 0, 0.3) 0 -1px 0;
+		font-family: '黑体';
 	}
+	#dialog p { opacity:1;}
 	
 	#process_frame { width:200px;height:200px;background:#c6c6c6;overflow:hidden; text-overflow	:ellipsis; }
 	#process_frame li:nth-child(odd) { background:#fff;text-overflow: ellipsis; }
 </style>
 </head>
-{{story.process}}
+
 <script>
 	var i = 0;
 	function run()

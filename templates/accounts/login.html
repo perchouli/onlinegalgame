@@ -22,6 +22,16 @@ box-shadow: rgba(200, 200, 20);
 
 
 input { margin:10px;}
+#button { border-color: #333;
+font-weight: bold;
+color: white;
+background: #333;
+text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+border-radius:3px;
+-moz-border-radius:3px;
+width:80px;
+height:30px;
+}
 label { padding-left:10px;font-family:Arial;font-size:14px; display:block; font-weight:bold;}
 #id_username ,#id_password{font-size: 24px;
 width: 200px;
@@ -30,7 +40,10 @@ margin-top: 2px;
 margin-right: 6px;
 margin-bottom: 16px;
 border: 1px solid #C6C6C6;
-background: #fff;}
+background: #fff;
+border-radius:3px;
+-moz-border-radius:3px;
+}
 .errorlist{color:#ff0000}
 </style>
 <div style="float:left;width:400px;height:400px;background:url({{ STATIC_URL}}images/login.jpg);"></div>
@@ -42,14 +55,13 @@ background: #fff;}
 	
 {% csrf_token %}
 	{{ form.as_p }}
-	<input type="submit" />
+	<input id="button" type="submit" value="Login" />
 </form>
 <ul style="margin:20px 0px 0px 10px">
 	<li><a href="{% url olgg_register %}">加入我们, 创建一个新账号!</a></li>
 	<li><a href="#">找回密码</a></li>
 	<br/>
-	<li><a href="{% url role_list %}">寻找你喜欢的角色</a></li>
-	<li><a href="{% url story_list %}">查看其他人的故事</a></li>
+
 </ul>
 </div>
 

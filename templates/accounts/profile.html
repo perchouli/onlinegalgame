@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>我的属性</title>
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
-</head>
+{% extends "base.html" %}
+{% block title %} 我的主页  {% endblock %}
 
-{{ profile.ai }}
+{% block content %}
+
+恭喜登录成功，不过这里还没写完，请自己跳回需要的页面吧 XD {{ profile.ai }}
 <form action="{% url olgg_register %}" method="post">
 
 </form>
+{% endblock %}

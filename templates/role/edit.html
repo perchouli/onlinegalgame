@@ -16,6 +16,9 @@
 			<input type="radio" name="gender" value="2" {% if role.gender == '2' %} checked="checked" {% endif %}>？
 		</li>
 		<li>
+			关系:<br/><input type="text" name="relation" id="relation" style="width:100px" value="{{ role.relation }}"/>
+		</li>
+		<li>
 			生日:<br/><input type="date" id="birthday" name="birthday" min="1900-01-01" max="2199-12-31" value="{{ role.birthday|safe}}"/>
 		</li>
 		<li>
