@@ -5,8 +5,8 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template.context import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from story.models import UserStory
-from role.models import UserRole
+from onlinegalgame.story.models import UserStory
+from onlinegalgame.role.models import UserRole
 
 from datetime import date
 
@@ -59,7 +59,7 @@ def add_story(request):
 def show_story(request, story_id):
 
 
-    uid = request.session['_auth_user_id']
+    #uid = request.session['_auth_user_id']
     story = UserStory.objects.get(id=story_id)
     process = story.process.split(',')
     i = 0
@@ -81,3 +81,7 @@ def show_story(request, story_id):
         
         i += 1
     return render_to_response('story/show.html', {'story' : story, 'command':command }, context_instance = RequestContext(request))
+
+def __unicode__(self):
+    return u'%s %s %s' % (self.title, self.summary, self.process)
+    

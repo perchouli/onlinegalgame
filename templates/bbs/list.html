@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}论坛{% endblock %}
+
+{% block content %}
+
+
+	<div class="thread">
+		<div class="author_arrow" style="position:absolute; background:#000;margin-left:140px;width:20px;height:20px;"></div>
+		<div class="author" style="width: 120px; height: 120px; float: left; background: #333;"></div>
+		<div class="content" style="background: #000; width: 600px; height: 120px; float: left; margin-left: 50px;"></div>
+	</div>
+
+
+{% for thread in threads_list %}
+
+{{ thread.id}}
+
+{% endfor %}
+
+
+{% endblock %}

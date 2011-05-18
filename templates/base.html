@@ -9,7 +9,7 @@
 <!--START: Header -->
 <div id="header">
 	<div class="con">
-        <h1><a href="#"><img alt="Logo" src="{{ STATIC_URL }}images/logo_top.png"></a></h1>
+        <h1><a href="/"><img alt="Logo" src="{{ STATIC_URL }}images/logo_top.png"></a></h1>
         <ul id="header_menu">
             <li>
                 <a href="/">Home</a>
@@ -20,9 +20,15 @@
             <li>
                 <a href="{% url story_list %}">Story</a>
             </li>
-            <li>
-                <a href="{% url olgg_login %}">Login</a>
+            {% if user.is_authenticated %}
+			<li>
+                <a href="{% url olgg_profile %}">Profile</a>
+			</li>
+				{% else %}
+			<li>
+				<a href="{% url olgg_login %}">Login</a>
             </li>
+			{% endif %}
         </ul>
     </div>
 </div>

@@ -2,7 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 class UserRole(models.Model):
 
     name = models.CharField(unique=True, max_length=32)
@@ -14,7 +13,7 @@ class UserRole(models.Model):
     profile = models.TextField()
     
     def __unicode__(self):
-        return u'%s %s %s' % (self.name, self.resume, self.resume)
+        return u'%s %s %s' % (self.name, self.relation, self.resume)
     
 class UserRoleDress(models.Model):
     name = models.CharField(max_length=16)

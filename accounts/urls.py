@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from django.contrib.auth import views as auth_views
-from accounts.views import register, profile
+from . import views
 
 
 urlpatterns = patterns('',
@@ -10,15 +10,15 @@ urlpatterns = patterns('',
 		name='olgg_login'),
 
     url(r'^register/$', 
-		register, 
+		views.register, 
 		name='olgg_register'),
 
     url(r'^profile/$', 
-		'accounts.views.profile', 
+		views.profile, 
 		name='olgg_profile'),
 
     url(r'^friends/$', 
-		'accounts.views.friends', 
+		views.friends, 
 		name='olgg_friends'),
 
     url(r'^logout/$', 

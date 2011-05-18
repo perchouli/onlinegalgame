@@ -14,7 +14,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'olgg.db',                      # Or path to database file if using sqlite3.
+        'NAME':  os.path.join(PROJECT_PATH,'olgg.db'),                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -58,7 +58,7 @@ MEDIA_URL = '/upload/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = ''#os.path.join(PROJECT_PATH,'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -71,7 +71,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    "static",
+    os.path.join(PROJECT_PATH,'static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -110,6 +110,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.static",
+    "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages"
 )
 
@@ -128,7 +129,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django_openid_auth',
+    # -'django_openid_auth',
     
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,9 +141,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-	'accounts',
-    'role',
-    'story',
+	'onlinegalgame.accounts',
+    'onlinegalgame.role',
+    'onlinegalgame.story',
+    'onlinegalgame.bbs'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -170,10 +172,10 @@ LOGGING = {
 
 # OPenid requirement
 
-AUTHENTICATION_BACKENDS = (
-    'django_openid_auth.auth.OpenIDBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+#AUTHENTICATION_BACKENDS = (
+    # - 'django_openid_auth.auth.OpenIDBackend',
+    #'django.contrib.auth.backends.ModelBackend',
+#)
 #To create users automatically when a new OpenID is used
 #OPENID_CREATE_USERS = True
 

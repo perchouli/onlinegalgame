@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>添加故事</title>
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
+{% extends "base.html" %}
+{% block title%}添加故事{% endblock %}
+
+{% block content %}
+
+
 <style>
 	input, textarea { display:block;}
 	
@@ -38,11 +38,19 @@
 	
 	#dialog {
 		z-index:11;
-		width: 267px;
-		height:50px;
+		width: 400px;
+		height:70px;
 		background:#c6c6c6;
 		position: absolute;
-		margin-top:350px;
+		margin:280px 0 0 30px;
+		border-radius:5px;
+		-webkit-border-radius:5px;
+		opacity:0.5;
+		padding:20px;
+		font-size:14px;
+		color:#000;
+		text-shadow:rgba(0, 0, 0, 0.3) 0 -1px 0;
+		font-family: '黑体';
 	}
 	#trash li {display:none;}
 	#trash span {display:none;}
@@ -51,19 +59,46 @@
 </style>
 </head>
 
-<form id="story_form" action="{%url add_story %}" method="POST">
-	{% csrf_token %}
-	title:<input type="text" name="title" id="title"/>
-	summary: <textarea id="summary" name="summary"></textarea>
-	<input type="hidden" id="process" name="process" value="" />
-	<p><input type="button" value="Submit" onclick="validator_story_from()"  /></p>
-</form>
 
+ <!--START: left-nav -->
+<div class="sidebar">
+	<h2 class="title" >Basic Info</h2>
+	<form id="story_form" action="{%url add_story %}" method="POST">
+		{% csrf_token %}
+	<ul>
+		<li>
+			title:<br/><input type="text" name="title" id="title"/>
+		</li>
+		<li>
+			summary:<br/><textarea id="summary" name="summary"></textarea>
+		</li>
+		<li>
+			关系:<br/><input type="text" name="relation" id="relation" style="width:100px"/>
+		</li>
+		<li>
 <div id="process_frame" ondrop="drop(this)" ondragenter="return false" ondragover="return false">
 	<!--不能使用ondragend -->
 </div>
 
 <div id="trash" ondrop="drop(this)" ondragenter="return false" ondragover="return false" style="background:#000; width:50px; height:50px;"></div>
+
+		</li>
+		<li>
+			<input type="hidden" id="process" name="process" value="" />
+			<p><input type="button" value="Submit" onclick="validator_story_from()"  /></p>
+		</li>
+	</ul>
+	</form>
+	<h2 class="title" >Your roles</h2>
+	<ul>
+		{% for role in my_role_list %}
+		<li></li>
+		{% endfor %}
+	</ul>
+</div>
+ <!--END: left-nav -->
+	
+	
 <script>
 	function drag(source) {
 		event.dataTransfer.setData('Text',source.id);
@@ -167,6 +202,7 @@
 	<option value='{{ role.id }}'> {{ role.name }}</option>
 {% endfor %}
 </select>
+</div>
 
 <div>
 短发:
@@ -196,3 +232,5 @@
 		<div id="face_right"></div>
 		<div id="cloth_right"></div>
 	</div>
+
+{% endblock %}

@@ -1,11 +1,11 @@
 #-*- coding:utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.db.transaction import commit_on_success
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404,HttpResponseRedirect
 from django.template.context import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from role.models import UserRole, UserRoleDress
+from onlinegalgame.role.models import UserRole, UserRoleDress
 
 def role_list(request):
     role_list = UserRole.objects.all()

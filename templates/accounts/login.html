@@ -55,6 +55,7 @@ border-radius:3px;
 	
 {% csrf_token %}
 	{{ form.as_p }}
+	<input type="hidden" name="next" value="{{ next }}" />
 	<input id="button" type="submit" value="Login" />
 </form>
 <ul style="margin:20px 0px 0px 10px">

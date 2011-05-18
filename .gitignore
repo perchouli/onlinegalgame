@@ -1,5 +1,9 @@
-*.db
+
 *.pyc
 *~
 *.psd
 *.bak
+.project
+.pydevproject
+.settings
+*.swp
