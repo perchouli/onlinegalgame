@@ -4,30 +4,70 @@
 {% block content %}
 <style>
 	#step img {margin-right:50px; -moz-border-radius:5px;-webkit-border-radius:5px}
-	#follow {margin-top:20px;padding-top:10px; border-top:1px dashed #C6C6C6;}
-	#follow li {margin:3px 0px 0px 18px;}
+	#step p { height:30px; margin-top:5px;width: 260px; /* -moz-transition:margin 1s; -webkit-transition:margin 1s; margin-right:60px; */ }
+	.follow {margin-top:20px;padding-top:10px; border-top:1px dashed #C6C6C6;}
+	.follow li {margin:3px 0px 0px 18px;}
+	.follow span {font-weight:bold; font-family:Times;font-size:14px;}
+		.unlogin li{ height:80px; margin:15px 50px 0px 0px;width:400px; float:left }
+		.unlogin li h2 a{color:#333}
+		.unlogin li h2 a:hover{color:#4183C4}
+		.unlogin li p {margin-top:15px}
+		.unlogin img {float:left;margin-right:20px;}
+	.stepnum { color: #FFB83B; font-size:5em; font-family: Helvetica; font-weight: bold; font-style: italic;}
+	.stepfont { font-size:2em; font-family: "Times New Roman"; font-weight: bold; color:#333}
 </style>
 <br/>
+
+
 <table id="step">
 	<tr>
-		<td><img src="{{STATIC_URL}}images/step1.png" /></td>
-		<td><img src="{{STATIC_URL}}images/step2.png" /></td>
-		<td><img src="{{STATIC_URL}}images/step3.png" /></td>
+		<td><span class="stepnum">1</span>&nbsp;&nbsp;<span class="stepfont">Create Your Role</span></td>
+		<td><span class="stepnum">2</span>&nbsp;&nbsp;<span class="stepfont">Write Your Story</span></td>
+		<td><span class="stepnum">3</span>&nbsp;&nbsp;<span class="stepfont">Share to Friends</span></td>
 	</tr>
 	<tr>
-		<td><a href="{%url add_role %}"><img src="{{STATIC_URL}}images/step1.jpg" height="160" width="260" /></a></td>
-		<td><a href="{%url add_story %}"><img src="{{STATIC_URL}}images/step2.jpg" height="160" width="260" /></a></td>
-		<td><img src="{{STATIC_URL}}images/step3.jpg" height="160" width="260" /></td>
+		<td>
+			<a name="1" href="{%url add_role %}"><img src="{{STATIC_URL}}images/step1.jpg" height="160" width="260" /></a>
+			<p>你可以使用系统提供的默认素材，创建你自己喜欢的人物，也可以直接上传。</p>
+		</td>
+		<td>
+			<a href="{%url add_story %}"><img src="{{STATIC_URL}}images/step2.jpg" height="160" width="260" /></a>
+			<p>创建人物之后，你将在故事中让自己人物登场，给她们添加对白和动作。</p>
+		</td>
+		<td>
+			<img src="{{STATIC_URL}}images/step3.jpg" height="160" width="260" />
+			<p>把你制作好的故事分享给其他人吧</p>
+	</td>
 	</tr>
 </table>
+{% if user.is_authenticated %}
 
-<div id="follow">
-	<img src="{{STATIC_URL}}images/icon/logo.png" /> <span style=" font-weight:bold; font-family:Arial;font-size:12px ">In here , You can make a online Galgame by yourself</span>
+{% else %}
+<div class="follow unlogin">
+	<img src="{{STATIC_URL}}images/icon/logo.png" /> <span>You can make a online Galgame by yourself. But first:</span>
+	<ul>
+		<li>
+			<a href="{%url olgg_register %}"><img src="{{STATIC_URL}}images/icon/register.jpg" width="100" alt="Register"></a>
+			<h2><a href="{%url olgg_register %}">Register</a></h2>
+			<p> 在本站注册一个账号，只需要填写邮箱地址，用户名和密码。 </p>
+		</li>
+		<li>
+			<a href="{%url olgg_login %}"><img src="{{STATIC_URL}}images/icon/login.jpg" width="100" alt="Login"></a>
+			<h2><a href="{%url olgg_login %}">Login</a></h2>
+			<p> 如果您已经注册，请使用注册的账号登陆，您也可以使用OpenID来进行登陆。 </p>
+		</li>
+	</ul>
+	<div class="clear"></div>
+</div>
+{% endif %}
+<div class="follow">
+	<img src="{{STATIC_URL}}images/icon/logo.png" /> <span>Other thing you can do</span>
 	<ul>
 		<li><a href="{%url role_list %}">查看其他人的角色</a></li>
 		<li><a href="{%url story_list %}">查看其他人的剧本</a></li>
-		<li><a href="#">在论坛讨论</a></li>
+		<li><a href="{%url threads_list %}">去论坛讨论</a></li>
 		<li><a href="mailto:jp.chenyang@gmail.com">联系管理员</a></li>
 	</ul>
 </div>
+
 {% endblock %}

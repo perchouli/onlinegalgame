@@ -1,6 +1,6 @@
 /*1.1public style*/
 body {
- font-family: Arial, Helvetica, sans-serif, "宋体";
+ font-family:  Verdana, Helvetica, sans-serif,Arial, "宋体";
  color: #838181;
  font-size: 12px;
  background:#fcfcfc;
@@ -11,6 +11,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 img { border: 0 none; }
 ul, ol, li { list-style: none; }
 a { color: #4183C4; text-decoration: none; }
+.con { width: 960px; margin: 0 auto; text-align: left; }
 /*a:link, a:visited {
  color: #838181;
  text-decoration: none;
@@ -26,15 +27,27 @@ a:hover { color: #00458F; text-decoration: none; cursor: pointer; }
 .clear { clear: both; height: 0; overflow: hidden; }
 /*1.1public style end*/
 /*1.2top style*/
-#header { padding-top: 12px; height: 52px; background: url('/static/images/header.png') repeat-x;/*background-color:#DDDDD5;
+#header { height: 70px; border-bottom: 1px solid #c1c1c1;
      background:-webkit-gradient(linear, left top, left bottom,
-     from(#F1F1F1), to(#c6c6c6));
-     border-bottom: 1px solid #c1c1c1;
-     */ }
-.con { width: 960px; margin: 0 auto; text-align: left; }
-#header_menu { height: 38px; float: right; }
-#header_menu li { float: left; display: inline; text-align: center; width: 80px; font-size: 14px;}
-#header_menu li a { line-height: 34px; display: block; }
+     from(#FFFFFF), to(#EAEAEA));
+     }
+	 #header h1 img {margin-top:15px;}
+
+#header_menu { height: 35px; padding-right:20px; float: right;
+/*
+	font-weight:bold;
+	border-radius:5px; -moz-border-radius:3px;
+	background:-moz-gradient(linear, left top, left bottom, from(#FCFCFC),to(#E8E8E8));
+	background:-webkit-gradient(linear,0% 0,0% 100%,from(#FCFCFC),to(#E8E8E8));
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	border:1px solid #E9E9E9;
+*/
+	}
+#header_menu li { float: left; display: inline; text-align: center; margin:15px 0px 0px 30px; font-size: 12px;}
+#header_menu li a {line-height: 34px; padding:10px; text-shadow:1px 1px #ccc; color:#888}
+#header_menu li a:hover {color:#4183C4}
 .breadcrumb { color:#5090D7; font-size: 14px; font-family: Helvetica, sans-serif; float: right; }
 /*1.2top style end*/
 /*1.3main style*/
