@@ -13,4 +13,12 @@ urlpatterns = patterns('role.views',
     url(r'^edit/(?P<role_id>\d+)/$', 
 		views.edit_role, 
 		name='edit_role'),
+        
+    url(r'^link/$', 
+        views.link_role, 
+        name='link_role'),
+        
+    url(r'^unlink/$', 
+        views.unlink_role, 
+        name='unlink_role'),
 	)

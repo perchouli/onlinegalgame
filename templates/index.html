@@ -3,7 +3,10 @@
 
 {% block content %}
 <style>
-	#step img {margin-right:50px; -moz-border-radius:5px;-webkit-border-radius:5px}
+	#step img {margin-right:50px; -moz-border-radius:5px;-webkit-border-radius:5px;	
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);}
 	#step p { height:30px; margin-top:5px;width: 260px; /* -moz-transition:margin 1s; -webkit-transition:margin 1s; margin-right:60px; */ }
 	.follow {margin-top:20px;padding-top:10px; border-top:1px dashed #C6C6C6;}
 	.follow li {margin:3px 0px 0px 18px;}
@@ -65,7 +68,7 @@
 	<ul>
 		<li><a href="{%url role_list %}">查看其他人的角色</a></li>
 		<li><a href="{%url story_list %}">查看其他人的剧本</a></li>
-		<li><a href="{%url threads_list %}">去论坛讨论</a></li>
+		<li><a href="#">去论坛讨论</a></li>
 		<li><a href="mailto:jp.chenyang@gmail.com">联系管理员</a></li>
 	</ul>
 </div>

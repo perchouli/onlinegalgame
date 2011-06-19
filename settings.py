@@ -144,7 +144,6 @@ INSTALLED_APPS = (
 	'onlinegalgame.accounts',
     'onlinegalgame.role',
     'onlinegalgame.story',
-    'onlinegalgame.bbs'
 )
 
 # A sample logging configuration. The only tangible logging

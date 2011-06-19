@@ -10,8 +10,8 @@ class UserRole(models.Model):
     relation = models.CharField(max_length=16)
     author = models.ForeignKey(User)
     resume = models.TextField()
-    profile = models.TextField()
-    
+    profile = models.TextField(blank=True)
+    image = models.ImageField(upload_to='static/',blank=True)    
     def __unicode__(self):
         return u'%s %s %s' % (self.name, self.relation, self.resume)
     
@@ -22,3 +22,8 @@ class UserRoleDress(models.Model):
     
     def __unicode__(self):
         return u'%s' % (self.name)
+
+class LinkRole(models.Model):
+    author = models.ForeignKey(User)
+    linkrole = models.ForeignKey(UserRole)
+    token = models.CharField(unique=True, max_length=32)
