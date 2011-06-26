@@ -27,3 +27,4 @@ class LinkRole(models.Model):
     author = models.ForeignKey(User)
     linkrole = models.ForeignKey(UserRole)
     token = models.CharField(unique=True, max_length=32)
+    

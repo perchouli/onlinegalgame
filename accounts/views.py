@@ -14,11 +14,9 @@ def register(request):
             )
         user.is_staff = True
         user.save()
-        return redirect ('/accounts/profile')
+        return redirect ('/accounts/login/?next=/')
     else:
-#    form = request
 	    return render_to_response('accounts/register.html',
-    #{'form':form ,'my':'test'}, 
     context_instance = RequestContext(request))
 
 @login_required
@@ -48,9 +46,7 @@ def profile(request):
 def friends(request):
 	return render_to_response('accounts/friends.html',context_instance = RequestContext(request))
 
-
 @login_required
 def olgg_logout(request):
 	logout(request)
-	#return render_to_response('index.html',context_instance = RequestContext(request))
 	return redirect('/accounts/login')

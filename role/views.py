@@ -14,13 +14,13 @@ import Image, md5
 
 def role_list(request):
     role_list = UserRole.objects.all()
+    link_role_list = []
     session = ''
     if request.user.is_authenticated():
         uid = request.session['_auth_user_id']
         session = { 
         'id' : uid,
     }
-        link_role_list = []
         all_link_role = LinkRole.objects.filter(author=uid)
         for link_role in all_link_role:
             link_role_list.append(link_role.linkrole.id)
@@ -59,22 +59,25 @@ def edit_role(request, role_id):
 def add_role(request):
     if request.method == 'POST':
         uid = request.session['_auth_user_id']
-        data = request.POST
         role_image = ''
+        role_profile = ''
+        
+        data = request.POST
         try:
             request.FILES['role_image']
         except:
-            pass
+            role_profile = data['profile']
         else:
             role_image = request.FILES['role_image']
+            role_profile = ''
         userrole = UserRole (
             name            = data['rolename'],
             birthday        = data['birthday'],
             gender          = data['gender'],
             relation		= data['relation'],
             resume          = data['resume'],
-            profile         = data['profile'],
             author          = User.objects.get(id=uid),
+            profile         = role_profile,
             image           = role_image,
         )
         userrole.save()

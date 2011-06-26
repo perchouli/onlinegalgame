@@ -13,17 +13,12 @@ urlpatterns = patterns('',
 		views.register, 
 		name='olgg_register'),
 
-    url(r'^profile/$', 
-		views.profile, 
-		name='olgg_profile'),
-
     url(r'^friends/$', 
 		views.friends, 
 		name='olgg_friends'),
 
     url(r'^logout/$', 
 		auth_views.logout,
-		#import logout template
 		{'template_name': 'index.html'}, 
 		name='olgg_logout'),
 	)

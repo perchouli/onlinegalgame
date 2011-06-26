@@ -181,3 +181,4 @@ LOGGING = {
 #LOGIN_URL = '/openid/login/'
 
 LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'

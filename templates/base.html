@@ -27,7 +27,7 @@
             </li>
             {% if user.is_authenticated %}
 			<li><img src="{{STATIC_URL}}images/icon/ol_user.png" />
-                <a href="{% url olgg_profile %}">Profile</a>
+                <a href="{% url olgg_logout %}">Logout</a>
 			</li>
 				{% else %}
 			<li><img src="{{STATIC_URL}}images/icon/user.png" />
