@@ -71,7 +71,7 @@ a:hover { color: green; text-decoration: none; cursor: pointer; }
 .sidebar { width: 222px; padding: 20px 29px 0px 10px; }
 .sidebar li { margin: 5px 60px 0px 0px; padding: 5px; }
 .sidebar .title { width: 200px;  font-weight: bold; font-size: 14px; padding: 5px; margin-top: 20px; border-radius: 3px; border-bottom:1px solid #DDD!important }
-.search-bar { line-height: 30px; padding-left: 10px; }
+.search-bar { line-height: 30px; padding-bottom: 10px; }
 .search-bar .t { border-radius:8px; padding:1px 4px; }
 .search-bar * { vertical-align:middle; }
 .con-r { width: 680px;  border-right:solid #ccc 1px }
@@ -148,6 +148,8 @@ _height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; 
 }
 
 #popup_message {
+	color:#333;
+	margin-top: 10px;
 	padding-left: 48px;
 }
 
@@ -158,4 +160,12 @@ _height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; 
 
 #popup_prompt {
 	margin: .5em 0em;
+}
+
+#popup_ok {
+	-moz-border-radius:3px;background:#333;border-color:#333;border-radius:3px;color:#FFF;
+	height:20px;
+	text-shadow:rgba(0,0,0,0.3) 0 -1px 0;
+	width:40px;
+	font-weight:bold;
 }

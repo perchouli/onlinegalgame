@@ -16,6 +16,12 @@
 		position:absolute; margin-top:250px; z-index:100; width:90%; background:#fff;
 		padding:20px; display: none;
 	}
+	.pagination {
+		display:block;
+		margin-top:30px;
+		z-index:999;
+	}
+
 </style>
 
 <div>
@@ -27,7 +33,7 @@
 		<div class="role_list">
 		{% load replace %}
 		{% load islinkuser %}
-	 	{% for role in role_list %}
+	 	{% for role in role_list.object_list %}
 			<div id="role_{{role.id}}" class="show_role" 
 			{% if role.image %}
 			style="background-image:url(/{{role.image}}); background-repeat: no-repeat; "
@@ -40,9 +46,11 @@
 					<input type="button" value="修改" onclick='window.location.href= "{%url edit_role role.id %}"'/>	
 					{% else %}
 						{% if role.id|islinkuser:link_role_list %}
-						<input type="button" value="取消引用" onclick="unlink_user({{role.id}})"/>
+						<input type="button" value="取消引用" onclick="link_user({{role.id}}, 'unlink')"/>
 						{% else %}
-						<input type="button" id="btn_link_role" value="引用" onclick="link_user({{role.id}})"/>
+						{% if role.id != 1 %}
+						<input type="button" id="btn_link_role" value="引用" onclick="link_user({{role.id}},'link')"/>
+						{% endif %}	
 						{% endif %}	
 					{% endif %}	
 					<!--input type="button" value="相关角色"/-->
@@ -58,6 +66,22 @@
 				</div>
 			</div>
 		 {% endfor %}
+		 <div class="clear"></div>
+			<div class="pagination">
+			    <span class="step-links">
+			        {% if role_list.has_previous %}
+			            <a href="?page={{ role_list.previous_page_number }}">previous</a>
+			        {% endif %}
+			
+			        <span class="current">
+			            Page {{ role_list.number }} of {{ role_list.paginator.num_pages }}.
+			        </span>
+			
+			        {% if role_list.has_next %}
+			            <a href="?page={{ role_list.next_page_number }}">next</a>
+			        {% endif %}
+			    </span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -94,40 +118,48 @@ function role_resume(rid)
 		$("#role_"+rid+"_resume").fadeOut();
 }
 
-function link_user(rid)
+function link_user(rid, action)
 {
-	$.ajax({
-		type : 'GET',
-		url: '/role/link/',
-		data : {'role_id':rid},
-		statusCode : {
-			200: function()
-			{
-				alert ('Add success');
-			},
-			500: function()
-			{
-				//$("#link_role_"+role_id).val('Link').parent().prepend('Un');
-				alert ('添加失败，是否重复添加？');
+	{% if user.is_authenticated %}
+	if (action == 'link')
+	{
+		$.ajax({
+			type : 'GET',
+			url: '/role/link/',
+			data : {'role_id':rid},
+			statusCode : {
+				200: function()
+				{
+					jAlert ('引用成功，现在您可以在自己的<a href="{%url story_list %}">剧本</a>中使用这个人物了','Add Success');
+				},
+				500: function()
+				{
+					//$("#link_role_"+role_id).val('Link').parent().prepend('Un');
+					jAlert ('引用失败，是否重复添加？','Add Failed');
+				}
 			}
-		}
-	});
+		});
+	}
+	
+	if (action == 'unlink')
+	{
+		$.ajax({
+			type : 'GET',
+			url: '/role/unlink/',
+			data : {'role_id':rid},
+			statusCode : {
+				200: function()
+				{
+					jAlert ('取消引用成功', 'Unlink Success');
+				}
+			}
+		});
+		window.location.reload();
+	}
+	{% else %}
+	location.href = '{% url olgg_login %}?next={%url role_list %}';
+	{% endif %}
 }
 
-function unlink_user(rid)
-{
-	$.ajax({
-		type : 'GET',
-		url: '/role/unlink/',
-		data : {'role_id':rid},
-		statusCode : {
-			200: function()
-			{
-				alert ('删除成功');
-			}
-		}
-	});
-	window.location.reload();
-}
 </script>
 {% endblock %}

@@ -21,11 +21,8 @@
 		#hair {z-index: 4}
 		#eye {z-index: 8}
 		#face {z-index: 10;}
-	#glass {z-index: 7}
-	#other1 {z-index: 7}
-	#other2 {z-index: 7;}
-	#other3 {z-index: 7;}
-	
+
+	label { color:red}	
 	fieldset {border:1px #ccc solid; width:80%; padding:15px;}
 </style>
 
@@ -40,7 +37,7 @@
 		{% csrf_token %}
 	<ul>
 		<li>
-			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}"/>
+			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}" class="required"/>
 		</li>
 		<li>性别:<br/>	
 			<input type="radio" name="gender" value="0" {% if role.gender  == '0' %} checked="checked" {% endif %}>女
@@ -48,10 +45,11 @@
 			<input type="radio" name="gender" value="2" {% if role.gender == '2' %} checked="checked" {% endif %}>？
 		</li>
 		<li>
-			关系:<br/><input type="text" name="relation" id="relation" style="width:100px" value="{{ role.relation }}"/>
+			关系:<br/><input type="text" name="relation" id="relation" style="width:100px" value="{{ role.relation }}" class="required"/>
 		</li>
 		<li>
-			生日:<br/><input type="date" id="birthday" name="birthday" min="1900-01-01" max="2199-12-31" value="{{ role.birthday|safe}}"/>
+			生日:<br/><input type="text" id="birthday" name="birthday" value="{{ role.birthday|safe}}"/>
+	
 		</li>
 		<li>
 			资料: <textarea id="resume" name="resume" rows="8">{{role.resume}}</textarea>
@@ -61,7 +59,7 @@
 		</li>
 		<li>
 			<input type="hidden" id="profile" name="profile" value="" />
-			<p><input type="button" value="提交" onclick="validator_role_from()" /></p>
+			<p><input type="submit" value="提交"/></p>
 		</li>
 	</ul>
 	</form>
@@ -145,6 +143,21 @@
 
 {% block js %}
 <script>
+	$(document).ready(function(){
+		$("#role_form").validate({
+			messages :{
+				birthday : {dateISO:'请使用YYYY-mm-dd的格式'},
+				password : {minlength:'密码太短'}
+			},
+			rules: {
+    			birthday: {
+			      dateISO: true
+    			}
+			}
+		});
+	});
+		
+	
 	var role_dom = ['cloth', 'hair', 'face', 'eye'];
 	var role_image = "{{role.image}}";
 	var role_profile = [{{ role.profile|safe}}];
@@ -218,7 +231,6 @@
 			$('fieldset').fadeIn('slow');
 		}
 	}
-	
 	
 
 </script>

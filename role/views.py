@@ -6,14 +6,23 @@ from django.http import HttpResponse, Http404
 from django.template.context import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 
 from onlinegalgame.role.models import UserRole, UserRoleDress, LinkRole
-from onlinegalgame.role.forms import RoleForm
 
-import Image, md5
+import md5
 
 def role_list(request):
     role_list = UserRole.objects.all()
+    paginator = Paginator(role_list,9)
+    try:
+        page = int(request.GET.get('page',1))
+    except ValueError:
+        page = 1
+    try:
+        role_list = paginator.page(page)
+    except:
+        role_list = paginator.page(paginator.num_pages)
     link_role_list = []
     session = ''
     if request.user.is_authenticated():
@@ -24,7 +33,12 @@ def role_list(request):
         all_link_role = LinkRole.objects.filter(author=uid)
         for link_role in all_link_role:
             link_role_list.append(link_role.linkrole.id)
-    return render_to_response('role/list.html', {'role_list':role_list, 'session':session , 'link_role_list':link_role_list}, context_instance = RequestContext(request))
+    ctx = {
+        'role_list' : role_list,
+        'session' : session,
+        'link_role_list' : link_role_list
+    }
+    return render_to_response('role/list.html', ctx, context_instance = RequestContext(request))
 
 @csrf_exempt   
 @login_required
@@ -93,7 +107,7 @@ def add_role(request):
 def link_role(request):
     if request.method == 'GET':
         uid = request.session['_auth_user_id']
-        role_id = int(request.GET['role_id'])
+        role_id = int(request.GET.get('role_id'))
         linkrole = LinkRole (
             linkrole        = UserRole.objects.get(id=role_id),
             author          = User.objects.get(id=uid),

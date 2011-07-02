@@ -47,15 +47,15 @@
 
 {% else %}
 <div class="follow unlogin">
-	<img src="{{STATIC_URL}}images/icon/logo.png" /> <span>You can make a online Galgame by yourself. But first:</span>
+	<span>You can make a online Galgame by yourself. But first:</span>
 	<ul>
 		<li>
-			<a href="{%url olgg_register %}"><img src="{{STATIC_URL}}images/icon/register.jpg" width="100" alt="Register"></a>
+			<a href="{%url olgg_register %}"><img src="{{STATIC_URL}}images/icon/register.png" width="100" alt="Register"></a>
 			<h2><a href="{%url olgg_register %}">Register</a></h2>
 			<p> 在本站注册一个账号，只需要填写邮箱地址，用户名和密码。 </p>
 		</li>
 		<li>
-			<a href="{%url olgg_login %}"><img src="{{STATIC_URL}}images/icon/login.jpg" width="100" alt="Login"></a>
+			<a href="{%url olgg_login %}"><img src="{{STATIC_URL}}images/icon/login.png" width="100" alt="Login"></a>
 			<h2><a href="{%url olgg_login %}">Login</a></h2>
 			<p> 如果您已经注册，请使用注册的账号登陆，您也可以使用OpenID来进行登陆。 </p>
 		</li>

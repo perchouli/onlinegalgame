@@ -11,10 +11,8 @@
 		<input name="" type="text" class="t">
 		<input name="" type="image" src="{{ STATIC_URL }}images/icon/search.png">
 	</div>
-	<a href="{% url add_story %}" id="role_create_button">Create Story !</a>
-	<p> · Click button write a story</p>
-
-	<h2 class="title" >Who's Createing Role</h2>
+	<a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
+	<!--h2 class="title" >Who's Createing Role</h2>
 	<ul>
 		{% for role in my_role_list %}
 		<li></li>
@@ -44,7 +42,7 @@
 			<a href="">网站代理人一号</a><br/>
 			<p>1541 次</p>
 		</li>
-	</ul>
+	</ul-->
 </div>
  <!--END: left-nav -->
 
@@ -59,8 +57,8 @@
 			{% for story in story_list %}
 				<li>
 					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="{{ STATIC_URL }}images/avatar.jpg" width="85" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
-					<p><a href="{{ role.author_id }}">网站演示</a> 的 <a href="#">第一个场景</a> </p>
-					<p>登场人物： <a href="#">DantaLion</a>, <a href="">Other</a></p><br/>
+					<p><a href="#">{{story.author}}</a> 的 <a href="#">第一个场景</a> </p>
+					<p>创建日期： {{story.cdate|safe}}</p><br/>
 					<p class="resume"> {{ story.summary }} </p>
 				</li>
 			{% endfor %}
