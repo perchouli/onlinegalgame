@@ -15,7 +15,8 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('onlinegalgame.accounts.urls')),
     url(r'^role/', include('onlinegalgame.role.urls')),
     url(r'^story/', include('onlinegalgame.story.urls')),
-    
+    url(r'^forum/', include('onlinegalgame.forum.urls')),
+
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     #url(r'^openid/', include('django_openid_auth.urls')),
