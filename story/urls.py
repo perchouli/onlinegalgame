@@ -18,5 +18,11 @@ urlpatterns = patterns('',
         views.show_story, 
         name='show_story'),
 
-
+    url(r'^story_upload/(?P<user_id>\d+)$', 
+        views.upload, 
+        name='story_upload'),
+        
+    url(r'^story_upload_check/$', 
+        views.upload_check, 
+        name='story_upload_check'),
 	)

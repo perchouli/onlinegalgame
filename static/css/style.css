@@ -46,6 +46,9 @@ a:hover { color: green; text-decoration: none; cursor: pointer; }
 #header_menu li a {line-height: 34px; padding:10px; text-shadow:1px 1px #ccc; color:#888}
 #header_menu li a:hover {color:#7BCA1C}
 .breadcrumb { color:#5090D7; font-size: 14px; font-family: Helvetica, sans-serif; float: right; }
+.crumb2 {  padding:5px 10px; background:url(/static/images/bg_crumb.png) left bottom repeat-x; border:1px solid #e4e4e4; border-top:0; float:left; -moz-border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px; margin-bottom:10px; }
+
+.crumb2 strong { font-weight:normal; }
 /*1.2top style end*/
 /*1.3main style*/
 .top_pic { margin-bottom: 20px; width: 100%; background: #000; }
@@ -71,7 +74,7 @@ a:hover { color: green; text-decoration: none; cursor: pointer; }
 .sidebar { width: 222px; padding: 20px 29px 0px 10px; }
 .sidebar li { margin: 5px 60px 0px 0px; padding: 5px; }
 .sidebar .title { width: 200px;  font-weight: bold; font-size: 14px; padding: 5px; margin-top: 20px; border-radius: 3px; border-bottom:1px solid #DDD!important }
-.search-bar { line-height: 30px; padding-left: 10px; }
+.search-bar { line-height: 30px; padding-bottom: 10px; }
 .search-bar .t { border-radius:8px; padding:1px 4px; }
 .search-bar * { vertical-align:middle; }
 .con-r { width: 680px;  border-right:solid #ccc 1px }
@@ -130,13 +133,17 @@ _height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; 
 }
 
 #popup_content {
-	background: 16px 16px no-repeat url(/static/images/info.gif);
+	background: 16px 16px no-repeat url(/static/images/alert.gif);
 	padding: 1em 1.75em;
 	margin-top: 2em;
 }
 
 #popup_content.alert {
-	background-image: url(/static/images/info.gif);
+	background-image: url(/static/images/alert.png);
+}
+
+#popup_content.right {
+	background-image: url(/static/images/right.png);
 }
 
 #popup_content.confirm {
@@ -148,6 +155,8 @@ _height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; 
 }
 
 #popup_message {
+	color:#333;
+	margin-top: 10px;
 	padding-left: 48px;
 }
 
@@ -158,4 +167,60 @@ _height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; 
 
 #popup_prompt {
 	margin: .5em 0em;
+}
+
+#popup_ok {
+	-moz-border-radius:3px;background:#333;border-color:#333;border-radius:3px;color:#FFF;
+	height:20px;
+	text-shadow:rgba(0,0,0,0.3) 0 -1px 0;
+	width:40px;
+	font-weight:bold;
+}
+
+
+/* Upload */
+.uploadifyButton {
+	background:-moz-gradient(linear, left top, left bottom, from(#A4C340),to(#769740));
+	background:-webkit-gradient(linear,0% 0,0% 100%,from(#A4C340),to(#769740));
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	color: #FFF;
+	font: 12px Arial, Helvetica, sans-serif;
+	padding: 8px 0;
+	text-align: center;
+	width: 110px;
+	margin-top:5px;
+}
+.uploadify:hover .uploadifyButton {
+	background-color: #808080;
+}
+.uploadifyQueueItem {
+	background-color: #F5F5F5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font: 11px Verdana, Geneva, sans-serif;
+	margin-top: 5px;
+	max-width: 350px;
+	padding: 10px;
+}
+.uploadifyError {
+	background-color: #FDE5DD !important;
+}
+.uploadifyQueueItem .cancel {
+	float: right;
+}
+.uploadifyQueue .completed {
+	background-color: #E5E5E5;
+}
+.uploadifyProgress {
+	background-color: #E5E5E5;
+	margin-top: 10px;
+	width: 100%;
+}
+.uploadifyProgressBar {
+	background-color: #0099FF;
+	height: 3px;
+	width: 1px;
 }

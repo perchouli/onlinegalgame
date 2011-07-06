@@ -5,8 +5,10 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template.context import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from onlinegalgame.story.models import UserStory
-from onlinegalgame.role.models import UserRole, LinkRole
+from onlinegalgame.role.models import Role, LinkRole
+from onlinegalgame.fileupload.models import StoryUpload
 from onlinegalgame.settings import PROJECT_PATH
 
 from datetime import date
@@ -24,12 +26,12 @@ def edit_story(request, story_id):
     uid = request.session['_auth_user_id']
     if request.method == 'POST':
         data = request.POST
-        userrole = UserStory.objects.get(id=story_id)
-        userrole.title = data['title']
+        userstory = UserStory.objects.get(id=story_id)
+        userstory.title = data['title']
         #userrole.date = data['birthday']
-        userrole.summary = data['summary']
-        userrole.process = data['process']
-        userrole.save()
+        userstory.summary = data['summary']
+        userstory.process = data['process']
+        userstory.save()
         return redirect( '/story/list' )
     else:
         story = UserStory.objects.get(id=story_id)
@@ -40,28 +42,35 @@ def edit_story(request, story_id):
 @csrf_exempt
 @login_required
 def add_story(request):
-    uid = request.session['_auth_user_id']
     if request.method == 'POST':
         data = request.POST
+        try:
+            int(data['sort'])
+        except ValueError:
+            data['sort'] = 1
         userstory = UserStory (
             title           = data['title'],
             cdate           = str(date.today()),
             summary         = data['summary'],
             process         = data['process'],
-            author          = User.objects.get(id=uid)
+            sort            = int(data['sort']),
+            image           = request.FILES['cover_image'],
+            author          = User.objects.get(id=request.user.id)
         )
         userstory.save()
         return redirect( '/story/list' )
     else:
-        role_list = list(UserRole.objects.filter(author=uid))
-        link_role_list = LinkRole.objects.filter(author=uid)
+        role_list = list(Role.objects.filter(author=request.user.id))
+        link_role_list = LinkRole.objects.filter(author=request.user.id)
         default_bgd_list = os.listdir( os.path.join(PROJECT_PATH,'static/bgd'))
-        story_list = UserStory.objects.filter(author=uid)
+        user_upload_list = StoryUpload.objects.filter(uid = request.user.id)
+        story_list = UserStory.objects.filter(author=request.user.id)
         for role in link_role_list:
             role_list.append(role.linkrole)
         ctx = {
             'role_list' : role_list,
             'default_bgd_list' : default_bgd_list,
+            'user_upload_list' : user_upload_list,
             'story_list' : story_list
         }
         return render_to_response('story/add.html', ctx, context_instance = RequestContext(request))
@@ -72,35 +81,41 @@ def show_story(request, story_id):
     story = UserStory.objects.get(id=story_id)
     command = story.process
     
-    role_list = list(UserRole.objects.filter(author=story.author.id))
+    role_list = list(Role.objects.filter(author=story.author.id))
     link_role_list = LinkRole.objects.filter(author=story.author.id)
 
     for role in link_role_list:
         role_list.append(role.linkrole)
-    #process = process.#story.process.split(',')
-#    i = 0
-#    command = ''
-#    while (i < len(process)):
-#        type = process[i].split('|')[0]
-#        value = process[i].split('|')[1]
-#        print value
-#        if type == 'LEFTROLE':
-#            role = UserRole.objects.get(id=value)
-#            role_profile = role.profile.split(',')
-#            command += 'case ' + str(i) + ': document.getElementById("cloth_left").setAttribute("style",' + role_profile[0]+ ');document.getElementById("hair_left").setAttribute("style",' + role_profile[1]+ ');document.getElementById("face_left").setAttribute("style",' + role_profile[2]+ ');document.getElementById("eye_left").setAttribute("style",' + role_profile[3]+ '); break; '#UserRole.objects.get(id=value)
-#        if type == 'RIGHTROLE':
-#            role = UserRole.objects.get(id=value)
-#            role_profile = role.profile.split(',')
-#            command += 'case ' + str(i) + ': document.getElementById("cloth_right").setAttribute("style",' + role_profile[0]+ ');document.getElementById("hair_right").setAttribute("style",' + role_profile[1]+ ');document.getElementById("face_right").setAttribute("style",' + role_profile[2]+ ');document.getElementById("eye_right").setAttribute("style",' + role_profile[3]+ '); break; '#UserRole.objects.get(id=value)
-#        if type == 'DIALOG':
-#            command += 'case ' + str(i) + ':' + "document.getElementById('dialog').innerText = '" + value + '\'; break; '
-#        i += 1
     ctx = {
         'story'     : story,
         'command'   : command,
         'role_list' : role_list
     }
     return render_to_response('story/show.html', ctx, context_instance = RequestContext(request))
+
+@csrf_exempt
+def upload(request,user_id):
+    user_id = int(user_id)
+    file_name = str(request.FILES['Filedata'].name);
+    try:
+        file_upload = open('static/cg/'+str(user_id)+'/'+file_name, 'w')
+    except:
+        os.mkdir('static/cg/'+str(user_id))
+        file_upload = open('static/cg/'+str(user_id)+'/'+file_name, 'w')
+    else:
+        file_upload = open('static/cg/'+str(user_id)+'/'+file_name, 'w')
+    file_upload.write(request.FILES['Filedata'].read())
+    file_upload.close()
+    upload_file = StoryUpload(
+        uid = User.objects.get(id=user_id),
+        image = '/static/cg/'+str(user_id)+'/'+request.FILES['Filedata'].name
+            )
+    upload_file.save()
+    return HttpResponse('0')
+
+@csrf_exempt
+def upload_check(request):
+    return HttpResponse('0')
 
 def __unicode__(self):
     return u'%s %s %s' % (self.title, self.summary, self.process)

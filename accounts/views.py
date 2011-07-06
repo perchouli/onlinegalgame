@@ -3,21 +3,33 @@ from django.contrib.auth.decorators import login_required
 from django.template.context import RequestContext
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from onlinegalgame.accounts.forms import RegisterForm
 
 def register(request):
     if request.method == 'POST':
-        form = request.POST
-        user = User.objects.create_user(
-            form['username'],
-            form['email'],
-            form['password'],
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                form.cleaned_data['username'],
+                form.cleaned_data['email'],
+                form.cleaned_data['password'],
             )
-        user.is_staff = True
-        user.save()
-        return redirect ('/accounts/login/?next=/')
+            user.is_staff = True
+            user.save()
+            return redirect ('/accounts/login/?next=/')
+        else:
+            error_form = RegisterForm(initial={
+                'username':request.POST['username'],
+                'email':request.POST['email']
+            })
+            ctx = {
+                'form'  : error_form,
+                'error' : form.errors,
+            }
+            return render_to_response('accounts/register.html', ctx , context_instance = RequestContext(request))
+            #return form.errors
     else:
-	    return render_to_response('accounts/register.html',
-    context_instance = RequestContext(request))
+	    return render_to_response('accounts/register.html',{'form' : RegisterForm() }, context_instance = RequestContext(request))
 
 @login_required
 def profile(request):

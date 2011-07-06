@@ -8,8 +8,10 @@ class UserStory(models.Model):
     title = models.CharField(unique=True, max_length=32)
     cdate = models.DateField(blank=True)
     author = models.ForeignKey(User)
-    summary = models.TextField()
+    summary = models.TextField(blank=True)
     process = models.TextField()
+    sort = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='static/story/%Y/%m', blank=True)
     
     def __unicode__(self):
         return u'%s %s %s' % (self.title, self.summary, self.process)

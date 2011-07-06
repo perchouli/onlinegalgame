@@ -499,6 +499,13 @@
 			});
 		},
 		
+		right: function(message, title, callback) {
+			if( title == null ) title = 'right';
+			$.alerts._show(title, message, null, 'right', function(result) {
+				if( callback ) callback(result);
+			});
+		},
+		
 		confirm: function(message, title, callback) {
 			if( title == null ) title = 'Confirm';
 			$.alerts._show(title, message, null, 'confirm', function(result) {
@@ -555,6 +562,16 @@
 			
 			switch( type ) {
 				case 'alert':
+					$("#popup_message").after('<div id="popup_panel"><input type="button" value="' + $.alerts.okButton + '" id="popup_ok" /></div>');
+					$("#popup_ok").click( function() {
+						$.alerts._hide();
+						callback(true);
+					});
+					$("#popup_ok").focus().keypress( function(e) {
+						if( e.keyCode == 13 || e.keyCode == 27 ) $("#popup_ok").trigger('click');
+					});
+				break;
+				case 'right':
 					$("#popup_message").after('<div id="popup_panel"><input type="button" value="' + $.alerts.okButton + '" id="popup_ok" /></div>');
 					$("#popup_ok").click( function() {
 						$.alerts._hide();
@@ -673,6 +690,10 @@
 	jAlert = function(message, title, callback) {
 		$.alerts.alert(message, title, callback);
 	}
+	
+	jRight = function(message, title, callback) {
+		$.alerts.right(message, title, callback);
+	};
 	
 	jConfirm = function(message, title, callback) {
 		$.alerts.confirm(message, title, callback);

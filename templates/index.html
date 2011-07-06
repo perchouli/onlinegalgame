@@ -7,13 +7,13 @@
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 	-webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);}
-	#step p { height:30px; margin-top:5px;width: 260px; /* -moz-transition:margin 1s; -webkit-transition:margin 1s; margin-right:60px; */ }
+	#step p { height:30px; margin-top:5px;width: 260px;   /* -moz-transition:margin 1s; -webkit-transition:margin 1s; margin-right:60px; */ }
 	.follow {margin-top:20px;padding-top:10px; border-top:1px dashed #C6C6C6;}
 	.follow li {margin:3px 0px 0px 18px;}
 	.follow span {font-weight:bold; font-family:Times;font-size:14px;}
 		.unlogin li{ height:80px; margin:15px 50px 0px 0px;width:400px; float:left }
 		.unlogin li h2 a{color:#333}
-		.unlogin li h2 a:hover{color:#4183C4}
+		.unlogin li h2 a:hover{color:#7BCA1C}
 		.unlogin li p {margin-top:15px}
 		.unlogin img {float:left;margin-right:20px;}
 	.stepnum { color: #FFB83B; font-size:5em; font-family: Helvetica; font-weight: bold; font-style: italic;}
@@ -40,22 +40,22 @@
 		<td>
 			<img src="{{STATIC_URL}}images/step3.jpg" height="160" width="260" />
 			<p>把你制作好的故事分享给其他人吧</p>
-	</td>
+		</td>
 	</tr>
 </table>
 {% if user.is_authenticated %}
 
 {% else %}
 <div class="follow unlogin">
-	<img src="{{STATIC_URL}}images/icon/logo.png" /> <span>You can make a online Galgame by yourself. But first:</span>
+	<span>You can make a online Galgame by yourself. But first:</span>
 	<ul>
 		<li>
-			<a href="{%url olgg_register %}"><img src="{{STATIC_URL}}images/icon/register.jpg" width="100" alt="Register"></a>
+			<a href="{%url olgg_register %}"><img src="{{STATIC_URL}}images/icon/register.png" width="100" alt="Register"></a>
 			<h2><a href="{%url olgg_register %}">Register</a></h2>
 			<p> 在本站注册一个账号，只需要填写邮箱地址，用户名和密码。 </p>
 		</li>
 		<li>
-			<a href="{%url olgg_login %}"><img src="{{STATIC_URL}}images/icon/login.jpg" width="100" alt="Login"></a>
+			<a href="{%url olgg_login %}"><img src="{{STATIC_URL}}images/icon/login.png" width="100" alt="Login"></a>
 			<h2><a href="{%url olgg_login %}">Login</a></h2>
 			<p> 如果您已经注册，请使用注册的账号登陆，您也可以使用OpenID来进行登陆。 </p>
 		</li>
@@ -68,7 +68,7 @@
 	<ul>
 		<li><a href="{%url role_list %}">查看其他人的角色</a></li>
 		<li><a href="{%url story_list %}">查看其他人的剧本</a></li>
-		<li><a href="#">去论坛讨论</a></li>
+		<li><a href="{%url forum_index %}">去论坛讨论</a></li>
 		<li><a href="mailto:jp.chenyang@gmail.com">联系管理员</a></li>
 	</ul>
 </div>

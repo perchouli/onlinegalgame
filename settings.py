@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 # Django settings for onlinegalgame project.
 import os
 PROJECT_PATH = os.path.dirname(__file__)
@@ -34,12 +35,15 @@ TIME_ZONE = 'Asia/Shanghai'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'zh-CN'
-
+LANGUAGES = (
+    ('en',u'English'),
+    ('zh-cn', u'中文')
+)
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = False
+USE_I18N = True
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
@@ -138,12 +142,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
+    #'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
+    #'django.contrib.admindocs',
 	'onlinegalgame.accounts',
     'onlinegalgame.role',
     'onlinegalgame.story',
+    'onlinegalgame.forum',
+    'onlinegalgame.fileupload',
 )
 
 # A sample logging configuration. The only tangible logging
