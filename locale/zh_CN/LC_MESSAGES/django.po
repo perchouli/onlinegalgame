@@ -1,0 +1,314 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-06 14:22+0800\n"
+"PO-Revision-Date: 2011-07-06 14:34+0800\n"
+"Last-Translator: Perchouli <jp.chenyang>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: accounts/forms.py:6
+msgid "Username"
+msgstr "用户名"
+
+#: forum/feeds.py:28
+#, python-format
+msgid "%(title)s's Forum: %(forum)s"
+msgstr "%(title)s's Forum: %(forum)s"
+
+#: forum/feeds.py:32
+#, python-format
+msgid "%(title)s's Forum"
+msgstr "%(title)s's Forum"
+
+#: forum/feeds.py:38
+msgid "Latest forum posts"
+msgstr "版块最新回复"
+
+#: forum/forms.py:5
+#: forum/models.py:34
+#: forum/models.py:163
+msgid "Title"
+msgstr "标题"
+
+#: forum/forms.py:6
+#: forum/forms.py:10
+#: forum/models.py:215
+msgid "Body"
+msgstr "内容"
+
+#: forum/models.py:35
+msgid "Slug"
+msgstr "标签"
+
+#: forum/models.py:37
+msgid "Description"
+msgstr "描述"
+
+#: forum/models.py:38
+#: forum/models.py:184
+msgid "Threads"
+msgstr "主题"
+
+#: forum/models.py:39
+#: forum/models.py:166
+#: forum/models.py:257
+#: forum/templates/forum/thread_list.html:42
+msgid "Posts"
+msgstr "回复"
+
+#: forum/models.py:40
+msgid "Ordering"
+msgstr "排序"
+
+#: forum/models.py:91
+msgid "Forum parents"
+msgstr "父模块"
+
+#: forum/models.py:121
+msgid "Forum"
+msgstr "版块"
+
+#: forum/models.py:122
+msgid "Forums"
+msgstr "版块列表"
+
+#: forum/models.py:127
+msgid "You must not save a forum in itself!"
+msgstr "You must not save a forum in itself!"
+
+#: forum/models.py:164
+msgid "Sticky?"
+msgstr "Sticky?"
+
+#: forum/models.py:165
+msgid "Closed?"
+msgstr "Closed?"
+
+#: forum/models.py:167
+#: forum/templates/forum/thread_list.html:43
+msgid "Views"
+msgstr "Views"
+
+#: forum/models.py:168
+msgid "Latest Post Time"
+msgstr "最新回复时间"
+
+#: forum/models.py:183
+#: forum/templates/forum/thread_list.html:41
+msgid "Thread"
+msgstr "主题"
+
+#: forum/models.py:217
+msgid "Time"
+msgstr "时间"
+
+#: forum/models.py:256
+#: forum/templates/forum/newthread.html:22
+#: forum/templates/forum/reply.html:18
+#: forum/templates/forum/thread_list.html:73
+msgid "Post"
+msgstr "回复"
+
+#: forum/models.py:274
+msgid "Subscription"
+msgstr "订阅"
+
+#: forum/models.py:275
+msgid "Subscriptions"
+msgstr "订阅"
+
+#: forum/templates/forum/newthread.html:4
+#: forum/templates/forum/newthread.html:11
+#, python-format
+msgid "New Thread in %(title)s"
+msgstr "New Thread in %(title)s"
+
+#: forum/templates/forum/newthread.html:7
+#, python-format
+msgid "%(forum.title)s Posts via RSS"
+msgstr "%(forum.title)s Posts via RSS"
+
+#: forum/templates/forum/newthread.html:8
+#, python-format
+msgid "%(forum.title)s Posts via ATOM"
+msgstr "%(forum.title)s Posts via ATOM"
+
+#: forum/templates/forum/newthread.html:13
+msgid "New Thread"
+msgstr "新主题"
+
+#: forum/templates/forum/newthread.html:18
+#: forum/templates/forum/thread_list.html:69
+msgid "Create a Thread"
+msgstr "创建主题"
+
+#: forum/templates/forum/reply.html:4
+#, python-format
+msgid "Reply to thread  \"%(title)s\""
+msgstr ""
+
+#: forum/templates/forum/reply.html:6
+#, python-format
+msgid "Reply to Thread \"%(title)s\""
+msgstr ""
+
+#: forum/templates/forum/reply.html:13
+msgid "Reply to Thread"
+msgstr "回复主题"
+
+#: forum/templates/forum/reply.html:16
+msgid "Posting As"
+msgstr ""
+
+#: forum/templates/forum/thread.html:8
+#: forum/templates/forum/thread_list.html:13
+#: forum/templates/forum/thread_list.html:27
+#, fuzzy
+msgid "post"
+msgid_plural "posts"
+msgstr[0] ""
+"#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+"#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+msgstr[1] "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#: forum/templates/forum/thread.html:16
+#, python-format
+msgid "%(time)s ago"
+msgstr "%(time)s 前"
+
+#: forum/templates/forum/thread.html:17
+msgid "by"
+msgstr "由"
+
+#: forum/templates/forum/thread.html:25
+#: forum/templates/forum/thread_list.html:61
+msgid "First"
+msgstr ""
+
+#: forum/templates/forum/thread.html:29
+#: forum/templates/forum/thread_list.html:65
+msgid "Last"
+msgstr ""
+
+#: forum/templates/forum/thread.html:34
+msgid "Post a Reply"
+msgstr "发表回复"
+
+#: forum/templates/forum/thread.html:36
+msgid "Sorry, this thread is closed. No further replies are permitted."
+msgstr ""
+
+#: forum/templates/forum/thread.html:41
+msgid "Submit"
+msgstr "提交"
+
+#: forum/templates/forum/thread.html:44
+msgid "Please login to post a reply."
+msgstr "您需要先登录才能发表回复"
+
+#: forum/templates/forum/thread_list.html:7
+#, python-format
+msgid "%(ftitle)s Posts via RSS"
+msgstr ""
+
+#: forum/templates/forum/thread_list.html:8
+#, python-format
+msgid "%(ftitle)s Posts via ATOM"
+msgstr ""
+
+#: forum/templates/forum/thread_list.html:13
+#: forum/templates/forum/thread_list.html:27
+msgid "thread"
+msgstr "主题"
+
+#: forum/templates/forum/thread_list.html:21
+msgid "Sub-Forum"
+msgstr ""
+
+#: forum/templates/forum/thread_list.html:22
+#: forum/templates/forum/thread_list.html:44
+msgid "Last Post"
+msgstr ""
+
+#: forum/templates/forum/thread_list.html:30
+#: forum/templates/forum/thread_list.html:53
+#, python-format
+msgid "%(time)s ago by %(author)s"
+msgstr ""
+
+#: forum/templates/forum/thread_list.html:30
+#: forum/templates/forum/thread_list.html:53
+msgid "view"
+msgstr ""
+
+#: forum/templates/forum/thread_list.html:30
+msgid "No Posts"
+msgstr ""
+
+#: role/templates/role/list.html:3
+#: templates/base.html:21
+msgid "Role List"
+msgstr "角色列表"
+
+#: role/templates/role/list.html:47
+msgid "Edit"
+msgstr "编辑"
+
+#: role/templates/role/list.html:50
+msgid "Un Link"
+msgstr "取消引用"
+
+#: role/templates/role/list.html:53
+msgid "Link"
+msgstr "引用"
+
+#: role/templates/role/list.html:58
+msgid "Info"
+msgstr "资料"
+
+#: templates/404.html:31
+msgid "Error 404"
+msgstr "404 错误"
+
+#: templates/404.html:36
+msgid "Page not found."
+msgstr ""
+
+#: templates/404.html:42
+msgid "The requested URL was not found on this server."
+msgstr "The requested URL was not found on this server."
+
+#: templates/404.html:43
+msgid "Back home"
+msgstr "返回首页"
+
+#: templates/base.html:18
+msgid "Home"
+msgstr "首页"
+
+#: templates/base.html:24
+msgid "All Story"
+msgstr "所有场景"
+
+#: templates/base.html:27
+msgid "Community"
+msgstr "论坛"
+
+#: templates/base.html:31
+msgid "Log out"
+msgstr "注销"
+
+#: templates/base.html:35
+msgid "Log in"
+msgstr "登录"
+

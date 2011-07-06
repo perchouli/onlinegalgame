@@ -1,0 +1,23 @@
+{% extends "forum_base.html" %}
+
+{% block title %}讨论区{% endblock %}
+
+{% block content %}
+<table id='djangoForumList'>
+<tr>
+<th>讨论区</th>
+<th>末尾主题</th>
+</tr>
+
+{% for forum in object_list %}
+<tr>
+<td class='djangoForumListDetails'><p><strong><a href='{{ forum.get_absolute_url }}'>{{ forum.title }}</a></strong><br /><span class='djangoForumStats'>{{ forum.threads }} threads, {{ forum.posts }} posts</span></p>
+<p>{{ forum.description }}</p></td>
+{% with forum.forum_latest_post as latest_post %}
+<td class='djangoForumListLastPost'>{% if latest_post %}{{ latest_post.time|date:'m-d H:m' }} by {{ latest_post.author }}(<a href='{{ latest_post.get_absolute_url }}'>查看</a>){% else %}没有回复{% endif %}</td>
+{% endwith %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

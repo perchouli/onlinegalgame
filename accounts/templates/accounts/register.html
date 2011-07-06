@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %} 用户注册  {% endblock %}
+{% block content %}
+<style>
+form{-khtml-border-radius:11px;-khtml-box-shadow:rgba(200,200,200,1) 0 4px 18px;-moz-border-radius:11px;-moz-box-shadow:rgba(200,200,200,1) 0 4px 18px;-webkit-border-radius:11px;-webkit-box-shadow:rgba(200,200,200,1) 0 4px 18px;border:1px solid #E5E5E5;border-radius:5px;box-shadow:rgba(200,200,20);padding:16px 50px 10px 5px}
+input{-moz-border-radius:3px;background:#fff;border:1px solid #C6C6C6;border-radius:3px;font-size:24px;margin:2px 6px 16px 15px;padding:3px;width:200px}
+label{color:red;float:right;font-family:Tahoma;font-size:12px;height:20px;padding-top:14px}
+.errorlist{color:red; margin-left:17px;}
+
+#button{-moz-border-radius:4px;background:#333;border-color:#333;border-radius:4px;color:#FFF;font-size:14px;font-weight:700;height:30px;text-shadow:rgba(0,0,0,0.3) 0 -1px 0;width:100px}
+#registerForm li span{float:left;font-family:Arial;font-size:14px;margin-left:18px;padding-top:10px;width:80px}
+</style>
+
+<div style="float:left;width:400px;height:400px;background:url({{ STATIC_URL}}images/login.jpg);"></div>
+<div style="float:left;">
+<br/>
+<h1><img src="{{ STATIC_URL }}images/register_title.png"/></h1><p class="clearfix"></p><br/>
+<form id="registerForm" action="{% url olgg_register %}" method="post">
+
+{% csrf_token %}
+	<ul>
+		{{error.username}}
+		<li><span>{{form.username.label}}</span>{{form.username}} </li>
+		{{error.password}}
+		<li><span>{{form.password.label}}</span>{{form.password}} </li>
+		<ul id="error_cp" class="errorlist" style="display:none;"><li>两次输入的密码不一致</li></ul>
+		<li><span>确认密码</span><input id="confirm-password" type="password" class="required"/> </li>
+		{{error.email}}
+		<li><span>{{form.email.label}}</span>{{form.email}} </li>
+		<li><input id="button" type="submit" value="Register"/></li>
+	</ul>
+	
+</form>
+</div>
+{{request.user}}
+{% endblock %}
+
+{% block js %}
+<script>
+	$("#id_password, #confirm-password").blur( function (){
+		if ($("#id_password").val() != $("#confirm-password").val()) $("#error_cp").css('display','block');
+		else $("#error_cp").css('display','none');
+	});
+</script>
+{% endblock %}

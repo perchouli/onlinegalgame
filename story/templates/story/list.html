@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}所有故事  {% endblock %}
+
+{% block content %}
+
+ <!--START: left-nav -->
+<div class="sidebar">
+	<div class="search-bar">
+		<input name="" type="text" class="t">
+		<input name="" type="image" src="{{ STATIC_URL }}images/icon/search.png">
+	</div>
+	<a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
+	<!--h2 class="title" >Who's Createing Role</h2>
+	<ul>
+		{% for role in my_role_list %}
+		<li></li>
+		{% endfor %}
+	</ul>
+	<ul id="role_whocreaterole">
+		<li>
+			<a href="">Perchouli 创造了  网站代理人一号</a><br/>
+			<p>1 hour ago</p>
+		</li>
+		<li>
+			<a href="">程老板 创造了  测试</a><br/>
+			<p>1 hour ago</p>
+		</li>
+		<li>
+			<a href="">程老板 创造了  测试1</a><br/>
+			<p>1 hour ago</p>
+		</li>
+		<li>
+			<a href="">程老板 创造了 测试2</a><br/>
+			<p>1 hour ago</p>
+		</li>
+	</ul>
+	<h2 class="title" >Role Stars</h2>
+	<ul id="role_star">
+		<li>
+			<a href="">网站代理人一号</a><br/>
+			<p>1541 次</p>
+		</li>
+	</ul-->
+</div>
+ <!--END: left-nav -->
+
+<div class="con-r">
+	<div class="conr-title">
+		<div class="breadcrumb"> </div>
+		<h2>Story List</h2>
+	</div>
+	<div class="page">
+		<div class="role_list">
+			<ul>
+			{% for story in story_list %}
+				<li>
+					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
+					<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
+					<p>创建日期： {{story.cdate|safe}}</p><br/>
+					<p class="resume"> {{ story.summary }} </p>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
