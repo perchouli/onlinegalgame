@@ -273,7 +273,7 @@ msgid "Link"
 msgstr "引用"
 
 #: role/templates/role/list.html:58
-msgid "Info"
+msgid "Resume"
 msgstr "资料"
 
 #: templates/404.html:31

@@ -26,22 +26,28 @@ a:hover { color: green; text-decoration: none; cursor: pointer; }
 #wrapper { margin: 0 auto; text-align: left; width: 960px; padding-bottom:20px; }
 .clear { clear: both; height: 0; overflow: hidden; }
 /*1.1public style end*/
+
+#step img {margin-right:50px; -moz-border-radius:5px;-webkit-border-radius:5px;	
+box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+-webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);}
+#step p { height:30px; margin-top:5px;width: 260px;   /* -moz-transition:margin 1s; -webkit-transition:margin 1s; margin-right:60px; */ }
+.follow {margin-top:20px;padding-top:10px; border-top:1px dashed #C6C6C6;}
+.follow li {margin:3px 0px 0px 18px;}
+.follow span {font-weight:bold; font-family:Times;font-size:14px;}
+	.unlogin li{ height:80px; margin:15px 50px 0px 0px;width:400px; float:left }
+	.unlogin li h2 a{color:#333}
+	.unlogin li h2 a:hover{color:#7BCA1C}
+	.unlogin li p {margin-top:15px}
+	.unlogin img {float:left;margin-right:20px;}
+.stepnum { color: #FFB83B; font-size:5em; font-family: Helvetica; font-weight: bold; font-style: italic;}
+.stepfont { font-size:2em; font-family: "Times New Roman"; font-weight: bold; color:#333}
+
 /*1.2top style*/
 #header { height: 70px; background:url(/static/images/header.png);}
 	 #header h1 img {margin-top:15px;}
 
-#header_menu { height: 35px; padding-right:20px; float: right;
-/*
-	font-weight:bold;
-	border-radius:5px; -moz-border-radius:3px;
-	background:-moz-gradient(linear, left top, left bottom, from(#FCFCFC),to(#E8E8E8));
-	background:-webkit-gradient(linear,0% 0,0% 100%,from(#FCFCFC),to(#E8E8E8));
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-	border:1px solid #E9E9E9;
-*/
-	}
+#header_menu { height: 35px; padding-right:20px; float: right;}
 #header_menu li { float: left; display: inline; text-align: center; margin:15px 0px 0px 30px; font-size: 12px;}
 #header_menu li a {line-height: 34px; padding:10px; text-shadow:1px 1px #ccc; color:#888}
 #header_menu li a:hover {color:#7BCA1C}
@@ -92,135 +98,27 @@ _height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; 
 #role_star li { background: url( /static/images/icon/star_blue.png) no-repeat 0px 5px; padding-left:23px}
 /* 2 list.html end*/
 
-#role_create_button {
-	display:block;
-	background:url(/static/images/role_create_back.png);
-	padding:20px 20px 10px 20px;
-	text-indent:2.4em;
-	font-size:18px;
-	text-shadow:-1px -0.5px 0 #C6C6C6;
-	font-weight:bold;
-	}
-
 	
 /* 3 Alert */
-#popup_container {
-	font-family: Arial, sans-serif;
-	font-size: 12px;
-	min-width: 300px; /* Dialog will be no smaller than this */
-	max-width: 600px; /* Dialog will wrap after this width */
-	background: #fcfcfc;
-	border: solid 3px #ccc;
-	color: #000;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-}
-
-#popup_title {
-	font-size: 14px;
-	font-weight: bold;
-	text-align: center;
-	line-height: 1.75em;
-	color: #666;
-	background: #CCC url(/static/images/title.gif) top repeat-x;
-	border: solid 1px #FFF;
-	border-bottom: solid 1px #999;
-	cursor: default;
-	padding: 0em;
-	margin: 0em;
-	width:100%;
-}
-
-#popup_content {
-	background: 16px 16px no-repeat url(/static/images/alert.gif);
-	padding: 1em 1.75em;
-	margin-top: 2em;
-}
-
-#popup_content.alert {
-	background-image: url(/static/images/alert.png);
-}
-
-#popup_content.right {
-	background-image: url(/static/images/right.png);
-}
-
-#popup_content.confirm {
-	background-image: url(/static/images/important.gif);
-}
-
-#popup_content.prompt {
-	background-image: url(/static/images/help.gif);
-}
-
-#popup_message {
-	color:#333;
-	margin-top: 10px;
-	padding-left: 48px;
-}
-
-#popup_panel {
-	text-align: center;
-	margin: 1em 0em 0em 1em;
-}
-
-#popup_prompt {
-	margin: .5em 0em;
-}
-
-#popup_ok {
-	-moz-border-radius:3px;background:#333;border-color:#333;border-radius:3px;color:#FFF;
-	height:20px;
-	text-shadow:rgba(0,0,0,0.3) 0 -1px 0;
-	width:40px;
-	font-weight:bold;
-}
+#popup_container{font-family:Arial, sans-serif;font-size:12px;min-width:300px;max-width:600px;background:#fcfcfc;border:solid 3px #ccc;color:#000;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
+#popup_title{font-size:14px;font-weight:700;text-align:center;line-height:1.75em;color:#666;background:#CCC url(/static/images/title.gif) top repeat-x;border:solid 1px #FFF;border-bottom:solid 1px #999;cursor:default;width:100%;margin:0;padding:0;}
+#popup_content{background:16px 16px no-repeat url(/static/images/alert.gif);margin-top:2em;padding:1em 1.75em;}
+#popup_content.alert{background-image:url(/static/images/alert.png);}
+#popup_content.right{background-image:url(/static/images/right.png);}
+#popup_content.confirm{background-image:url(/static/images/important.gif);}
+#popup_content.prompt{background-image:url(/static/images/help.gif);}
+#popup_message{color:#333;margin-top:10px;padding-left:48px;}
+#popup_panel{text-align:center;margin:1em 0 0 1em;}
+#popup_prompt{margin:.5em 0;}
+#popup_ok{-moz-border-radius:3px;background:#333;border-radius:3px;color:#FFF;height:20px;text-shadow:rgba(0,0,0,0.3) 0 -1px 0;width:40px;font-weight:700;border-color:#333;}
 
 
-/* Upload */
-.uploadifyButton {
-	background:-moz-gradient(linear, left top, left bottom, from(#A4C340),to(#769740));
-	background:-webkit-gradient(linear,0% 0,0% 100%,from(#A4C340),to(#769740));
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	color: #FFF;
-	font: 12px Arial, Helvetica, sans-serif;
-	padding: 8px 0;
-	text-align: center;
-	width: 110px;
-	margin-top:5px;
-}
-.uploadify:hover .uploadifyButton {
-	background-color: #808080;
-}
-.uploadifyQueueItem {
-	background-color: #F5F5F5;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	font: 11px Verdana, Geneva, sans-serif;
-	margin-top: 5px;
-	max-width: 350px;
-	padding: 10px;
-}
-.uploadifyError {
-	background-color: #FDE5DD !important;
-}
-.uploadifyQueueItem .cancel {
-	float: right;
-}
-.uploadifyQueue .completed {
-	background-color: #E5E5E5;
-}
-.uploadifyProgress {
-	background-color: #E5E5E5;
-	margin-top: 10px;
-	width: 100%;
-}
-.uploadifyProgressBar {
-	background-color: #0099FF;
-	height: 3px;
-	width: 1px;
-}
+/* 4. Upload */
+.uploadifyButton{background:0;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;color:#FFF;font:12px Arial, Helvetica, sans-serif;text-align:center;width:110px;margin-top:5px;padding:8px 0;}
+.uploadify:hover .uploadifyButton{background-color:gray;}
+.uploadifyQueueItem{background-color:#F5F5F5;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;font:11px Verdana, Geneva, sans-serif;margin-top:5px;max-width:350px;padding:10px;}
+.uploadifyError{background-color:#FDE5DD!important;}
+.uploadifyQueueItem .cancel{float:right;}
+.uploadifyQueue .completed{background-color:#E5E5E5;}
+.uploadifyProgress{background-color:#E5E5E5;margin-top:10px;width:100%;}
+.uploadifyProgressBar{background-color:#09F;height:3px;width:1px;}
