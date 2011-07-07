@@ -6,6 +6,8 @@ from django.template.context import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.core.paginator import Paginator
+
 from onlinegalgame.story.models import UserStory
 from onlinegalgame.role.models import Role, LinkRole
 from onlinegalgame.fileupload.models import StoryUpload
@@ -17,6 +19,17 @@ import os
 
 def story_list(request):
     story_list = UserStory.objects.all()
+    #分页开始，6个故事为一页
+    paginator = Paginator(story_list,6)
+    try:
+        page = int(request.GET.get('page',1))
+    except ValueError:
+        page = 1
+    try:
+        story_list = paginator.page(page)
+    except:
+        story_list = paginator.page(paginator.num_pages)
+    #分页结束
     return render_to_response('story/list.html', {'story_list':story_list }, context_instance = RequestContext(request))
 
 @csrf_exempt   

@@ -1,67 +1,78 @@
 {% extends "base.html" %}
-{% block title %}所有故事  {% endblock %}
+{% load i18n %}
+{% block title %} {% trans "All Story" %}  {% endblock %}
 
 {% block content %}
-
+<style>
+	.category {height:54px;}
+	.right {margin-left:20px;}
+</style>
  <!--START: left-nav -->
-<div class="sidebar">
-	<div class="search-bar">
-		<input name="" type="text" class="t">
-		<input name="" type="image" src="{{ STATIC_URL }}images/icon/search.png">
-	</div>
-	<a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
-	<!--h2 class="title" >Who's Createing Role</h2>
-	<ul>
-		{% for role in my_role_list %}
-		<li></li>
+<div class="con-r right" style="width:450px;border:0px;">
+	<div class="category"></div>
+	<div class="role_list">
+		<ul>
+		{% for story in story_list.object_list %}
+			{% if forloop.counter|divisibleby:2 %}
+			<li>
+				<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
+				<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
+				<p>创建日期： {{story.cdate|safe}}</p><br/>
+				<p class="resume"> {{ story.summary }} </p>
+			</li>
+			{% endif %}
 		{% endfor %}
-	</ul>
-	<ul id="role_whocreaterole">
-		<li>
-			<a href="">Perchouli 创造了  网站代理人一号</a><br/>
-			<p>1 hour ago</p>
-		</li>
-		<li>
-			<a href="">程老板 创造了  测试</a><br/>
-			<p>1 hour ago</p>
-		</li>
-		<li>
-			<a href="">程老板 创造了  测试1</a><br/>
-			<p>1 hour ago</p>
-		</li>
-		<li>
-			<a href="">程老板 创造了 测试2</a><br/>
-			<p>1 hour ago</p>
-		</li>
-	</ul>
-	<h2 class="title" >Role Stars</h2>
-	<ul id="role_star">
-		<li>
-			<a href="">网站代理人一号</a><br/>
-			<p>1541 次</p>
-		</li>
-	</ul-->
+		</ul>
+	</div>
 </div>
  <!--END: left-nav -->
 
-<div class="con-r">
+<div class="con-r" style="width:450px;">
 	<div class="conr-title">
-		<div class="breadcrumb"> </div>
-		<h2>Story List</h2>
+		<div class="search-bar">
+				<a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
+			<input name="" type="text" class="t">
+			<input name="" type="image" src="{{ STATIC_URL }}images/icon/search.png">
+		</div>
 	</div>
 	<div class="page">
 		<div class="role_list">
 			<ul>
-			{% for story in story_list %}
+			{% for story in story_list.object_list %}
+				{% if not forloop.counter|divisibleby:2 %}
 				<li>
 					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
 					<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
 					<p>创建日期： {{story.cdate|safe}}</p><br/>
 					<p class="resume"> {{ story.summary }} </p>
 				</li>
+				{% endif %}
 			{% endfor %}
 			</ul>
 		</div>
 	</div>
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if story_list.has_previous %}
+	            <a href="?page={{ story_list.previous_page_number }}">previous</a>
+	        {% endif %}
+	
+	        <span class="current">
+	            Page {{ story_list.number }} of {{ story_list.paginator.num_pages }}.
+	        </span>
+	
+	        {% if story_list.has_next %}
+	            <a href="?page={{ story_list.next_page_number }}">next</a>
+	        {% endif %}
+	    </span>
+	</div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+	});
+</script>
 {% endblock %}
