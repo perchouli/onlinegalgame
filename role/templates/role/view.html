@@ -59,7 +59,7 @@
 		</li>
 		<li>
 			<input type="hidden" id="profile" name="profile" value="" />
-			<p><input type="submit" value="提交"/></p>
+			<p><input type="button" value="提交" onclick="validator_role_from()"/></p>
 		</li>
 	</ul>
 	</form>
@@ -146,7 +146,7 @@
 	$(document).ready(function(){
 		$("#role_form").validate({
 			messages :{
-				birthday : {dateISO:'请使用YYYY-mm-dd的格式'}			},
+				birthday : {dateISO:'请使用YYYY-mm-dd的格式'}},
 			rules: {
     			birthday: {
 			      dateISO: true
@@ -155,7 +155,6 @@
 		});
 	});
 		
-	
 	var role_dom = ['cloth', 'hair', 'face', 'eye'];
 	var role_image = "{{role.image}}";
 	var role_profile = [{{ role.profile|safe}}];
@@ -194,7 +193,6 @@
 		var profile = document.getElementById('profile');
 		for (var i in role_dom)
 		{
-			
 			json[i] = '"'+document.getElementById(role_dom[i]).getAttribute('style')+'"';
 		}
 		profile.value = json;

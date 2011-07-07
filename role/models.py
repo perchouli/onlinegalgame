@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Role(models.Model):
-
     name = models.CharField(unique=True, max_length=32)
     birthday = models.DateField(blank=True)
     gender = models.CharField(max_length=8,blank=True)

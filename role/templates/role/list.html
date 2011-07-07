@@ -47,16 +47,15 @@
 					<input type="button" value="{% trans "Edit" %}" onclick='window.location.href= "{%url edit_role role.id %}"'/>	
 					{% else %}
 						{% if role.id|islinkuser:link_role_list %}
-						<input type="button" value="{% trans "Un Link" %}" onclick="link_user({{role.id}}, 'unlink')"/>
+						<input type="button" value="{% trans "Un Link" %}" onclick="link_role({{role.id}}, 'unlink')"/>
 						{% else %}
 						{% if role.id != 1 %}
-						<input type="button" id="btn_link_role" value="{% trans "Link" %}" onclick="link_user({{role.id}},'link')"/>
+						<input type="button" id="btn_link_role" value="{% trans "Link" %}" onclick="link_role({{role.id}},'link')"/>
 						{% endif %}	
 						{% endif %}	
 					{% endif %}	
 					<!--input type="button" value="相关角色"/-->
-					<input type="button" value="{% trans "Info" %}" onclick="role_resume({{role.id}})"/>
-
+					<input type="button" value="{% trans "Resume" %}" onclick="role_resume({{role.id}})"/>
 				</div>
 				
 				<div id="role_{{role.id}}_resume" class="role_resume">
@@ -89,9 +88,9 @@
 
 {% block js %}
 <script>
-
 $(document).ready(function(){
 	var all_role = $('.show_role');
+	//显示的角色倾斜随机角度
 	for ( var i=0; i < all_role.length; i++)
 	{
 		var degree = Math.round(Math.random()*10);
@@ -108,7 +107,10 @@ $(document).ready(function(){
 	
 	$("input, button").uniform();
 });
-
+/**
+ * 显示用户资料
+ * @param {int} rid
+ */
 function role_resume(rid)
 {	
 	var role_resume_status = $("#role_"+rid+"_resume").css('display');
@@ -118,7 +120,12 @@ function role_resume(rid)
 		$("#role_"+rid+"_resume").fadeOut();
 }
 
-function link_user(rid, action)
+/**
+ * 引用/取消引用角色
+ * @param {int} rid
+ * @param {link/unlink} action
+ */
+function link_role(rid, action)
 {
 	{% if user.is_authenticated %}
 	if (action == 'link')

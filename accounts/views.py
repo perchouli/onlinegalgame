@@ -27,13 +27,12 @@ def register(request):
                 'error' : form.errors,
             }
             return render_to_response('accounts/register.html', ctx , context_instance = RequestContext(request))
-            #return form.errors
     else:
 	    return render_to_response('accounts/register.html',{'form' : RegisterForm() }, context_instance = RequestContext(request))
 
 @login_required
 def profile(request):
-    
+    # Unfinished
     user = User.objects.get(username='admin')
     
     import urllib, hashlib
@@ -43,22 +42,11 @@ def profile(request):
     
     gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
     gravatar_url += urllib.urlencode({'d':default, 's':str(size)})
-    
-    
+
     profile = { 
     'sex':user.get_profile().sex,
     'ai' : email,
     'avatar' : gravatar_url,
     }
-    #profile['ai']  = 10
     return render_to_response('accounts/profile.html', {'profile':profile} ,context_instance = RequestContext(request))
 
-
-@login_required
-def friends(request):
-	return render_to_response('accounts/friends.html',context_instance = RequestContext(request))
-
-@login_required
-def olgg_logout(request):
-	logout(request)
-	return redirect('/accounts/login')

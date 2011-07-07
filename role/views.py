@@ -15,13 +15,13 @@ import md5
 def role_list(request):
     role_list = Role.objects.all()
     link_role_list = []
-
-    if request.user.is_authenticated():
-        uid = request.session['_auth_user_id']
-        all_link_role = LinkRole.objects.filter(author=uid)
-        for link_role in all_link_role:
-            link_role_list.append(link_role.linkrole.id)
-    
+    #获得用户ID
+    uid = request.user.id
+    #查询引用的角色，append到角色列表中
+    all_link_role = LinkRole.objects.filter(author=uid)
+    for link_role in all_link_role:
+        link_role_list.append(link_role.linkrole.id)
+    #分页开始，9个角色为一页
     paginator = Paginator(role_list,9)
     try:
         page = int(request.GET.get('page',1))
@@ -31,7 +31,7 @@ def role_list(request):
         role_list = paginator.page(page)
     except:
         role_list = paginator.page(paginator.num_pages)
-        
+    #分页结束
     ctx = {
         'role_list' : role_list,
         'link_role_list' : link_role_list
@@ -43,13 +43,16 @@ def role_list(request):
 @login_required
 def add_role(request):
     if request.method == 'POST':
-        role_image,role_profile = '',''
         data = request.POST
+        #用户是否上传了图片
         try:
             request.FILES['role_image']
         except:
+            #若没有，则保存角色配置
             role_profile = data['profile']
+            role_image = ''
         else:
+            #若上传图片，则保存图片，清空角色配置
             role_image = request.FILES['role_image']
             role_profile = ''
         userrole = Role (
@@ -76,11 +79,10 @@ def add_role(request):
 def edit_role(request, role_id):
     if request.method == 'POST':
         data = request.POST
-        role_image = ''
         try:
             request.FILES['role_image']
         except:
-            pass
+            role_image = ''
         else:
             role_image = request.FILES['role_image']
         userrole            = Role.objects.get(id=role_id)

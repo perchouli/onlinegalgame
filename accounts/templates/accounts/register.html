@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %} 用户注册  {% endblock %}
+{% block title %} {%trans "Register" %}  {% endblock %}
 {% block content %}
 <style>
 form{-khtml-border-radius:11px;-khtml-box-shadow:rgba(200,200,200,1) 0 4px 18px;-moz-border-radius:11px;-moz-box-shadow:rgba(200,200,200,1) 0 4px 18px;-webkit-border-radius:11px;-webkit-box-shadow:rgba(200,200,200,1) 0 4px 18px;border:1px solid #E5E5E5;border-radius:5px;box-shadow:rgba(200,200,20);padding:16px 50px 10px 5px}
@@ -17,7 +17,6 @@ label{color:red;float:right;font-family:Tahoma;font-size:12px;height:20px;paddin
 <br/>
 <h1><img src="{{ STATIC_URL }}images/register_title.png"/></h1><p class="clearfix"></p><br/>
 <form id="registerForm" action="{% url olgg_register %}" method="post">
-
 {% csrf_token %}
 	<ul>
 		{{error.username}}
@@ -25,15 +24,13 @@ label{color:red;float:right;font-family:Tahoma;font-size:12px;height:20px;paddin
 		{{error.password}}
 		<li><span>{{form.password.label}}</span>{{form.password}} </li>
 		<ul id="error_cp" class="errorlist" style="display:none;"><li>两次输入的密码不一致</li></ul>
-		<li><span>确认密码</span><input id="confirm-password" type="password" class="required"/> </li>
+		<li><span>{% trans "Comfirm Pass" %}</span><input id="confirm-password" type="password" class="required"/> </li>
 		{{error.email}}
 		<li><span>{{form.email.label}}</span>{{form.email}} </li>
 		<li><input id="button" type="submit" value="Register"/></li>
 	</ul>
-	
 </form>
 </div>
-{{request.user}}
 {% endblock %}
 
 {% block js %}
