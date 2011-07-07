@@ -6,16 +6,16 @@
 <style>
 	.category {height:54px;}
 	.right {margin-left:20px;}
-	.role_list li h4 { font-size:14px; color:#ffb83b; text-align:center; }
-	.role_list li { display: inline-block; vertical-align: top; min-height:100px; zoom: 1;  *display:inline;
+	.story_list li h4 { font-size:14px; color:#ffb83b; text-align:center; }
+	.story_list li { display: inline-block; vertical-align: top; min-height:100px; zoom: 1;  *display:inline;
 	_height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; text-align:left; border-bottom:1px dashed #c6c6c6;}
-	.role_list li img { border :1px solid #D0D0D0;}
-	.role_list li .resume { text-indent:2em; height:30px; overflow:hidden;text-overflow: ellipsis;}
+	.story_list li img { border :1px solid #D0D0D0;}
+	.story_list li .summary { text-indent:2em; height:100px; overflow:hidden;text-overflow: ellipsis;}
 </style>
  <!--START: left-nav -->
 <div class="con-r right" style="width:450px;border:0px;">
 	<div class="category"></div>
-	<div class="role_list">
+	<div class="story_list">
 		<ul>
 		{% for story in story_list.object_list %}
 			{% if forloop.counter|divisibleby:2 %}
@@ -23,7 +23,7 @@
 				<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
 				<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
 				<p>创建日期： {{story.cdate|safe}}</p><br/>
-				<p class="resume"> {{ story.summary }} </p>
+				<p class="summary"> {{ story.summary }} </p>
 			</li>
 			{% endif %}
 		{% endfor %}
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	<div class="page">
-		<div class="role_list">
+		<div class="story_list">
 			<ul>
 			{% for story in story_list.object_list %}
 				{% if not forloop.counter|divisibleby:2 %}
@@ -49,7 +49,7 @@
 					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
 					<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
 					<p>创建日期： {{story.cdate|safe}}</p><br/>
-					<p class="resume"> {{ story.summary }} </p>
+					<p class="summary"> {{ story.summary }} </p>
 				</li>
 				{% endif %}
 			{% endfor %}
