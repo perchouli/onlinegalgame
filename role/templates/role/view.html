@@ -26,7 +26,7 @@
 	fieldset {border:1px #ccc solid; width:80%; padding:15px;}
 </style>
 
- <!--START: left-nav -->
+<!--START: left-nav -->
 <div class="sidebar">
 	<h2>Role Info</h2>
 	{% if role_id %}
@@ -73,7 +73,7 @@
 		<div class="conr-title">
 			<h2>Role Profile</h2>
 		</div>
-		<div style="margin-bottom:15px">
+		<div id="choice_role" style="margin-bottom:15px">
 			站位：
 				正面1<input type="radio" name="rolepos" value="1" onclick="pos=this.value;change_pos(pos)">
 				正面2<input type="radio" name="rolepos" value="2" onclick="pos=this.value;change_pos(pos)">
@@ -143,7 +143,7 @@
 
 {% block js %}
 <script>
-	$(document).ready(function(){
+	$(document).ready(function(){		
 		$("#role_form").validate({
 			messages :{
 				birthday : {dateISO:'请使用YYYY-mm-dd的格式'}},
@@ -180,10 +180,9 @@
 		}
 		
 		$('fieldset').show(); 
-		{% else %}
-		$('fieldset').hide(); //新建用户时先隐藏fieldset
 		{% endif %}
 		
+		change_pos(pos);
 		$("input, textarea, select, button").uniform();
 	});
 	
