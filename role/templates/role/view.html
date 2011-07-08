@@ -30,9 +30,9 @@
 <div class="sidebar">
 	<h2>Role Info</h2>
 	{% if role_id %}
-	<form id="role_form" action="{%url edit_role role_id %}" method="POST" enctype="multipart/form-data">
+	<form id="role_form" action="{%url edit_role role_id %}" method="POST" enctype="multipart/form-data" onsubmit="validator_role_from()">
 	{% else %}
-	<form id="role_form" action="{%url add_role %}" method="POST" enctype="multipart/form-data">
+	<form id="role_form" action="{%url add_role %}" method="POST" enctype="multipart/form-data" onsubmit="validator_role_from()">
 	{% endif %}
 		{% csrf_token %}
 	<ul>
@@ -40,7 +40,7 @@
 			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}" class="required"/>
 		</li>
 		<li>性别:<br/>	
-			<input type="radio" name="gender" value="0" {% if role.gender  == '0' %} checked="checked" {% endif %}>女
+			<input type="radio" name="gender" value="0" checked="checked">女
 			<input type="radio" name="gender" value="1" {% if role.gender == '1' %} checked="checked" {% endif %}>男 
 			<input type="radio" name="gender" value="2" {% if role.gender == '2' %} checked="checked" {% endif %}>？
 		</li>
@@ -59,7 +59,7 @@
 		</li>
 		<li>
 			<input type="hidden" id="profile" name="profile" value="" />
-			<p><input type="button" value="提交" onclick="validator_role_from()"/></p>
+			<p><input type="submit" value="提交" /></p>
 		</li>
 	</ul>
 	</form>
@@ -195,7 +195,6 @@
 			json[i] = '"'+document.getElementById(role_dom[i]).getAttribute('style')+'"';
 		}
 		profile.value = json;
-		document.getElementById('role_form').submit();
 	}
 	
 	function change_role(name, value, pos)
