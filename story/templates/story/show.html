@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title%}{{title}}{% endblock %}
+{% block title%}{{story.title}}{% endblock %}
 
 {% block content %}
 <style>
@@ -40,19 +40,22 @@
 	
 	#process_frame { width:200px;height:200px;background:#c6c6c6;overflow:hidden; text-overflow	:ellipsis; }
 	#process_frame li:nth-child(odd) { background:#fff;text-overflow: ellipsis; }
+	#story_info { margin:18px;float:left;  float:left; width:300px;}
+	#popup_ok{ margin-left:100px}
 </style>
 </head>
-{{command|safe}}
-{{role.name}}
 
-
-	<div id="story" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');" >
+	<div id="story" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');"  onclick="run()">
 		<div id="hair"></div>
 		<div id="eye"></div>
 		<div id="face"></div>
 		<div id="cloth"></div>
-		<div id="dialog" onclick="run()"></div>
+		<div id="dialog"></div>
 		<div id="role_image"></div>
+	</div>
+	<div id="story_info">
+	<h2>{{story.title}}</h2><br>
+			{{story.summary}}
 	</div>
 {% endblock%}
 
@@ -109,6 +112,11 @@
 	
 	function run()
 	{
+		try { process[i].type }
+		catch(err)
+		{
+			jRight('这个故事已经结束了，请浏览其他故事');
+		}
 		switch(process[i].type) 
 		{
 			case 'BGD':
@@ -124,10 +132,10 @@
 			    clear_role();
 				break;
 			case 'DIALOG':
-			    $("#dialog").text(process[i].value);
+			    $("#dialog").html(process[i].value);
 				break;
 			default: 
-				alert('这条流程没办法解析呀╮(╯_╰)╭');
+				jAlert('这条流程没法解析');
 				break;
 		}
 		i++;

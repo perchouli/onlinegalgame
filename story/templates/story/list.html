@@ -9,7 +9,13 @@
 	.story_list li h4 { font-size:14px; color:#ffb83b; text-align:center; }
 	.story_list li { display: inline-block; vertical-align: top; min-height:100px; zoom: 1;  *display:inline;
 	_height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; text-align:left; border-bottom:1px dashed #c6c6c6;}
-	.story_list li img { border :1px solid #D0D0D0;}
+	.story_list li img {border-top:1px solid #efefef; border-right :2px solid #efefef;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+	}
 	.story_list li .summary { text-indent:2em; height:100px; overflow:hidden;text-overflow: ellipsis;}
 </style>
  <!--START: left-nav -->
@@ -20,7 +26,7 @@
 		{% for story in story_list.object_list %}
 			{% if forloop.counter|divisibleby:2 %}
 			<li>
-				<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
+				<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image|default:"static/images/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ story.title }}</h4></div>
 				<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
 				<p>创建日期： {{story.cdate|safe}}</p><br/>
 				<p class="summary"> {{ story.summary }} </p>
@@ -46,7 +52,7 @@
 			{% for story in story_list.object_list %}
 				{% if not forloop.counter|divisibleby:2 %}
 				<li>
-					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
+					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
 					<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
 					<p>创建日期： {{story.cdate|safe}}</p><br/>
 					<p class="summary"> {{ story.summary }} </p>

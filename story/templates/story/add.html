@@ -49,7 +49,6 @@
 	
 	#process_frame { width:200px;height:220px;padding-top:22px;overflow-y:auto; overflow-x:hidden;  border:1px #ccc solid;
 	-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;
-	
 	background:url({{STATIC_URL}}images/bg-process.jpg);
 	}
 	#process_frame li {margin:0px;}
@@ -64,7 +63,8 @@
 	fieldset { border:1px #ccc solid; width:450px; padding:15px; margin-left:20px;text-overflow: ellipsis;}
 	table textarea {margin-top:25px;}
 	
-	#bgd_default li {margin-right:15px; height:80px; float:left;}
+	#bgd_default {height:110px; word-break:break-all; overflow:scroll;overflow-x:hidden;}
+	#popup_ok{ margin-left:100px}
 </style>
 </head>
 
@@ -76,7 +76,7 @@
 		{% csrf_token %}
 	<ul>
 		<li>
-			标题:<br/><input type="text" name="title" id="title"/>
+			标题:<br/><input type="text" name="title" id="title" class="required"/>
 		</li>
 		<li>
 			简介:<br/><textarea id="summary" name="summary" rows="8" style="width:130px;"></textarea>
@@ -88,7 +88,7 @@
 			封面:<br/><input type="file" name="cover_image" id="cover_image"/>
 		</li>
 		<li>
-			进程:<br/>
+			进程:<span style="color:red">[双击进程可以删除]</span><br/>
 			<div id="process_frame" onmouseover="li_active()">
 
 			</div>
@@ -144,16 +144,14 @@
 				</td>
 			</tr>
 		</table>
-		<fieldset style="width:580px">
-			<legend>默认场景</legend>
-			<div id="bgd_default" style="height:110px; white-space:nowrap; word-break:break-all; overflow:scroll;overflow-y:hidden;">
+		<fieldset style="width:620px;margin-left:0px;">
+			<legend>默认场景<span style="color:red">[单击选择场景]</span></legend>
+			<div id="bgd_default">
 				{% for bgd in default_bgd_list %}
-				<img src="{{STATIC_URL}}bgd/{{bgd}}" width="100px"/>
+				<img src="{{STATIC_URL}}bgd/{{bgd}}" width="95px"/>
 				{% endfor %}
 			</div>
 		</fieldset>	
-		
-		
 
 		<div id="story" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');" >
 			<div id="hair"></div>
@@ -163,10 +161,10 @@
 			<div id="dialog" onclick="run()"></div>
 			<div id="role_image"></div>
 		</div>
-		<div id="story_list" style="">
+		<div id="story_list">
 			<input type="file" name="storyUpload" id="storyUpload" />
 			{% for file in user_upload_list %}
-				<img  src="{{file.image}}" width="100px" height="80"/>
+				<img src="{{file.image}}" width="100px" height="80"/>
 			{% endfor %}
 		</div>
 	</div>
@@ -190,26 +188,35 @@
 		'auto'		: true,
 		'multi'		: true,
 		'buttonText': '批量上传文件',
-		onError : function (a, b, c, d) {
-			alert('errpr');
+		'onUploadComplete' : function () {
+			$("#story_list img").remove();
+			$.ajax({
+				//查询数据库重新获得用户上传文件列表
+				type: 'GET',
+				url: '{% url story_upload_update %}',
+				success: function(msg){
+					var file_list = msg.split('|');
+					for ( var i=0; i < file_list.length -1; i++)
+					{
+						$("#story_list").append('<img id="file'+i+'" src="'+file_list[i]+'"  width="100px" height="80" onclick="change_bgd(this.id)"/>');
+					}
+				}
+			})
 		}
 		});
 		
-		/*场景滚动*/
-
-
-		
 		/*故事进程拖动排序*/
-		$('#process_frame').live('mousedown',function(){
-	  		$('#process_frame').dragsort();
-		});
+//		$('#process_frame').live('mousedown',function(){
+//	  		$('#process_frame').dragsort();
+//		});
 		
 		/*场景预览以及切换*/
 		
-		$('#bgd_default img, #story_list img').mouseenter(function(){
-			var bgd_src = $(this).attr('src');
-			$("#story").attr('style','background:url("'+bgd_src+'")')
-		});
+//		$('#bgd_default img, #story_list img').mouseenter(function(){
+//			var bgd_src = $(this).attr('src');
+//			$("#story").attr('style','background:url("'+bgd_src+'")')
+//		});
+
 		$('#bgd_default img, #story_list img').click(function(){
 			var bgd_src = $(this).attr('src');
 			$("#story").attr('style','background:url("'+bgd_src+'")')
@@ -218,6 +225,13 @@
 		});
 	});
 	
+	function change_bgd(id)
+	{
+		var bgd_src = $("#"+id).attr('src');
+		$("#story").attr('style','background:url("'+bgd_src+'")')
+		var el = document.getElementById('process_frame');
+		el.innerHTML += '<li data-type="BGD" data-value="'+bgd_src+'"><span style="color:blue">场景</span>场景变更</li>';
+	}
 
 	function li_active()
 	{
@@ -295,17 +309,24 @@
 	
 	function validator_story_from()
 	{
-		var process = document.querySelectorAll('#process_frame li');
-		
+		var process = document.querySelectorAll('#process_frame li');		
 		var process_value = [];
 		var process_json = jQuery.parseJSON('{"process":[]}')
-		for (var i=0 ;i < process.length;i++)
+		if ($("#title").val() != '')
 		{
-			var type = process[i].dataset['type'];
-			process_value[i] = '{"type":"'+type+'","value": "'+(process[i].dataset['value'])+'"}';
+			for (var i=0 ;i < process.length;i++)
+			{
+				var type = process[i].dataset['type'];
+				process_value[i] = '{"type":"'+type+'","value": "'+(process[i].dataset['value'])+'"}';
+			}
+			document.getElementById('process').value = '{"process":['+process_value.toString()+']}';
+			document.getElementById('story_form').submit();
 		}
-		document.getElementById('process').value = '{"process":['+process_value.toString()+']}';
-		document.getElementById('story_form').submit();
+		else
+		{
+			jAlert('您是不是忘记填写故事的标题了？','Submit Failed');
+		}
+
 	}
 	
 	$("input[name!='storyUpload'], textarea, select, button").uniform();

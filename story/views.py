@@ -61,6 +61,11 @@ def add_story(request):
             int(data['sort'])
         except ValueError:
             data['sort'] = 1
+            
+        try:
+            request.FILES['cover_image']
+        except:
+            request.FILES['cover_image'] = ''
         userstory = UserStory (
             title           = data['title'],
             cdate           = str(date.today()),
@@ -129,6 +134,14 @@ def upload(request,user_id):
 @csrf_exempt
 def upload_check(request):
     return HttpResponse('0')
+
+@csrf_exempt
+def story_upload_update(request):
+    user_upload_list = StoryUpload.objects.filter(uid = request.user.id)
+    file_list = ''
+    for file in user_upload_list:
+        file_list += file.image + '|'
+    return HttpResponse(file_list)
 
 def __unicode__(self):
     return u'%s %s %s' % (self.title, self.summary, self.process)

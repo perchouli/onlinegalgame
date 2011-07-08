@@ -22,6 +22,10 @@ urlpatterns = patterns('',
         views.upload, 
         name='story_upload'),
         
+    url(r'^story_upload_update/$', 
+        views.story_upload_update, 
+        name='story_upload_update'),
+        
     url(r'^story_upload_check/$', 
         views.upload_check, 
         name='story_upload_check'),
