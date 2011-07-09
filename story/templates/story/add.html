@@ -75,16 +75,16 @@
 	<form id="story_form" action="{%url add_story %}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 	<ul>
-		<li>
+		<li title="场景的标题">
 			标题:<br/><input type="text" name="title" id="title" class="required"/>
 		</li>
 		<li>
 			简介:<br/><textarea id="summary" name="summary" rows="8" style="width:130px;"></textarea>
 		</li>
-		<li>
+		<li title="当前场景在您整个故事中的顺序，用数字表示">
 			排序:<br/><input type="text" name="sort" id="sort" style="width:100px"/>
 		</li>
-		<li>
+		<li title="在[所有场景]页显示的图片">
 			封面:<br/><input type="file" name="cover_image" id="cover_image"/>
 		</li>
 		<li>
@@ -145,7 +145,7 @@
 			</tr>
 		</table>
 		<fieldset style="width:620px;margin-left:0px;">
-			<legend>默认场景<span style="color:red">[单击选择场景]</span></legend>
+			<legend>默认背景<span style="color:red">[单击选择背景]</span></legend>
 			<div id="bgd_default">
 				{% for bgd in default_bgd_list %}
 				<img src="{{STATIC_URL}}bgd/{{bgd}}" width="95px"/>
@@ -176,7 +176,9 @@
 <script type="text/javascript" src="{{STATIC_URL}}js/jquery.uploadify.js"></script>
 <script>
 	$(document).ready( function(){
-		
+	$('[title]').colorTip({color:'black'}); //Tips显示
+
+	//批量上传按钮
 	$('#storyUpload').uploadify ({
 		'swf'		: '{{STATIC_URL}}uploadify.swf',
 		'uploader' 	: '{% url story_upload request.user.id%}', 

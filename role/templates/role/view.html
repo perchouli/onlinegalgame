@@ -143,17 +143,14 @@
 
 {% block js %}
 <script>
-	$(document).ready(function(){			
-		$('[title]').colorTip({color:'black'});
-	});
-		
+
 	var role_dom = ['cloth', 'hair', 'face', 'eye'];
 	var role_image = "{{role.image}}";
 	var role_profile = [{{ role.profile|safe}}];
 	var pos = 1;
 	
 	$(document).ready( function(){
-		
+		$('[title]').colorTip({color:'black'});//Tips
 		if (role_image)
 		{
 			//直接显示用户上传的角色图片
