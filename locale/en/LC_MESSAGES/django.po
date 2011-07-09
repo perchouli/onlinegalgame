@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-06 14:22+0800\n"
+"POT-Creation-Date: 2011-07-09 14:09+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,18 @@ msgstr ""
 
 #: accounts/forms.py:6
 msgid "Username"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:3
+msgid "Login"
+msgstr ""
+
+#: accounts/templates/accounts/register.html:3
+msgid "Register"
+msgstr ""
+
+#: accounts/templates/accounts/register.html:27
+msgid "Comfirm Pass"
 msgstr ""
 
 #: forum/feeds.py:28
@@ -245,7 +257,8 @@ msgstr ""
 msgid "No Posts"
 msgstr ""
 
-#: role/templates/role/list.html:3 templates/base.html:21
+#: role/templates/role/list.html:3 templates/base.html:33
+#: templates/forum_base.html:105
 msgid "Role List"
 msgstr ""
 
@@ -262,7 +275,12 @@ msgid "Link"
 msgstr ""
 
 #: role/templates/role/list.html:58
-msgid "Info"
+msgid "Resume"
+msgstr ""
+
+#: story/templates/story/list.html:3 templates/base.html:36
+#: templates/forum_base.html:108
+msgid "All Story"
 msgstr ""
 
 #: templates/404.html:31
@@ -281,22 +299,18 @@ msgstr ""
 msgid "Back home"
 msgstr ""
 
-#: templates/base.html:18
+#: templates/base.html:30 templates/forum_base.html:102
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:24
-msgid "All Story"
-msgstr ""
-
-#: templates/base.html:27
+#: templates/base.html:39 templates/forum_base.html:111
 msgid "Community"
 msgstr ""
 
-#: templates/base.html:31
+#: templates/base.html:43 templates/forum_base.html:115
 msgid "Log out"
 msgstr ""
 
-#: templates/base.html:35
+#: templates/base.html:47 templates/forum_base.html:119
 msgid "Log in"
 msgstr ""
