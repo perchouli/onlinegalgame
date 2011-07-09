@@ -148,15 +148,21 @@
 	var role_image = "{{role.image}}";
 	var role_profile = [{{ role.profile|safe}}];
 	var pos = 1;
+	change_pos(pos);
 	
 	$(document).ready( function(){
 		$('[title]').colorTip({color:'black'});//Tips
 		if (role_image)
 		{
+			$('fieldset ,#choice_role').hide();
+			//清除默认角色
+			for (var i in role_dom)
+			{
+				$("#"+role_dom[i]).attr("style",'');
+			}	
 			//直接显示用户上传的角色图片
-			//$('#cloth').css('background','{{role.images}}');//src("{{role.image");
+			$('#cloth').attr('style',"background:url('/{{role.image}}') no-repeat;width:500px");//src("{{role.image");
 		}
-		
 		{% if role_id %}
 		else
 		{
@@ -167,11 +173,9 @@
 				pos = $("#"+role_dom[i]).attr("style").split('.gif')[0].split('/')[5];
 			}	
 		}
-		
-		$('fieldset').show(); 
 		{% endif %}
 		
-		change_pos(pos);
+		
 		$("input, textarea, select, button").uniform();
 	});
 	

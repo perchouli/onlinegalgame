@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from onlinegalgame.role.models import Role, RoleDress, LinkRole
 from onlinegalgame.role.forms import RoleForm
 
-import md5
+import hashlib, datetime, random
 
 def role_list(request):
     role_list = Role.objects.all()
@@ -55,7 +55,8 @@ def add_role(request):
             role_profile = data['profile']
             role_image = ''
         else:
-            #若上传图片，则保存图片，清空角色配置
+            #若上传图片，则保存图片，清空角色配置,用hash重置文件名
+            request.FILES['role_image'].name = hashlib.sha1(str(datetime.datetime.now())+str(random.random())).hexdigest()
             role_image = request.FILES['role_image']
             role_profile = ''
         userrole = Role (
@@ -77,20 +78,25 @@ def add_role(request):
 
 
 
-@csrf_exempt   
+@csrf_exempt
 @login_required
 def edit_role(request, role_id):
     if request.method == 'POST':
+        userrole = Role.objects.get(id=role_id)
         data = request.POST
         try:
             request.FILES['role_image']
         except:
-            role_image = ''
+            if userrole.image != '' :
+                role_image = userrole.image
+            else:
+                role_image = ''
         else:
+            request.FILES['role_image'].name = hashlib.sha1(
+                str(datetime.datetime.now())+str(random.random())).hexdigest()
             role_image = request.FILES['role_image']
-        userrole            = Role.objects.get(id=role_id)
         userrole.name       = data['rolename']
-        userrole.tags   = data['tags']
+        userrole.tags       = data['tags']
         userrole.gender     = data['gender']
         userrole.relation   = data['relation']
         userrole.profile    = data['profile']
@@ -112,7 +118,7 @@ def link_role(request):
         linkrole = LinkRole (
             linkrole        = Role.objects.get(id=role_id),
             author          = User.objects.get(id=uid),
-            token           = md5.new(str(uid)+str(role_id)).hexdigest(),
+            token           = hashlib.sha1(str(uid)+str(role_id)).hexdigest(),
         )
         linkrole.save()
         return HttpResponse('Success')

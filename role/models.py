@@ -10,7 +10,7 @@ class Role(models.Model):
     author = models.ForeignKey(User)
     resume = models.TextField(blank=True)
     profile = models.TextField(blank=True)
-    image = models.ImageField(upload_to='static/role/user/', blank=True)    
+    image = models.ImageField(upload_to='static/role/user/%Y/%m', blank=True)    
     def __unicode__(self):
         return u'%s %s %s' % (self.name, self.relation, self.resume)
     
