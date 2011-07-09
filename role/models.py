@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Role(models.Model):
     name = models.CharField(unique=True, max_length=32)
-    birthday = models.DateField(blank=True)
+    tags = models.TextField(blank=True)
     gender = models.CharField(max_length=8,blank=True)
     relation = models.CharField(max_length=16)
     author = models.ForeignKey(User)

@@ -30,36 +30,36 @@
 <div class="sidebar">
 	<h2>Role Info</h2>
 	{% if role_id %}
-	<form id="role_form" action="{%url edit_role role_id %}" method="POST" enctype="multipart/form-data" onsubmit="validator_role_from()">
+	<form id="role_form" action="{%url edit_role role_id %}" method="POST" enctype="multipart/form-data">
 	{% else %}
-	<form id="role_form" action="{%url add_role %}" method="POST" enctype="multipart/form-data" onsubmit="validator_role_from()">
+	<form id="role_form" action="{%url add_role %}" method="POST" enctype="multipart/form-data">
 	{% endif %}
 		{% csrf_token %}
 	<ul>
-		<li>
-			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}" class="required"/>
+		<li  title="您所创建的角色的名字。">
+			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}" class="required" title="角色的名字"/>
 		</li>
 		<li>性别:<br/>	
 			<input type="radio" name="gender" value="0" checked="checked">女
 			<input type="radio" name="gender" value="1" {% if role.gender == '1' %} checked="checked" {% endif %}>男 
 			<input type="radio" name="gender" value="2" {% if role.gender == '2' %} checked="checked" {% endif %}>？
 		</li>
-		<li>
-			关系:<br/><input type="text" name="relation" id="relation" style="width:100px" value="{{ role.relation }}" class="required"/>
+		<li title="角色和您的关系？例如:<span style='color:red'><b>代理人</b></span>">
+			关系:<br/><input type="text" name="relation" id="relation" value="{{ role.relation }}" class="required"/>
 		</li>
-		<li>
-			生日:<br/><input type="text" id="birthday" name="birthday" value="{{ role.birthday|safe}}"/>
+		<li title="角色属性，请使用空格分割，例如:<span style='color:red'><b>眼镜娘 LOLI</b></span>">
+			属性:<br/><input type="text" id="tags" name="tags" value="{{ role.tags|safe}}"/>
 	
 		</li>
-		<li>
+		<li title="对角色进行描述">
 			资料: <textarea id="resume" name="resume" rows="8">{{role.resume}}</textarea>
 		</li>
-		<li><input type="file" id="id_role_image" name="role_image"/>
-			<span style="color:red">·选择图片上传将会替换在左边设置的角色</span>
+		<li title="上传角色图片，左侧的人物设置将会被忽略。<br/>建议使用<span style='color:red'><b>透明背景的png</b></span>，大小在330x400以下">
+			自定义图片：<input type="file" id="id_role_image" name="role_image"/>
 		</li>
 		<li>
 			<input type="hidden" id="profile" name="profile" value="" />
-			<p><input type="submit" value="提交" /></p>
+			<p><input type="button" value="提交" onclick="validator_role_from()"/></p>
 		</li>
 	</ul>
 	</form>
@@ -143,16 +143,8 @@
 
 {% block js %}
 <script>
-	$(document).ready(function(){		
-		$("#role_form").validate({
-			messages :{
-				birthday : {dateISO:'请使用YYYY-mm-dd的格式'}},
-			rules: {
-    			birthday: {
-			      dateISO: true
-    			}
-			}
-		});
+	$(document).ready(function(){			
+		$('[title]').colorTip({color:'black'});
 	});
 		
 	var role_dom = ['cloth', 'hair', 'face', 'eye'];
@@ -195,6 +187,11 @@
 			json[i] = '"'+document.getElementById(role_dom[i]).getAttribute('style')+'"';
 		}
 		profile.value = json;
+		if ( $("#rolename").val() == '' )
+		{
+			jAlert('您是不是忘记填写角色名字了？', 'Submit Failed') ;
+		}
+		else $("#role_form").submit();
 	}
 	
 	function change_role(name, value, pos)

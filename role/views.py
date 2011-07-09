@@ -14,6 +14,8 @@ import md5
 
 def role_list(request):
     role_list = Role.objects.all()
+    for i in range(len(role_list)):
+		role_list[i].tags = role_list[i].tags.split(' ') #角色属性标签
     link_role_list = []
     #获得用户ID
     uid = request.user.id
@@ -32,6 +34,7 @@ def role_list(request):
     except:
         role_list = paginator.page(paginator.num_pages)
     #分页结束
+
     ctx = {
         'role_list' : role_list,
         'link_role_list' : link_role_list
@@ -57,7 +60,7 @@ def add_role(request):
             role_profile = ''
         userrole = Role (
             name            = data['rolename'],
-            birthday        = data['birthday'],
+            tags        = data['tags'],
             gender          = data['gender'],
             relation        = data['relation'],
             resume          = data['resume'],
@@ -87,7 +90,7 @@ def edit_role(request, role_id):
             role_image = request.FILES['role_image']
         userrole            = Role.objects.get(id=role_id)
         userrole.name       = data['rolename']
-        userrole.birthday   = data['birthday']
+        userrole.tags   = data['tags']
         userrole.gender     = data['gender']
         userrole.relation   = data['relation']
         userrole.profile    = data['profile']
