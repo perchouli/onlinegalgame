@@ -52,7 +52,7 @@
 			{% for story in story_list.object_list %}
 				{% if not forloop.counter|divisibleby:2 %}
 				<li>
-					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
+					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image|default:"static/images/mapback.jpg" }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
 					<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
 					<p>创建日期： {{story.cdate|safe}}</p><br/>
 					<p class="summary"> {{ story.summary }} </p>
