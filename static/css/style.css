@@ -40,7 +40,7 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 	.unlogin li h2 a:hover{color:#7BCA1C}
 	.unlogin li p {margin-top:15px}
 	.unlogin img {float:left;margin-right:20px;}
-.stepnum { color: #FFB83B; font-size:5em; font-family: Helvetica; font-weight: bold; font-style: italic;}
+.stepnum { color: #FFB83B; font-size:5em; font-family: Helvetica; font-weight: bold; font-style: italic;margin-right: 10px;}
 .stepfont { font-size:2em; font-family: "Times New Roman"; font-weight: bold; color:#333}
 
 /*1.2top style*/
@@ -61,7 +61,7 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 #footer .copyright { width: 960px; margin: 0 auto; text-align: left; }
 /*1.3main style end*/
 /*1.4footer style*/
-#footer { padding: 15px 0 15px 0; background-color: #DDDDD5; line-height: 20px; -webkit-box-shadow: 5px 5px 5px #c9c9c9; /* Safari */ border: 1px solid; border-color: #c9c9c9; }
+#footer { padding: 15px 0 15px 0; background-color: #efefef; line-height: 20px; -webkit-box-shadow: 5px 5px 5px #c9c9c9; /* Safari */ border: 1px solid; border-color: #c9c9c9; }
 #footer .footer-menu, #footer .footer-menu a {  margin: 0px 8px; text-align:center; }
 
 /* Delete
@@ -105,7 +105,11 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 
 
 /* 4. Upload */
-.uploadifyButton{background:0;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;color:#FFF;font:12px Arial, Helvetica, sans-serif;text-align:center;width:110px;margin-top:5px;padding:8px 0;}
+.uploadifyButton{background:0;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;color:#FFF;font:12px Arial, Helvetica, sans-serif;text-align:center;width:110px;margin-top:5px;padding:8px 0;
+	background:#789842;
+	background:-moz-gradient(linear, left top, left bottom, from(#a9c644),to(#789842));
+	background:-webkit-gradient(linear,0% 0,0% 100%,from(#a9c644),to(#789842));
+}
 .uploadify:hover .uploadifyButton{background-color:gray;}
 .uploadifyQueueItem{background-color:#F5F5F5;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;font:11px Verdana, Geneva, sans-serif;margin-top:5px;max-width:350px;padding:10px;}
 .uploadifyError{background-color:#FDE5DD!important;}
