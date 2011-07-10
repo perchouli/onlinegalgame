@@ -1,0 +1,10 @@
+{% extends 'djiki/base.html' %}
+{% load i18n djiki_tags %}
+{% block title %}{{ page.title }} | {{ block.super }}{% endblock %}
+{% block djiki_actions %}
+		<div class="crumb2">
+  			<p> {% trans "Action" %}： <a href="{% url djiki-page-view page.title|urlize_title %}">{% trans "Page" %}</a> | <strong><a href="{% url djiki-page-edit page.title|urlize_title %}" rel="nofollow">{% trans "Edit" %}</a></strong> | <a href="{% url djiki-page-history page.title|urlize_title %}" rel="nofollow">{% trans "History" %}</a>{% block breadcrumbs %}{% endblock %} | <a href="?raw=1" rel="nofollow">{% trans "Get source" %}</a></p>
+		</div>
+		<div class="clear"></div>
+<div class="clear"></div>
+{% endblock %}

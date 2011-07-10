@@ -135,8 +135,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     # -'django_openid_auth',
     
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
@@ -148,8 +146,8 @@ INSTALLED_APPS = (
 	'onlinegalgame.accounts',
     'onlinegalgame.role',
     'onlinegalgame.story',
-    'onlinegalgame.forum',
     'onlinegalgame.fileupload',
+    'onlinegalgame.wiki',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -188,3 +186,7 @@ LOGGING = {
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+
+DJIKI_IMAGES_PATH = os.path.join(PROJECT_PATH,'static/images/wiki')
+DJIKI_SPACES_AS_UNDERSCORES = True
+DJIKI_ALLOW_ANONYMOUS_EDITS = True
