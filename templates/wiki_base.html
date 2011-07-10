@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %} WIKI {% endblock %}
+
+{% block content %}
+<style type="text/css">
+.content h1 {float: none; }
+.content h3 {margin: 10px 0px; }
+.content ul li {list-style: square inside; margin: 3px 10px 3px 10px;}
+.main { margin: 20px 0px;}
+</style>
+	{% block messages %}
+	{% if messages %}
+	<div id="messages" class="container_12">
+		<div class="grid_12">
+			<ul>
+				{% for msg in messages %}
+				<li class="{{ msg.tags }}">{{ msg|safe }}333</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	{% endif %}
+	{% endblock %}
+{% block page %}{% endblock %}
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" >
+$(document).ready(function(){
+	$('#id_content').attr({'cols':70, 'rows':20});
+	$("input, textarea").uniform();
+});
+</script>
+{% endblock %}
