@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-09 14:09+0800\n"
+"POT-Creation-Date: 2011-07-10 13:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,237 +32,12 @@ msgstr ""
 msgid "Comfirm Pass"
 msgstr ""
 
-#: forum/feeds.py:28
-#, python-format
-msgid "%(title)s's Forum: %(forum)s"
-msgstr ""
-
-#: forum/feeds.py:32
-#, python-format
-msgid "%(title)s's Forum"
-msgstr ""
-
-#: forum/feeds.py:38
-msgid "Latest forum posts"
-msgstr ""
-
-#: forum/forms.py:5 forum/models.py:34 forum/models.py:163
-msgid "Title"
-msgstr ""
-
-#: forum/forms.py:6 forum/forms.py:10 forum/models.py:215
-msgid "Body"
-msgstr ""
-
-#: forum/models.py:35
-msgid "Slug"
-msgstr ""
-
-#: forum/models.py:37
-msgid "Description"
-msgstr ""
-
-#: forum/models.py:38 forum/models.py:184
-msgid "Threads"
-msgstr ""
-
-#: forum/models.py:39 forum/models.py:166 forum/models.py:257
-#: forum/templates/forum/thread_list.html:42
-msgid "Posts"
-msgstr ""
-
-#: forum/models.py:40
-msgid "Ordering"
-msgstr ""
-
-#: forum/models.py:91
-msgid "Forum parents"
-msgstr ""
-
-#: forum/models.py:121
-msgid "Forum"
-msgstr ""
-
-#: forum/models.py:122
-msgid "Forums"
-msgstr ""
-
-#: forum/models.py:127
-msgid "You must not save a forum in itself!"
-msgstr ""
-
-#: forum/models.py:164
-msgid "Sticky?"
-msgstr ""
-
-#: forum/models.py:165
-msgid "Closed?"
-msgstr ""
-
-#: forum/models.py:167 forum/templates/forum/thread_list.html:43
-msgid "Views"
-msgstr ""
-
-#: forum/models.py:168
-msgid "Latest Post Time"
-msgstr ""
-
-#: forum/models.py:183 forum/templates/forum/thread_list.html:41
-msgid "Thread"
-msgstr ""
-
-#: forum/models.py:217
-msgid "Time"
-msgstr ""
-
-#: forum/models.py:256 forum/templates/forum/newthread.html:22
-#: forum/templates/forum/reply.html:18
-#: forum/templates/forum/thread_list.html:73
-msgid "Post"
-msgstr ""
-
-#: forum/models.py:274
-msgid "Subscription"
-msgstr ""
-
-#: forum/models.py:275
-msgid "Subscriptions"
-msgstr ""
-
-#: forum/templates/forum/newthread.html:4
-#: forum/templates/forum/newthread.html:11
-#, python-format
-msgid "New Thread in %(title)s"
-msgstr ""
-
-#: forum/templates/forum/newthread.html:7
-#, python-format
-msgid "%(forum.title)s Posts via RSS"
-msgstr ""
-
-#: forum/templates/forum/newthread.html:8
-#, python-format
-msgid "%(forum.title)s Posts via ATOM"
-msgstr ""
-
-#: forum/templates/forum/newthread.html:13
-msgid "New Thread"
-msgstr ""
-
-#: forum/templates/forum/newthread.html:18
-#: forum/templates/forum/thread_list.html:69
-msgid "Create a Thread"
-msgstr ""
-
-#: forum/templates/forum/reply.html:4
-#, python-format
-msgid "Reply to thread  \"%(title)s\""
-msgstr ""
-
-#: forum/templates/forum/reply.html:6
-#, python-format
-msgid "Reply to Thread \"%(title)s\""
-msgstr ""
-
-#: forum/templates/forum/reply.html:13
-msgid "Reply to Thread"
-msgstr ""
-
-#: forum/templates/forum/reply.html:16
-msgid "Posting As"
-msgstr ""
-
-#: forum/templates/forum/thread.html:8
-#: forum/templates/forum/thread_list.html:13
-#: forum/templates/forum/thread_list.html:27
-#, fuzzy
-msgid "post"
-msgid_plural "posts"
-msgstr[0] ""
-"#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-"#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-msgstr[1] "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-
-#: forum/templates/forum/thread.html:16
-#, python-format
-msgid "%(time)s ago"
-msgstr ""
-
-#: forum/templates/forum/thread.html:17
-msgid "by"
-msgstr ""
-
-#: forum/templates/forum/thread.html:25
-#: forum/templates/forum/thread_list.html:61
-msgid "First"
-msgstr ""
-
-#: forum/templates/forum/thread.html:29
-#: forum/templates/forum/thread_list.html:65
-msgid "Last"
-msgstr ""
-
-#: forum/templates/forum/thread.html:34
-msgid "Post a Reply"
-msgstr ""
-
-#: forum/templates/forum/thread.html:36
-msgid "Sorry, this thread is closed. No further replies are permitted."
-msgstr ""
-
-#: forum/templates/forum/thread.html:41
-msgid "Submit"
-msgstr ""
-
-#: forum/templates/forum/thread.html:44
-msgid "Please login to post a reply."
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:7
-#, python-format
-msgid "%(ftitle)s Posts via RSS"
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:8
-#, python-format
-msgid "%(ftitle)s Posts via ATOM"
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:13
-#: forum/templates/forum/thread_list.html:27
-msgid "thread"
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:21
-msgid "Sub-Forum"
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:22
-#: forum/templates/forum/thread_list.html:44
-msgid "Last Post"
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:30
-#: forum/templates/forum/thread_list.html:53
-#, python-format
-msgid "%(time)s ago by %(author)s"
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:30
-#: forum/templates/forum/thread_list.html:53
-msgid "view"
-msgstr ""
-
-#: forum/templates/forum/thread_list.html:30
-msgid "No Posts"
-msgstr ""
-
 #: role/templates/role/list.html:3 templates/base.html:33
-#: templates/forum_base.html:105
 msgid "Role List"
 msgstr ""
 
-#: role/templates/role/list.html:47
+#: role/templates/role/list.html:47 wiki/templates/djiki/base_page.html:6
+#: wiki/templates/djiki/edit.html:3
 msgid "Edit"
 msgstr ""
 
@@ -279,7 +54,6 @@ msgid "Resume"
 msgstr ""
 
 #: story/templates/story/list.html:3 templates/base.html:36
-#: templates/forum_base.html:108
 msgid "All Story"
 msgstr ""
 
@@ -299,18 +73,245 @@ msgstr ""
 msgid "Back home"
 msgstr ""
 
-#: templates/base.html:30 templates/forum_base.html:102
+#: templates/base.html:30
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:39 templates/forum_base.html:111
-msgid "Community"
+#: templates/base.html:39
+msgid "Wiki"
 msgstr ""
 
-#: templates/base.html:43 templates/forum_base.html:115
+#: templates/base.html:43
 msgid "Log out"
 msgstr ""
 
-#: templates/base.html:47 templates/forum_base.html:119
+#: templates/base.html:47
 msgid "Log in"
 msgstr ""
+
+#: wiki/forms.py:40
+msgid ""
+"Somebody else has modified this page in the meantime. It is not possible to "
+"merge all the changes automatically. Stash your version somewhere else and "
+"reapply with the latest revision."
+msgstr ""
+
+#: wiki/forms.py:76
+msgid ""
+"Somebody else has modified this image in the meantime. Please review these "
+"changes before uploading your version."
+msgstr ""
+
+#: wiki/forms.py:88 wiki/models.py:58
+msgid "Name"
+msgstr ""
+
+#: wiki/forms.py:89
+msgid ""
+"If you leave it empty, the original name of the uploaded file will be used."
+msgstr ""
+
+#: wiki/forms.py:103
+msgid "An image of the same name already exists. Please enter different name."
+msgstr ""
+
+#: wiki/models.py:25
+msgid "Created"
+msgstr ""
+
+#: wiki/models.py:26 wiki/templates/djiki/history.html:14
+#: wiki/templates/djiki/image_history.html:12
+msgid "Author"
+msgstr ""
+
+#: wiki/models.py:27 wiki/templates/djiki/history.html:15
+#: wiki/templates/djiki/image_history.html:14
+msgid "Description"
+msgstr ""
+
+#: wiki/models.py:35
+msgid "Title"
+msgstr ""
+
+#: wiki/models.py:46
+msgid "Content"
+msgstr ""
+
+#: wiki/models.py:69
+msgid "File"
+msgstr ""
+
+#: wiki/views.py:32
+#, python-format
+msgid ""
+"The version you are viewing is not the latest one, but represents an older "
+"revision of this page, which may have been significantly modified. If it is "
+"not what you intended to view, <a href=\"%(url)s\">proceed to the latest "
+"version</a>."
+msgstr ""
+
+#: wiki/views.py:71
+msgid ""
+"The content you see on this page is shown only as a preview. <strong>No "
+"changes have been saved yet.</strong> Please review the modifications and "
+"use the <em>Save</em> button to store them permanently."
+msgstr ""
+
+#: wiki/views.py:126
+#, python-format
+msgid "Reverted to revision of %(time)s by %(user)s."
+msgstr ""
+
+#: wiki/views.py:129
+#, python-format
+msgid "Reverted to anonymous revision of %(time)s."
+msgstr ""
+
+#: wiki/views.py:155
+#, python-format
+msgid "Undid revision of %(time)s by %(user)s."
+msgstr ""
+
+#: wiki/views.py:158
+#, python-format
+msgid "Undid anonymous revision of %(time)s."
+msgstr ""
+
+#: wiki/views.py:170
+msgid ""
+"It was impossible to automatically undo the change you have selected. "
+"Perhaps the page has been modified too much in the meantime. Review the "
+"following content comparison, which represents the change you tried to undo, "
+"and apply the changes manually to the latest revision."
+msgstr ""
+
+#: wiki/templates/djiki/base_image.html:3
+#: wiki/templates/djiki/base_image.html:6
+msgid "Image"
+msgstr ""
+
+#: wiki/templates/djiki/base_image.html:7
+msgid "Edit image"
+msgstr ""
+
+#: wiki/templates/djiki/base_image.html:8
+#: wiki/templates/djiki/base_page.html:6
+msgid "History"
+msgstr ""
+
+#: wiki/templates/djiki/base_image.html:9
+msgid "Upload"
+msgstr ""
+
+#: wiki/templates/djiki/base_page.html:6
+msgid "Action"
+msgstr ""
+
+#: wiki/templates/djiki/base_page.html:6
+msgid "Page"
+msgstr ""
+
+#: wiki/templates/djiki/base_page.html:6
+msgid "Get source"
+msgstr ""
+
+#: wiki/templates/djiki/diff.html:3
+msgid "Content comparison"
+msgstr ""
+
+#: wiki/templates/djiki/diff.html:8
+#, python-format
+msgid ""
+"\n"
+"\t\tComparing content of the page between %(from_time)s and %(to_time)s."
+msgstr ""
+
+#: wiki/templates/djiki/edit.html:34 wiki/templates/djiki/image_edit.html:13
+msgid "Save"
+msgstr ""
+
+#: wiki/templates/djiki/edit.html:35
+msgid "Preview"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:3
+msgid "Page history"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:12
+#: wiki/templates/djiki/image_history.html:11
+msgid "Modification time"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:13
+msgid "Compare"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:16
+msgid "Operations"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:23
+msgid "View"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:25
+#, python-format
+msgid "%(timesince)s ago"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:33
+#: wiki/templates/djiki/image_history.html:23
+msgid "anonymous"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:37
+msgid "Revert to this version by discarding all later modifications."
+msgstr ""
+
+#: wiki/templates/djiki/history.html:37
+msgid "revert"
+msgstr ""
+
+#: wiki/templates/djiki/history.html:38
+msgid "Undo this revision."
+msgstr ""
+
+#: wiki/templates/djiki/history.html:38
+msgid "undo"
+msgstr ""
+
+#: wiki/templates/djiki/image_edit.html:3
+#: wiki/templates/djiki/image_edit.html:7
+msgid "New image"
+msgstr ""
+
+#: wiki/templates/djiki/image_history.html:3
+msgid "Image history"
+msgstr ""
+
+#: wiki/templates/djiki/image_history.html:13
+msgid "Thumbnail"
+msgstr ""
+
+#: wiki/templates/djiki/not_found.html:5
+#, python-format
+msgid ""
+"The page with title <strong>%(title)s</strong> does not exist.\n"
+"Please make sure your spelling is correct.\n"
+msgstr ""
+
+#: wiki/templates/djiki/not_found.html:10
+#, python-format
+msgid ""
+"You may also <a href=\"%(edit_url)s\">create a new page</a>\n"
+"named <strong>%(title)s</strong>.\n"
+msgstr ""
+
+#, fuzzy
+#~ msgid "post"
+#~ msgid_plural "posts"
+#~ msgstr[0] ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ msgstr[1] "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
