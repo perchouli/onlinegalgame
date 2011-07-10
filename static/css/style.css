@@ -23,7 +23,7 @@ a:hover { color: green; text-decoration: none; cursor: pointer; }
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* End hide from IE-mac */  
-#wrapper { margin: 0 auto; text-align: left; width: 960px; padding-bottom:20px; }
+#wrapper { margin: 0 auto; text-align: left; width: 960px; padding-bottom:20px; min-height: 450px;}
 .clear { clear: both; height: 0; overflow: hidden; }
 /*1.1public style end*/
 
