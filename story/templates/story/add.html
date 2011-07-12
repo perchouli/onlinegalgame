@@ -248,6 +248,7 @@
 		dia_content = dia_content.replace(',','，');
 		var el = document.getElementById('process_frame');
 		el.innerHTML += '<li data-type="DIALOG" data-value="'+dia_content+'"><span style="color:green">对话</span>'+dia_content+'</li>';
+		$("#dialog").append(dia_content);
 	}
 	
 	function clear_role()

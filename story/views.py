@@ -107,8 +107,10 @@ def show_story(request, story_id):
     ctx = {
         'story'     : story,
         'command'   : command,
-        'role_list' : role_list
+        'role_list' : role_list,
+        'story_list': UserStory.objects.filter(author=story.author.id).order_by('sort')
     }
+    print story_list
     return render_to_response('story/show.html', ctx, context_instance = RequestContext(request))
 
 @csrf_exempt
