@@ -41,6 +41,7 @@
 	#process_frame { width:200px;height:200px;background:#c6c6c6;overflow:hidden; text-overflow	:ellipsis; }
 	#process_frame li:nth-child(odd) { background:#fff;text-overflow: ellipsis; }
 	#story_info { margin:18px;float:left;  float:left; width:300px;}
+		#story_info h3 { margin-top:15px;}
 	#popup_ok{ margin-left:100px}
 </style>
 </head>
@@ -61,8 +62,8 @@
 	<div id="story_info">
 	<h2>{{story.title}}</h2><br>
 			{{story.summary}}
-	<h2>本故事所有场景</h2><br>
-		<ul style="postion:ab">
+	<h3>本故事所有场景</h3>
+		<ul>
 			{% for s in story_list %}
 			<li><a href="{% url show_story s.id %}">{{s.title}}</a>{% if s.id == story.id %}[当前场景]{% endif %}</li>
 			{% endfor %}
