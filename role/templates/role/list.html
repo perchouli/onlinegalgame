@@ -59,6 +59,7 @@
 				</div>
 				
 				<div id="role_{{role.id}}_resume" class="role_resume">
+					<h3>{{role.name}}</h3>
 					<p><a href="#">{{role.author}}</a> 的 <a href="#">{{role.relation|default:"角色"}}</a></p>
 					<p>属性：{%for tag in role.tags %}<a href="#" style="text-decoration: underline;">{{tag|default:"无"}}</a> {% endfor %}</p>
 					<p>{{role.resume}}</p>
