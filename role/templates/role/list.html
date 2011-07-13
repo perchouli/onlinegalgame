@@ -37,7 +37,7 @@
 	 	{% for role in role_list.object_list %}
 			<div id="role_{{role.id}}" class="show_role" 
 			{% if role.image %}
-			style="background-image:url(/{{role.image}}); background-repeat: no-repeat; "
+			style="background-image:url(/{{role.image}}); background-repeat: no-repeat;background-position:bottom; "
 			{% else %}
 			style="background-image:{{role.profile|cut:"background:"|cut:"\""|replace|join:','}}; background-repeat: no-repeat; "
 			{% endif %}
