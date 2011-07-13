@@ -64,16 +64,16 @@
 	</div>
 	<div class="pagination">
 	    <span class="step-links">
-	        {% if story_list.has_previous %}
-	            <a href="?page={{ story_list.previous_page_number }}">previous</a>
+	        {% if user_list.has_previous %}
+	            <a href="?page={{ user_list.previous_page_number }}">previous</a>
 	        {% endif %}
 	
 	        <span class="current">
-	            Page {{ story_list.number }} of {{ story_list.paginator.num_pages }}.
+	            Page {{ user_list.number }} of {{ user_list.paginator.num_pages }}.
 	        </span>
 	
-	        {% if story_list.has_next %}
-	            <a href="?page={{ story_list.next_page_number }}">next</a>
+	        {% if user_list.has_next %}
+	            <a href="?page={{ user_list.next_page_number }}">next</a>
 	        {% endif %}
 	    </span>
 	</div>
