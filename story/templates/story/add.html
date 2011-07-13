@@ -246,8 +246,9 @@
 	{
 		var  dia_content = document.getElementById('dialog_input').value;
 		dia_content = dia_content.replace(',','，');
+		var dia_summary = dia_content.slice(0,10);
 		var el = document.getElementById('process_frame');
-		el.innerHTML += '<li data-type="DIALOG" data-value="'+dia_content+'"><span style="color:green">对话</span>'+dia_content+'</li>';
+		el.innerHTML += '<li data-type="DIALOG" data-value="'+dia_content+'"><span style="color:green">对话</span>'+dia_summary+'……'+'</li>';
 		$("#dialog").append(dia_content);
 	}
 	

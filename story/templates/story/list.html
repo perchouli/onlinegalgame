@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n getstory %}
 {% block title %} {% trans "All Story" %}  {% endblock %}
 
 {% block content %}
@@ -23,13 +23,13 @@
 	<div class="category"></div>
 	<div class="story_list">
 		<ul>
-		{% for story in story_list.object_list %}
+		{% for user in user_list.object_list %}
 			{% if forloop.counter|divisibleby:2 %}
 			<li>
-				<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ story.title }}</h4></div>
-				<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
-				<p>创建日期： {{story.cdate|safe}}</p><br/>
-				<p class="summary"> {{ story.summary }} </p>
+				<div style="float:left;margin-right:20px"><a href="{%url show_story user.id|getstory:"storyid" %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ user.id|getstory:"title" }}</h4></div>
+				<p><a href="#">{{user.username}}</a> 的故事 </p>
+				<p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
+				<p class="summary"> {{ user.id|getstory:"summary" }} </p>
 			</li>
 			{% endif %}
 		{% endfor %}
@@ -49,13 +49,13 @@
 	<div class="page">
 		<div class="story_list">
 			<ul>
-			{% for story in story_list.object_list %}
+			{% for user in user_list.object_list %}
 				{% if not forloop.counter|divisibleby:2 %}
 				<li>
-					<div style="float:left;margin-right:20px"><a href="{%url show_story story.id %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Good info"/></a><h4>{{ story.title }}</h4></div>
-					<p><a href="#">{{story.author}}</a> 的 <a href="#">第 {{story.sort}} 个场景</a> </p>
-					<p>创建日期： {{story.cdate|safe}}</p><br/>
-					<p class="summary"> {{ story.summary }} </p>
+					<div style="float:left;margin-right:20px"><a href="{%url show_story user.id|getstory:"storyid" %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ user.id|getstory:"title" }}</h4></div>
+					<p><a href="#">{{user.username}}</a> 的故事 </p>
+					<p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
+					<p class="summary"> {{ user.id|getstory:"summary" }} </p>
 				</li>
 				{% endif %}
 			{% endfor %}

@@ -18,19 +18,28 @@ import json
 import os
 
 def story_list(request):
-    story_list = UserStory.objects.all()
+    story_list = list(UserStory.objects.all())
+    user_list = User.objects.all()
+#    for i in range(len(story_list)):
+#        print story_list[i].author
+#        if story_list[i].author not in user_list:
+#            user_list.append(story_list[i].author)
+#        else:
+#            story_list.pop(i)
+#    print user_list
+
     #分页开始，6个故事为一页
-    paginator = Paginator(story_list,6)
+    paginator = Paginator(user_list,6)
     try:
         page = int(request.GET.get('page',1))
     except ValueError:
         page = 1
     try:
-        story_list = paginator.page(page)
+        user_list = paginator.page(page)
     except:
-        story_list = paginator.page(paginator.num_pages)
+        user_list = paginator.page(paginator.num_pages)
     #分页结束
-    return render_to_response('story/list.html', {'story_list':story_list }, context_instance = RequestContext(request))
+    return render_to_response('story/list.html', {'user_list':user_list }, context_instance = RequestContext(request))
 
 @csrf_exempt   
 @login_required
@@ -144,6 +153,10 @@ def story_upload_update(request):
     for file in user_upload_list:
         file_list += file.image + '|'
     return HttpResponse(file_list)
+
+@csrf_exempt
+def delete_story(request):
+    pass
 
 def __unicode__(self):
     return u'%s %s %s' % (self.title, self.summary, self.process)
