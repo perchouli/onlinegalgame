@@ -161,7 +161,7 @@
 				$("#"+role_dom[i]).attr("style",'');
 			}	
 			//直接显示用户上传的角色图片
-			$('#cloth').attr('style',"background:url('/{{role.image}}') no-repeat;width:500px");//src("{{role.image");
+			$('#cloth').attr('style',"background:url('/{{role.image}}') no-repeat;width:500px;background-position:bottom;");//src("{{role.image");
 		}
 		{% if role_id %}
 		else
