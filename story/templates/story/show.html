@@ -67,7 +67,7 @@
 		<ul>
 			<li id="tips"></li>
 			{% for s in story_list %}
-			<li><span onclick="delStory({{s.id}})" style="font-size:10;margin-right:10px;color:red;">x</span><a {% if s.id == story.id %}class="current"{% endif %} href="{% url show_story s.id %}">{{s.title}}</a> <input type="button" value="Edit" onclick="editStory($(this).parent())"/></li>
+			<li>{% if s.author.id = request.user.id %}<span onclick="delStory({{s.id}})" style="font-size:10;margin-right:10px;color:red;">x</span>{% endif %}<a {% if s.id == story.id %}class="current"{% endif %} href="{% url show_story s.id %}">{{s.title}}</a> {% if s.author.id = request.user.id %}<input type="button" value="Edit" onclick="editStory($(this).parent())"/>{% endif %}</li>
 			<li style="display:none;">排序：<input name="sort" type="text" value="{{s.sort}}" style="width:30px;"/> 场景名：<input name="title" type="text" value="{{s.title}}" style="width:100px"/> <input type="button" value="Submit" onclick="submitEdit($(this).parent(), {{s.id}})"/></li>			
 			{% endfor %}
 		</ul>
