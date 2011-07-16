@@ -164,7 +164,7 @@
 		<div id="story_list">
 			<input type="file" name="storyUpload" id="storyUpload" />
 			{% for file in user_upload_list %}
-				<img src="{{file.image}}" width="100px" height="80"/>
+				<img src="/{{file.image}}" width="100px" height="80"/>
 			{% endfor %}
 		</div>
 	</div>
@@ -200,7 +200,7 @@
 					var file_list = msg.split('|');
 					for ( var i=0; i < file_list.length -1; i++)
 					{
-						$("#story_list").append('<img id="file'+i+'" src="'+file_list[i]+'"  width="100px" height="80" onclick="change_bgd(this.id)"/>');
+						$("#story_list").append('<img id="file'+i+'" src="/'+file_list[i]+'"  width="100px" height="80" onclick="change_bgd(this.id)"/>');
 					}
 				}
 			})
