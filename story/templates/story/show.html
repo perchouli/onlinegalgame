@@ -42,7 +42,7 @@
 		#story_info h3 { margin-top:15px;}
 		#story_info .current {background:#7BCA1C;color:#fcfcfc}
 		
-	#popup_ok{ margin-left:100px}
+	#popup_ok{ margin-left:30px}
 </style>
 </head>
 	<div class="conr-title">
@@ -67,7 +67,7 @@
 		<ul>
 			<li id="tips"></li>
 			{% for s in story_list %}
-			<li><a {% if s.id == story.id %}class="current"{% endif %} href="{% url show_story s.id %}">{{s.title}}</a> <input type="button" value="Edit" onclick="editStory($(this).parent())"/></li>
+			<li><span onclick="delStory({{s.id}})" style="font-size:10;margin-right:10px;color:red;">x</span><a {% if s.id == story.id %}class="current"{% endif %} href="{% url show_story s.id %}">{{s.title}}</a> <input type="button" value="Edit" onclick="editStory($(this).parent())"/></li>
 			<li style="display:none;">排序：<input name="sort" type="text" value="{{s.sort}}" style="width:30px;"/> 场景名：<input name="title" type="text" value="{{s.title}}" style="width:100px"/> <input type="button" value="Submit" onclick="submitEdit($(this).parent(), {{s.id}})"/></li>			
 			{% endfor %}
 		</ul>
@@ -177,14 +177,30 @@
 			dataType: 'json',
 			data: {"sort" : s, "title": t ,"sid":sid},
 			success: function() {
-				$("#tips").css('color','').fadeIn().text('提交成功，刷新后可以看到修改结果').delay(2000).fadeOut();
+				$("#tips").css('color','#7BCA1C').fadeIn().text('提交成功，刷新后可以看到修改结果').delay(2000).fadeOut();
 				//jRight('提交成功，刷新后可以看到新')
 			},
 			error: function() {
 				$("#tips").css('color','red').fadeIn().text('提交失败，可能是服务器错误，请稍候再提交').delay(2000).fadeOut();
 			}
 		});
-		//alert(sid)
+	}
+
+	function delStory(sid){
+		jConfirm('删除后的场景不能再恢复，确认要删除吗？', 'Confirmation Dialog', function(r) {
+			if (r){
+				$.ajax({
+					type:'POST',
+					url: '{%url del_story %}',
+					dataType:'json',
+					data: {"sid": sid },
+					success: function(){
+						if (sid != {{story.id}}) window.location.reload();
+						else window.location.href = '{% url story_list %}'
+					}
+				});
+			}
+       });
 	}
 </script>
 {% endblock %}
