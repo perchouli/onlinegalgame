@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class UserStory(models.Model):
 
-    title = models.CharField(unique=True, max_length=32)
+    title = models.CharField(max_length=32)
     cdate = models.DateField(blank=True)
     author = models.ForeignKey(User)
     summary = models.TextField(blank=True)

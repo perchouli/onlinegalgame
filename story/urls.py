@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 		views.add_story, 
 		name='add_story'),
 
-    url(r'^edit/(?P<story_id>\d+)/$', 
+    url(r'^edit/$', 
 		views.edit_story, 
 		name='edit_story'),
         
@@ -26,7 +26,7 @@ urlpatterns = patterns('',
         views.story_upload_update, 
         name='story_upload_update'),
         
-    url(r'^story_upload_check/$', 
+    url(r'^story_upload_check/(?P<user_id>\d+)$', 
         views.upload_check, 
         name='story_upload_check'),
 	)

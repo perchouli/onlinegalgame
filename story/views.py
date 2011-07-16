@@ -43,23 +43,21 @@ def story_list(request):
 
 @csrf_exempt   
 @login_required
-def edit_story(request, story_id):
-
-    uid = request.session['_auth_user_id']
+def edit_story(request):
     if request.method == 'POST':
         data = request.POST
-        userstory = UserStory.objects.get(id=story_id)
-        userstory.title = data['title']
+        s = UserStory.objects.get(id=int(data['sid']))
+        if s.author.id == request.user.id:
+            s.sort = int(data['sort'])
+            s.title = data['title']
+            s.save()
+        print s#data['sort']
+        #userstory.title = data['title']
         #userrole.date = data['birthday']
-        userstory.summary = data['summary']
-        userstory.process = data['process']
-        userstory.save()
-        return redirect( '/story/list' )
-    else:
-        story = UserStory.objects.get(id=story_id)
-
-        role_list = UserRole.objects.get(author=uid)
-        return render_to_response('story/edit.html', {'story_id': story_id, 'story':story, 'role_list':role_list }, context_instance = RequestContext(request))
+        #userstory.summary = data['summary']
+        #userstory.process = data['process']
+        #userstory.save()
+        return HttpResponse('0')
 
 @csrf_exempt
 @login_required
@@ -146,8 +144,13 @@ def upload(request,user_id):
     return HttpResponse('0')
 
 @csrf_exempt
-def upload_check(request):
+def upload_check(request,user_id):
+    
+    print request.FILES['Filedata'].name
+    
     return HttpResponse('0')
+    #else:
+    #    return HttpResponse('1')
 
 @csrf_exempt
 def story_upload_update(request):

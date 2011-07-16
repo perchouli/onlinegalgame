@@ -3,7 +3,6 @@
 
 {% block content %}
 <style>
-	input, textarea { display:block;}
 	#story , #story_list {margin-top:15px;}
 	#story {float:left; width:500px;height:400px;border:1px solid #ccc; background:#000;}
 	#story_list { background:url({{STATIC_URL}}images/bg-story-sort.jpg) no-repeat; float:left; width:130px; height:400px;border:1px solid #ccc;}
@@ -39,11 +38,10 @@
 	}
 	#dialog p { opacity:1;}
 	
-	#process_frame { width:200px;height:200px;background:#c6c6c6;overflow:hidden; text-overflow	:ellipsis; }
-	#process_frame li:nth-child(odd) { background:#fff;text-overflow: ellipsis; }
 	#story_info { margin:18px;float:left;  float:left; width:300px;}
 		#story_info h3 { margin-top:15px;}
 		#story_info .current {background:#7BCA1C;color:#fcfcfc}
+		
 	#popup_ok{ margin-left:100px}
 </style>
 </head>
@@ -67,8 +65,10 @@
 			{{story.summary}}
 	<h3>故事的所有场景</h3>
 		<ul>
+			<li id="tips"></li>
 			{% for s in story_list %}
-			<li><a {% if s.id == story.id %}class="current"{% endif %} href="{% url show_story s.id %}">{{s.title}}</a></li>
+			<li><a {% if s.id == story.id %}class="current"{% endif %} href="{% url show_story s.id %}">{{s.title}}</a> <input type="button" value="Edit" onclick="editStory($(this).parent())"/></li>
+			<li style="display:none;">排序：<input name="sort" type="text" value="{{s.sort}}" style="width:30px;"/> 场景名：<input name="title" type="text" value="{{s.title}}" style="width:100px"/> <input type="button" value="Submit" onclick="submitEdit($(this).parent(), {{s.id}})"/></li>			
 			{% endfor %}
 		</ul>
 	</div>
@@ -160,5 +160,31 @@
 		}
 		i++;
 	};
+	
+	function editStory(el){
+		el.hide();
+		el.next().show();	
+	}
+	
+	function submitEdit(el,sid){
+		var s = el.children('input[name="sort"]').val();
+		var t = el.children('input[name="title"]').val();
+		el.hide();
+		el.prev().show();
+		$.ajax({
+			type:'POST',
+			url: '{% url edit_story %}',
+			dataType: 'json',
+			data: {"sort" : s, "title": t ,"sid":sid},
+			success: function() {
+				$("#tips").css('color','').fadeIn().text('提交成功，刷新后可以看到修改结果').delay(2000).fadeOut();
+				//jRight('提交成功，刷新后可以看到新')
+			},
+			error: function() {
+				$("#tips").css('color','red').fadeIn().text('提交失败，可能是服务器错误，请稍候再提交').delay(2000).fadeOut();
+			}
+		});
+		//alert(sid)
+	}
 </script>
 {% endblock %}
