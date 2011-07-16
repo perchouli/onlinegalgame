@@ -126,20 +126,23 @@ def show_story(request, story_id):
 def upload(request,user_id):
     user_id = int(user_id)
     file_name = str(request.FILES['Filedata'].name);
+    file_path = 'static/cg/'+str(user_id)+'/'
     try:
-        file_upload = open('static/cg/'+str(user_id)+'/'+file_name, 'w')
+        open(file_path+file_name, 'w')
     except:
-        os.mkdir('static/cg/'+str(user_id))
-        file_upload = open('static/cg/'+str(user_id)+'/'+file_name, 'w')
+        os.mkdir(file_path)
+        file_upload = open(file_path+file_name, 'w')
     else:
-        file_upload = open('static/cg/'+str(user_id)+'/'+file_name, 'w')
+        file_upload = open(file_path+file_name, 'w')
     file_upload.write(request.FILES['Filedata'].read())
     file_upload.close()
-    upload_file = StoryUpload(
+    file_exist = StoryUpload.objects.filter(image=file_path+file_name).count()
+    if file_exist == 0:
+        upload_file = StoryUpload(
         uid = User.objects.get(id=user_id),
-        image = '/static/cg/'+str(user_id)+'/'+request.FILES['Filedata'].name
+        image = 'static/cg/'+str(user_id)+'/'+request.FILES['Filedata'].name
             )
-    upload_file.save()
+        upload_file.save()
     return HttpResponse('0')
 
 @csrf_exempt
