@@ -184,7 +184,7 @@
 		'uploader' 	: '{% url story_upload request.user.id%}', 
 		'script'	: '{% url story_upload request.user.id %}', 
 		'cancelImage' : '{{STATIC_URL}}images/icon/cancel.png',
-		'checkExisting' : '{%url story_upload_check  %}',
+		'checkExisting' : '{%url story_upload_check request.user.id %}',
 		'removeCompleted': true,
 		'fileExt'     : '*.jpg;*.gif;*.png',
 		'auto'		: true,

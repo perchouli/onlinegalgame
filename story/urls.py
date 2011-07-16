@@ -14,6 +14,10 @@ urlpatterns = patterns('',
 		views.edit_story, 
 		name='edit_story'),
         
+    url(r'^del/$', 
+		views.del_story, 
+		name='del_story'),
+
     url(r'^show/(?P<story_id>\d+)/$', 
         views.show_story, 
         name='show_story'),

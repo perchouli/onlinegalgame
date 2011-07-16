@@ -43,6 +43,16 @@ def story_list(request):
 
 @csrf_exempt   
 @login_required
+def del_story(request):
+    if request.method == 'POST':
+        data = request.POST
+        s = UserStory.objects.get(id=int(data['sid']))
+        if s.author.id == request.user.id:
+            s.delete()
+        return HttpResponse('0')
+
+@csrf_exempt   
+@login_required
 def edit_story(request):
     if request.method == 'POST':
         data = request.POST
@@ -51,12 +61,6 @@ def edit_story(request):
             s.sort = int(data['sort'])
             s.title = data['title']
             s.save()
-        print s#data['sort']
-        #userstory.title = data['title']
-        #userrole.date = data['birthday']
-        #userstory.summary = data['summary']
-        #userstory.process = data['process']
-        #userstory.save()
         return HttpResponse('0')
 
 @csrf_exempt
