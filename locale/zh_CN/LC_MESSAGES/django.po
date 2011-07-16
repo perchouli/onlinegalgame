@@ -56,7 +56,7 @@ msgstr "资料"
 
 #: story/templates/story/list.html:3 templates/base.html:36
 msgid "All Story"
-msgstr "所有场景"
+msgstr "所有故事"
 
 #: templates/404.html:31
 msgid "Error 404"

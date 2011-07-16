@@ -102,6 +102,7 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 #popup_panel{text-align:center;margin:1em 0 0 1em;}
 #popup_prompt{margin:.5em 0;}
 #popup_ok{-moz-border-radius:3px;background:#333;border-radius:3px;color:#FFF;height:20px;text-shadow:rgba(0,0,0,0.3) 0 -1px 0;width:40px;font-weight:700;border-color:#333;}
+#popup_cancel{-moz-border-radius:3px;background:#333;border-radius:3px;color:#FFF;height:20px;text-shadow:rgba(0,0,0,0.3) 0 -1px 0;font-weight:700;border-color:#333;}
 
 
 /* 4. Upload */
