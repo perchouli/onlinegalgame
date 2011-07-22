@@ -63,7 +63,7 @@ def add_role(request):
         if data['parent'] != 0:
             userrole = Role (
                 name            = data['rolename'],
-                parent          = Role.objects.get(id=int(data['parent'])),
+                parent_id       = int(data['parent']), 
                 author          = User.objects.get(id=request.user.id),
                 profile         = role_profile,
                 image           = role_image,
@@ -74,6 +74,7 @@ def add_role(request):
                 tags            = data['tags'],
                 gender          = data['gender'],
                 relation        = data['relation'],
+                parent          = data['parent'], 
                 resume          = data['resume'],
                 author          = User.objects.get(id=request.user.id),
                 profile         = role_profile,
@@ -119,10 +120,13 @@ def edit_role(request, role_id):
         userrole.save()
         return redirect( '/role/list' )
     else:
-        role = Role.objects.get(id=role_id)
-        cloth_list = RoleDress.objects.filter(category='cloth')
-        hair_list = RoleDress.objects.filter(category='hair')
-        return render_to_response('role/view.html', {'role_id': role_id, 'role':role, 'cloth_list' : cloth_list,  'hair_list' : hair_list }, context_instance = RequestContext(request))
+        ctx = {
+            'role_list' : Role.objects.filter(author=request.user.id).filter(parent=0),
+            'role' : Role.objects.get(id=role_id),
+            'cloth_list' : RoleDress.objects.filter(category='cloth'),
+            'hair_list' : RoleDress.objects.filter(category='hair')
+        }
+        return render_to_response('role/view.html', ctx, context_instance = RequestContext(request))
 
 @login_required
 def link_role(request):

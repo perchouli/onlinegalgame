@@ -3,11 +3,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Role(models.Model):
-    name = models.CharField(unique=True, max_length=32)
+    name = models.CharField(max_length=32)
     tags = models.TextField(blank=True)
     gender = models.CharField(max_length=8,blank=True)
     relation = models.CharField(max_length=16)
-    parent = models.ForeignKey('self', default=0)
+    parent = models.ForeignKey('self',default=0)
     author = models.ForeignKey(User)
     resume = models.TextField(blank=True)
     profile = models.TextField(blank=True)

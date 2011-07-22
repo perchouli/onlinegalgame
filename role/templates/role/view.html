@@ -44,6 +44,8 @@
 				{% for r in role_list %}<option id="role{{r.id}}" value="{{r.id}}" data-rolename="{{r.name}}" data-relation="{{r.relation}}" data-tags="{{r.tags}}" data-resume="{{r.resume}}">{{r.name}}</option>{% endfor%}
 			</select>
 		</li>
+		{% else %}
+		<input type="hidden" id="parent" name="parent" value="0"/>
 		{% endif %}
 		<li  title="您所创建的角色的名字">
 			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}"/>
