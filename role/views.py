@@ -15,7 +15,8 @@ import hashlib, datetime, random
 def role_list(request):
     role_list = Role.objects.filter(parent=0)
     for i in range(len(role_list)):
-		role_list[i].tags = role_list[i].tags.split(' ') #角色属性标签
+        role_list[i].tags = role_list[i].tags.split(' ') #角色属性标签
+        role_list[i].children = Role.objects.filter(parent=role_list[i].id)
     link_role_list = []
     #获得用户ID
     uid = request.user.id
@@ -113,7 +114,10 @@ def edit_role(request, role_id):
         userrole.tags       = data['tags']
         userrole.gender     = data['gender']
         userrole.relation   = data['relation']
-        userrole.parent     = data['parent']
+        if int(data['parent']) == 0 :
+            userrole.parent_id  = 0
+        else:
+            userrole.parent = Role.objects.get(id=data['parent'])
         userrole.profile    = data['profile']
         userrole.resume     = data['resume']
         userrole.image      = role_image

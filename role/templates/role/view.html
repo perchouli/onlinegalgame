@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %}
-{% if role_id %}
-修改角色 
+{% if role.id %}
+修改角色
 {% else %}
 添加角色 
 {% endif %}
@@ -29,8 +29,8 @@
 <!--START: left-nav -->
 <div class="sidebar">
 	<h2>Role Info</h2>
-	{% if role_id %}
-	<form id="role_form" action="{%url edit_role role_id %}" method="POST" enctype="multipart/form-data">
+	{% if role.id %}
+	<form id="role_form" action="{%url edit_role role.id %}" method="POST" enctype="multipart/form-data">
 	{% else %}
 	<form id="role_form" action="{%url add_role %}" method="POST" enctype="multipart/form-data">
 	{% endif %}
@@ -41,7 +41,7 @@
 			继承:<br/>
 			<select id="parent" name="parent" onchange="loadRole(this.value)">
 				<option value="0">未选择</option>
-				{% for r in role_list %}<option id="role{{r.id}}" value="{{r.id}}" data-rolename="{{r.name}}" data-relation="{{r.relation}}" data-tags="{{r.tags}}" data-resume="{{r.resume}}">{{r.name}}</option>{% endfor%}
+				{% for r in role_list %}{% if r.id != role.id %}<option id="role{{r.id}}" value="{{r.id}}" rolename="{{r.name}}" relation="{{r.relation}}" tags="{{r.tags}}" resume="{{r.resume}}">{{r.name}}</option>{% endif %}{% endfor%}
 			</select>
 		</li>
 		{% else %}
@@ -160,7 +160,7 @@
 	
 	$(document).ready( function(){
 		$('[title]').colorTip({color:'black'});//Tips
-		if (roleImage){
+		if (roleImage != ""){
 			$('fieldset ,#choice_role').hide();
 			//清除默认角色
 			for (var i in roleDom){
@@ -169,7 +169,7 @@
 			//直接显示用户上传的角色图片
 			$('#cloth').attr('style',"background:url('/{{role.image}}') no-repeat;width:500px;background-position:bottom;");
 		}
-		{% if role_id %}
+		{% if role.id %}
 		else{
 			//从数据库读取角色Profile，并显示角色
 			for (var i in roleDom){
@@ -202,11 +202,10 @@
 			}
 			$("#rolename").next().html('您所创建的角色的名字<span class="pointyTipShadow"></span><span class="pointyTip"></span>');
 		}else{
-			var r = document.getElementById('role'+v);
 			$("#rolename").next().html('角色的状态名</span><span class="pointyTipShadow"></span><span class="pointyTip"></span>');
 			for (i in inputDom){
-				$("#"+inputDom[i]).val(r.dataset[inputDom[i]]);
-				if (inputDom[i] != 'rolename') $("#"+inputDom[i]).attr('disabled','disabled').css('background','#eee');
+				$("#"+inputDom[i]).val($("#role"+v).attr(inputDom[i]));
+				if (inputDom[i] != 'rolename') $("#"+inputDom[i]).css('background','#eee');
 			}
 		}
 	}
