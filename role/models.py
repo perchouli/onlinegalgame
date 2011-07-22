@@ -7,6 +7,7 @@ class Role(models.Model):
     tags = models.TextField(blank=True)
     gender = models.CharField(max_length=8,blank=True)
     relation = models.CharField(max_length=16)
+    parent = models.ForeignKey('self', default=0)
     author = models.ForeignKey(User)
     resume = models.TextField(blank=True)
     profile = models.TextField(blank=True)

@@ -36,8 +36,17 @@
 	{% endif %}
 		{% csrf_token %}
 	<ul>
-		<li  title="您所创建的角色的名字。">
-			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}" class="required" title="角色的名字"/>
+		{% if role_list %}
+		<li title="选择后，当前创建的角色将会成为该角色的<span style='color:red'><b>状态</b></span>">
+			继承:<br/>
+			<select id="parent" name="parent" onchange="loadRole(this.value)">
+				<option value="0">未选择</option>
+				{% for r in role_list %}<option id="role{{r.id}}" value="{{r.id}}" data-rolename="{{r.name}}" data-relation="{{r.relation}}" data-tags="{{r.tags}}" data-resume="{{r.resume}}">{{r.name}}</option>{% endfor%}
+			</select>
+		</li>
+		{% endif %}
+		<li  title="您所创建的角色的名字">
+			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}"/>
 		</li>
 		<li>性别:<br/>	
 			<input type="radio" name="gender" value="0" checked="checked">女
@@ -59,7 +68,7 @@
 		</li>
 		<li>
 			<input type="hidden" id="profile" name="profile" value="" />
-			<p><input type="button" value="提交" onclick="validator_role_from()"/></p>
+			<p><input type="button" value="提交" onclick="validatorFrom()"/></p>
 		</li>
 	</ul>
 	</form>
@@ -75,18 +84,18 @@
 		</div>
 		<div id="choice_role" style="margin-bottom:15px">
 			站位：
-				正面1<input type="radio" name="rolepos" value="1" onclick="pos=this.value;change_pos(pos)">
-				正面2<input type="radio" name="rolepos" value="2" onclick="pos=this.value;change_pos(pos)">
-				正面3<input type="radio" name="rolepos" value="3" onclick="pos=this.value;change_pos(pos)">
-				侧面1<input type="radio" name="rolepos" value="4" onclick="pos=this.value;change_pos(pos)">
-				侧面2<input type="radio" name="rolepos" value="5" onclick="pos=this.value;change_pos(pos)">
-				侧面3<input type="radio" name="rolepos" value="6" onclick="pos=this.value;change_pos(pos)">
+				正面1<input type="radio" name="rolepos" value="1" onclick="rolePos=this.value;changePos(rolePos)">
+				正面2<input type="radio" name="rolepos" value="2" onclick="rolePos=this.value;changePos(rolePos)">
+				正面3<input type="radio" name="rolepos" value="3" onclick="rolePos=this.value;changePos(rolePos)">
+				侧面1<input type="radio" name="rolepos" value="4" onclick="rolePos=this.value;changePos(rolePos)">
+				侧面2<input type="radio" name="rolepos" value="5" onclick="rolePos=this.value;changePos(rolePos)">
+				侧面3<input type="radio" name="rolepos" value="6" onclick="rolePos=this.value;changePos(rolePos)">
 		</div>
 		<fieldset>
 			<legend style="color:#7BCA1C">选择一套服装</legend>
 			<div>
 			特殊：
-			<select name="cloth" onchange="change_role(this.name,this.value,pos)">
+			<select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
 			{% for dress in cloth_list %}
 				{% if dress.type == 'e' %}
 				<option value="{{ dress.id }}"> {{ dress.name }}</option>
@@ -95,7 +104,7 @@
 			</select>
 			
 			校服：
-			<select name="cloth" onchange="change_role(this.name,this.value,pos)">
+			<select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
 			{% for dress in cloth_list %}
 				{% if dress.type == 's' %}
 				<option value="{{ dress.id }}"> {{ dress.name }}</option>
@@ -111,16 +120,15 @@
 			<legend style="color:#7BCA1C">选择一种发型</legend>
 			<div>
 				短发：
-				<select name="hair" onchange="change_role(this.name,this.value,pos)">
+				<select name="hair" onchange="changeRole(this.name,this.value,rolePos)">
 			{% for dress in hair_list %}
 				{% if dress.type == 's' %}
 				<option value="{{ dress.id }}"> {{ dress.name }}</option>
 				{% endif %}
 			{% endfor %}
 				</select>
-				
 				长发：
-				<select name="hair" onchange="change_role(this.name,this.value,pos)">
+				<select name="hair" onchange="changeRole(this.name,this.value,rolePos)">
 			{% for dress in hair_list %}
 				{% if dress.type == 'l' %}
 				<option value="{{ dress.id }}"> {{ dress.name }}</option>
@@ -129,14 +137,12 @@
 				</select>
 			</div>
 		</fieldset>
-		
 		<div id="role" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');margin-top:10px;width:500px;height:400px;border:1px solid #ccc;" >
 			<div id="hair"></div>
 			<div id="eye"></div>
 			<div id="face"></div>
 			<div id="cloth"></div>
 		</div>
-
 	</div>
 </div>
 {% endblock %}
@@ -144,86 +150,84 @@
 {% block js %}
 <script>
 
-	var role_dom = ['cloth', 'hair', 'face', 'eye'];
-	var role_image = "{{role.image}}";
-	var role_profile = [{{ role.profile|safe}}];
-	var pos = 1;
-	change_pos(pos);
+	var roleDom = ['cloth', 'hair', 'face', 'eye'];
+	var roleImage = "{{role.image}}";
+	var roleProfile = [{{ role.profile|safe}}];
+	var rolePos = 1; //初始站位
+	changePos(rolePos);
 	
 	$(document).ready( function(){
 		$('[title]').colorTip({color:'black'});//Tips
-		if (role_image)
-		{
+		if (roleImage){
 			$('fieldset ,#choice_role').hide();
 			//清除默认角色
-			for (var i in role_dom)
-			{
-				$("#"+role_dom[i]).attr("style",'');
+			for (var i in roleDom){
+				$("#"+roleDom[i]).attr("style",'');
 			}	
 			//直接显示用户上传的角色图片
-			$('#cloth').attr('style',"background:url('/{{role.image}}') no-repeat;width:500px;background-position:bottom;");//src("{{role.image");
+			$('#cloth').attr('style',"background:url('/{{role.image}}') no-repeat;width:500px;background-position:bottom;");
 		}
 		{% if role_id %}
-		else
-		{
+		else{
 			//从数据库读取角色Profile，并显示角色
-			for (var i in role_dom)
-			{
-				$("#"+role_dom[i]).attr("style",role_profile[i]);
-				pos = $("#"+role_dom[i]).attr("style").split('.gif')[0].split('/')[5];
+			for (var i in roleDom){
+				$("#"+roleDom[i]).attr("style",roleProfile[i]);
+				rolePos = $("#"+roleDom[i]).attr("style").split('.gif')[0].split('/')[5];
 			}	
 		}
 		{% endif %}
-		
-		
 		$("input, textarea, select, button").uniform();
 	});
 	
-	function validator_role_from()
-	{
-		var json = [];
-		var profile = document.getElementById('profile');
-		for (var i in role_dom)
-		{
-			json[i] = '"'+document.getElementById(role_dom[i]).getAttribute('style')+'"';
+	function validatorFrom(){
+		for (var i in roleDom){
+			roleProfile[i] = '"'+$("#"+roleDom[i]).attr('style')+'"';
 		}
-		profile.value = json;
-		if ( $("#rolename").val() == '' )
-		{
-			jAlert('您是不是忘记填写角色名字了？', 'Submit Failed') ;
-		}
-		else $("#role_form").submit();
+		//alert (roleProfile);
+		$('#profile').val(roleProfile.toString());
+		if ( $("#rolename").val() == '' ){
+			jAlert('您是不是忘记填写<span style="color:red">名字</span>了？', 'Submit Failed') ;
+		}else $("#role_form").submit();
 	}
 	
-	function change_role(name, value, pos)
-	{
-		var el = document.getElementById(name);
-		el.setAttribute("style","background:url('{{ STATIC_URL }}role/"+name+"/"+value+"/"+pos+".gif')");
-	}
-
-	function change_pos(pos)
-	{
-		if (typeof($("#cloth").attr('style')) != 'undefined')
-		{
-			//在修改站位时保存原来选择的衣服和头发
-			var cloth_value = $("#cloth").attr('style').split('.gif')[0].split('/')[4];
-			var hair_value = $("#hair").attr('style').split('.gif')[0].split('/')[4];
-			$("#cloth").attr("style","background:url('{{ STATIC_URL }}role/cloth/"+cloth_value+"/"+pos+".gif')");
-			$("#hair").attr("style","background:url('{{ STATIC_URL }}role/hair/"+hair_value+"/"+pos+".gif')");
-			$("#face").attr("style","background:url('{{ STATIC_URL }}role/face/1/"+pos+".gif')");
-			$("#eye").attr("style","background:url('{{ STATIC_URL }}role/eye/1/"+pos+".gif')");
-		}
-		else
-		{
-	        for (var i in role_dom)
-			{
-				var el = document.getElementById(role_dom[i]);
-				el.setAttribute("style","background:url('{{ STATIC_URL }}role/"+(role_dom[i])+"/1/"+pos+".gif')");
+	function loadRole(v){
+		var inputDom = ["rolename","gender","relation","tags","resume"]
+		
+		if (v==0) {
+			for (i in inputDom) {
+				$("#"+inputDom[i]).val('');
+				if (inputDom[i] != 'rolename') $("#"+inputDom[i]).attr('disabled','').css('background','');
 			}
-			$('fieldset').fadeIn('slow');
+			$("#rolename").next().html('您所创建的角色的名字<span class="pointyTipShadow"></span><span class="pointyTip"></span>');
+		}else{
+			var r = document.getElementById('role'+v);
+			$("#rolename").next().html('角色的状态名</span><span class="pointyTipShadow"></span><span class="pointyTip"></span>');
+			for (i in inputDom){
+				$("#"+inputDom[i]).val(r.dataset[inputDom[i]]);
+				if (inputDom[i] != 'rolename') $("#"+inputDom[i]).attr('disabled','disabled').css('background','#eee');
+			}
 		}
 	}
 	
+	function changeRole(name, value, pos){
+		$("#"+name).attr("style","background:url('{{ STATIC_URL }}role/"+name+"/"+value+"/"+pos+".gif')");
+	}
 
+	function changePos(p){
+		if (typeof($("#cloth").attr('style')) != 'undefined'){
+			//在修改站位时保存原来选择的衣服和头发
+			var c = $("#cloth").attr('style').split('.gif')[0].split('/')[4];
+			var h = $("#hair").attr('style').split('.gif')[0].split('/')[4];
+			$("#cloth").attr("style","background:url('{{ STATIC_URL }}role/cloth/"+c+"/"+p+".gif')");
+			$("#hair").attr("style","background:url('{{ STATIC_URL }}role/hair/"+h+"/"+p+".gif')");
+			$("#face").attr("style","background:url('{{ STATIC_URL }}role/face/1/"+p+".gif')");
+			$("#eye").attr("style","background:url('{{ STATIC_URL }}role/eye/1/"+p+".gif')");
+		}
+		else{
+	        for (var i in roleDom){
+				$("#"+roleDom[i]).attr("style","background:url('{{ STATIC_URL }}role/"+(roleDom[i])+"/1/"+p+".gif')");
+			}
+		}
+	}
 </script>
 {% endblock %}

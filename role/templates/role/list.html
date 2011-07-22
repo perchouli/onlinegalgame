@@ -22,6 +22,7 @@
 		margin-top:30px;
 		z-index:999;
 	}
+	.pagination a {background-color: #7BCA1C; color: #fcfcfc; padding: 3px 5px; }
 
 </style>
 
@@ -70,7 +71,7 @@
 			<div class="pagination">
 			    <span class="step-links">
 			        {% if role_list.has_previous %}
-			            <a href="?page={{ role_list.previous_page_number }}">previous</a>
+			            <a href="?page={{ role_list.previous_page_number }}">Previous</a>
 			        {% endif %}
 			
 			        <span class="current">
@@ -78,7 +79,7 @@
 			        </span>
 			
 			        {% if role_list.has_next %}
-			            <a href="?page={{ role_list.next_page_number }}">next</a>
+			            <a href="?page={{ role_list.next_page_number }}">Next</a>
 			        {% endif %}
 			    </span>
 			</div>

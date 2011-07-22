@@ -13,7 +13,7 @@ from onlinegalgame.role.forms import RoleForm
 import hashlib, datetime, random
 
 def role_list(request):
-    role_list = Role.objects.all()
+    role_list = Role.objects.filter(parent=0)
     for i in range(len(role_list)):
 		role_list[i].tags = role_list[i].tags.split(' ') #角色属性标签
     link_role_list = []
@@ -59,22 +59,35 @@ def add_role(request):
             request.FILES['role_image'].name = hashlib.sha1(str(datetime.datetime.now())+str(random.random())).hexdigest()
             role_image = request.FILES['role_image']
             role_profile = ''
-        userrole = Role (
-            name            = data['rolename'],
-            tags        = data['tags'],
-            gender          = data['gender'],
-            relation        = data['relation'],
-            resume          = data['resume'],
-            author          = User.objects.get(id=request.user.id),
-            profile         = role_profile,
-            image           = role_image,
+        #如果有父角色
+        if data['parent'] != 0:
+            userrole = Role (
+                name            = data['rolename'],
+                parent          = Role.objects.get(id=int(data['parent'])),
+                author          = User.objects.get(id=request.user.id),
+                profile         = role_profile,
+                image           = role_image,
+        )
+        else:
+            userrole = Role (
+                name            = data['rolename'],
+                tags            = data['tags'],
+                gender          = data['gender'],
+                relation        = data['relation'],
+                resume          = data['resume'],
+                author          = User.objects.get(id=request.user.id),
+                profile         = role_profile,
+                image           = role_image,
         )
         userrole.save()
         return redirect( '/role/list' )
     else:
-        cloth_list = RoleDress.objects.filter(category='cloth')
-        hair_list = RoleDress.objects.filter(category='hair')
-        return render_to_response('role/view.html', {'cloth_list' : cloth_list,  'hair_list' : hair_list}, context_instance = RequestContext(request))
+        ctx = {
+            'role_list'     : Role.objects.filter(author=request.user.id).filter(parent=0),
+            'cloth_list'    : RoleDress.objects.filter(category='cloth'),
+            'hair_list'     : RoleDress.objects.filter(category='hair')
+        }
+        return render_to_response('role/view.html', ctx, context_instance = RequestContext(request))
 
 
 
@@ -99,6 +112,7 @@ def edit_role(request, role_id):
         userrole.tags       = data['tags']
         userrole.gender     = data['gender']
         userrole.relation   = data['relation']
+        userrole.parent     = data['parent']
         userrole.profile    = data['profile']
         userrole.resume     = data['resume']
         userrole.image      = role_image
