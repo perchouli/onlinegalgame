@@ -134,10 +134,8 @@ function roleChild(pid,cid,v){
 		$("#role_"+pid+"_toolbar").find('input[value="编辑"]').attr('onclick',"window.location.href= '/role/edit/"+cid+"'");
 	}
 	if ( v.indexOf('/role/user') == -1){
-		alert('pro');
 		$("#role_"+pid).attr('style','background-image:'+v);
 	}else{
-		alert('img')
 		$("#role_"+pid).attr('style',"background-image:url('/"+v+"');");
 	}
 }
