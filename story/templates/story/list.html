@@ -4,71 +4,85 @@
 
 {% block content %}
 <style>
-	.category {height:54px;}
-	.right {margin-left:20px;}
-	.story_list li h4 { font-size:14px; color:#ffb83b; text-align:center; }
-	.story_list li { display: inline-block; vertical-align: top; min-height:100px; zoom: 1;  *display:inline;
-	_height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; text-align:left; border-bottom:1px dashed #c6c6c6;}
-	.story_list li img {border-top:1px solid #efefef; border-right :2px solid #efefef;
-	border-radius:3px;
-	-webkit-border-radius:3px;
-	box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
-	-moz-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
-	-webkit-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
-	}
-	.story_list li .summary { text-indent:2em; height:100px; overflow:hidden;text-overflow: ellipsis;}
+    .category {height:54px;}
+    .right {margin-left:20px;}
+    .story_list li h4 { font-size:14px; color:#ffb83b; text-align:center; }
+    .story_list li { display: inline-block; vertical-align: top; min-height:100px; zoom: 1;  *display:inline;
+    _height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; text-align:left; border-bottom:1px dashed #c6c6c6;}
+    .story_list li img {border-top:1px solid #efefef; border-right :2px solid #efefef;
+    border-radius:3px;
+    -webkit-border-radius:3px;
+    box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+    }
+    .story_list li .summary { text-indent:2em; height:100px; overflow:hidden;text-overflow: ellipsis;}
 </style>
 
-<div class="con">
-	<div class="conr-title">
-		<div class="search-bar">
-				<a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
-			<input name="" type="text" class="t">
-			<input name="" type="image" src="{{ STATIC_URL }}images/icon/search.png">
-		</div>
-	</div>
-	<div class="page">
-		<div class="story_list">
-			<ul>
-			{% for user in user_list.object_list %}
-			{% if user.id|getstory:"storyid" != 0 %}
-				<li>
-					<div style="float:left;margin-right:20px">{% if user.id|getstory:"storyid" != 0 %}<a href="{%url show_story user.id|getstory:"storyid" %}">{% endif %}<img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/>{% if user.id|getstory:"storyid" != 0 %}</a>{% endif %}<h4>{{ user.id|getstory:"title" }}</h4></div>
-					<p><a href="#">{{user.username}}</a> 的故事 </p>
-					<p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
-					<p class="summary"> {{ user.id|getstory:"summary" }} </p>
-				</li>
-			{% endif %}
-			{% endfor %}
-			</ul>
-		</div>
-	</div>
-	<div class="pagination">
-	    <span class="step-links">
-	        {% if user_list.has_previous %}
-	            <a href="?page={{ user_list.previous_page_number }}">previous</a>
-	        {% endif %}
-	
-	        <span class="current">
-	            Page {{ user_list.number }} of {{ user_list.paginator.num_pages }}.
-	        </span>
-	
-	        {% if user_list.has_next %}
-	            <a href="?page={{ user_list.next_page_number }}">next</a>
-	        {% endif %}
-	    </span>
-	</div>
+<!--START: STORY-RIGHT -->
+<div class="con-r right" style="width:450px;border:0px;">
+    <div class="category"></div>
+    <div class="story_list">
+        <ul>
+        {% for user in user_list.object_list %}
+            {% if forloop.counter|divisibleby:2 %}
+            <li>
+                <div style="float:left;margin-right:20px"><a href="{%url show_story user.id|getstory:"storyid" %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ user.id|getstory:"title" }}</h4></div>
+                <p><a href="#">{{user.username}}</a> 的故事 </p>
+                <p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
+                <p class="summary"> {{ user.id|getstory:"summary" }} </p>
+            </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+<!--END: STORY-RIGHT -->
+
+<div class="con-r" style="width:450px;">
+    <div class="conr-title">
+        <div class="search-bar">
+                <a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
+            <input name="" type="text" class="t">
+            <input name="" type="image" src="{{ STATIC_URL }}images/icon/search.png">
+        </div>
+    </div>
+    <div class="page">
+        <div class="story_list">
+            <ul>
+            {% for user in user_list.object_list %}
+                {% if not forloop.counter|divisibleby:2 %}
+                <li>
+                    <div style="float:left;margin-right:20px"><a href="{%url show_story user.id|getstory:"storyid" %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ user.id|getstory:"title" }}</h4></div>
+                    <p><a href="#">{{user.username}}</a> 的故事 </p>
+                    <p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
+                    <p class="summary"> {{ user.id|getstory:"summary" }} </p>
+                </li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if user_list.has_previous %}
+                <a href="?page={{ user_list.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ user_list.number }} of {{ user_list.paginator.num_pages }}.
+            </span>
+            {% if user_list.has_next %}
+                <a href="?page={{ user_list.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
 </div>
 {% endblock %}
 
 {% block js %}
 <script type="text/javascript">
-	function readStoryTips()
-	{
-		jAlert('故事还没有制作完成',"Can't read");
-	}
-	$(document).ready(function(){
-		
-	});
+    $(document).ready(function(){
+        
+    });
 </script>
 {% endblock %}

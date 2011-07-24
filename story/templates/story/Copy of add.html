@@ -217,7 +217,6 @@
     var roleDom = ['eye','face','hair','cloth'];
     var roleProfile = [];
     var processFrame = document.getElementById('process_frame');
-
 $(document).ready( function(){
     $('[title]').colorTip({color:'black'}); //Tips显示
     
@@ -265,7 +264,7 @@ $(document).ready( function(){
 		var bgdSrc = $(this).attr('src');
 		$("#story").attr('style','background:url("'+bgdSrc+'")')
 		var el = document.getElementById('process_frame');
-		el.innerHTML += '<li type="BGD" content="'+bgdSrc+'"><span style="color:blue">场景</span>场景变更</li>';
+		el.innerHTML += '<li data-type="BGD" data-value="'+bgdSrc+'"><span style="color:blue">场景</span>场景变更</li>';
 	});
     
     $("input[name!='storyUpload'], textarea, select, button").uniform();
@@ -276,7 +275,7 @@ $(document).ready( function(){
 		c = c.replace(',','，').replace('\n','');
 		var cSummary = c.slice(0,10);
 
-		processFrame.innerHTML += '<li type="DIALOG" content="'+c+'"><span style="color:green">对话</span>'+cSummary+'……'+'</li>';
+		processFrame.innerHTML += '<li data-type="DIALOG" data-value="'+c+'"><span style="color:green">对话</span>'+cSummary+'……'+'</li>';
 		$("#dialog").empty().append(c);
 	}
     	
@@ -307,27 +306,27 @@ $(document).ready( function(){
 		if (type == 'default'){
             for (var i in roleDom) $("#"+roleDom[i]).attr('style',roleProfile[value][i]);
 			$("#role_image").attr('style','');
-            processFrame.innerHTML += '<li type="DROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>';
+            processFrame.innerHTML += '<li data-type="DROLE" data-value="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>';
         }else{
 			for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
 			$("#role_image").attr('style',"background:url('/"+roleProfile[value]+"') no-repeat center bottom");
-			processFrame.innerHTML += '<li type="UROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>';
+			processFrame.innerHTML += '<li data-type="UROLE" data-value="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>';
 		}
 	}
     
     function storyCommand(type){
         switch(type) {
             case 'CROLE':
-                processFrame.innerHTML += '<li type="COM" content="CROLE"><span style="color:#000">系统</span>隐藏角色</li>';
+                processFrame.innerHTML += '<li data-type="COM" data-value="'+type+'"><span style="color:#000">系统</span>隐藏角色</li>';
                 clearRole();
                 break;
             case 'DIALOG':
                 if ($('#dialog').css('display') == 'block'){
                     $('#dialog').css('display','none');
-                    processFrame.innerHTML += '<li type="COM" content="DIALOG"><span style="color:#000">系统</span>隐藏对话框</li>';
+                    processFrame.innerHTML += '<li data-type="COM" data-value="'+type+'"><span style="color:#000">系统</span>隐藏对话框</li>';
                 }else{
                     $('#dialog').css('display','block');
-                    processFrame.innerHTML += '<li type="COM" content="DIALOG"><span style="color:#000">系统</span>显示对话框</li>';
+                    processFrame.innerHTML += '<li data-type="COM" data-value="'+type+'"><span style="color:#000">系统</span>显示对话框</li>';
                 } 
                 break;
             default: 
@@ -337,17 +336,18 @@ $(document).ready( function(){
     	
 	function validatorFrom(){
 		if ($("#title").val() != ''){
-            var processJSON = {};
-            processJSON['process'] = new Array;
-            $("#process_frame li").each(function(i){
-                processJSON['process'][i] = {};
-                processJSON['process'][i]['type'] = $(this).attr('type');
-                processJSON['process'][i]['value'] = $(this).attr('content');
-                alert ($(this).attr('content'));
+            var p = $("#process_frame li").each(function(){
+               alert($(this).attr('type')); 
             });
-
-            $('#process').val(JSON.stringify(processJSON));
-            //$('#story_form').submit();
+//            var process = document.querySelectorAll('#process_frame li');       
+//            var process_value = [];
+//            var process_json = jQuery.parseJSON('{"process":[]}')
+//			for (var i=0 ;i < process.length;i++){
+//				var type = process[i].dataset['type'];
+//				process_value[i] = '{"type":"'+type+'","value": "'+(process[i].dataset['value'])+'"}';
+//			}
+//			document.getElementById('process').value = '{"process":['+process_value.toString()+']}';
+//			document.getElementById('story_form').submit();
 		}
 		else{
 			jAlert('您是不是忘记填写故事的标题了？','Submit Failed');

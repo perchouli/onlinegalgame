@@ -18,16 +18,13 @@ import json
 import os
 
 def story_list(request):
-    story_list = list(UserStory.objects.all())
+    story_list = UserStory.objects.values('author').distinct()
     user_list = User.objects.all()
-#    for i in range(len(story_list)):
-#        print story_list[i].author
-#        if story_list[i].author not in user_list:
-#            user_list.append(story_list[i].author)
-#        else:
-#            story_list.pop(i)
-#    print user_list
-
+    ex = ''
+    for i in range(len(user_list)):
+        if UserStory.objects.filter(author=user_list[i].id).count() == 0:
+            ex = ex + '.exclude(id='+str(user_list[i].id)+')'
+    user_list = eval('User.objects'+ex)
     #分页开始，6个故事为一页
     paginator = Paginator(user_list,6)
     try:
@@ -72,7 +69,6 @@ def add_story(request):
             int(data['sort'])
         except ValueError:
             data['sort'] = 1
-            
         try:
             request.FILES['cover_image']
         except:
@@ -121,7 +117,6 @@ def show_story(request, story_id):
         'role_list' : role_list,
         'story_list': UserStory.objects.filter(author=story.author.id).order_by('sort')
     }
-    print story_list
     return render_to_response('story/show.html', ctx, context_instance = RequestContext(request))
 
 @csrf_exempt

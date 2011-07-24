@@ -10,9 +10,9 @@
 
 {% block content %}
 <style>
-	#hair, #cloth, #eye, #face, #glass, #other1, #other2, #other3 {
-		margin-left:30px;
-	    width: 267px;
+    #hair, #cloth, #eye, #face, #glass, #other1, #other2, #other3 {
+    margin-left:30px;
+        width: 267px;
 	    height: 400px;
 	    position: absolute;
 	    background-repeat: no-repeat;
@@ -22,7 +22,6 @@
 		#eye {z-index: 8}
 		#face {z-index: 10;}
 
-	label { color:red}	
 	fieldset {border:1px #ccc solid; width:80%; padding:15px;}
 </style>
 
@@ -39,7 +38,7 @@
 		{% if role_list %}
 		<li title="选择后，当前创建的角色将会成为该角色的<span style='color:red'><b>状态</b></span>">
 			继承:<br/>
-			<select id="parent" name="parent" onchange="loadRole(this.value)">
+			<select id="parent" name="parent" onchange="loadParent(this.value)">
 				<option value="0">未选择</option>
 				{% for r in role_list %}{% if r.id != role.id %}<option id="role{{r.id}}" value="{{r.id}}" rolename="{{r.name}}" relation="{{r.relation}}" tags="{{r.tags}}" resume="{{r.resume}}">{{r.name}}</option>{% endif %}{% endfor%}
 			</select>
@@ -80,49 +79,44 @@
  
  
 <div class="con-r">
-	<div class="page">
-		<div class="conr-title">
-			<h2>Role Profile</h2>
-		</div>
-		<div id="choice_role" style="margin-bottom:15px">
-			站位：
-				正面1<input type="radio" name="rolepos" value="1" onclick="rolePos=this.value;changePos(rolePos)">
-				正面2<input type="radio" name="rolepos" value="2" onclick="rolePos=this.value;changePos(rolePos)">
-				正面3<input type="radio" name="rolepos" value="3" onclick="rolePos=this.value;changePos(rolePos)">
-				侧面1<input type="radio" name="rolepos" value="4" onclick="rolePos=this.value;changePos(rolePos)">
-				侧面2<input type="radio" name="rolepos" value="5" onclick="rolePos=this.value;changePos(rolePos)">
-				侧面3<input type="radio" name="rolepos" value="6" onclick="rolePos=this.value;changePos(rolePos)">
-		</div>
-		<fieldset>
-			<legend style="color:#7BCA1C">选择一套服装</legend>
-			<div>
-			特殊：
-			<select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
-			{% for dress in cloth_list %}
-				{% if dress.type == 'e' %}
-				<option value="{{ dress.id }}"> {{ dress.name }}</option>
-				{% endif %}
-			{% endfor %}
-			</select>
-			
-			校服：
-			<select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
-			{% for dress in cloth_list %}
-				{% if dress.type == 's' %}
-				<option value="{{ dress.id }}"> {{ dress.name }}</option>
-				{% endif %}
-			{% endfor %}
-			</select>
-	
-			</select>
-			</div>
-		</fieldset>
-
-		<fieldset>
-			<legend style="color:#7BCA1C">选择一种发型</legend>
-			<div>
-				短发：
-				<select name="hair" onchange="changeRole(this.name,this.value,rolePos)">
+    <div class="page">
+        <div class="conr-title">
+            <h2>Role Profile</h2>
+        </div>
+    <div id="role_pos" style="margin-bottom:15px">
+        站位：
+        正面1<input type="radio" name="rolepos" value="1" onclick="rolePos=this.value;changePos(rolePos)">
+        正面2<input type="radio" name="rolepos" value="2" onclick="rolePos=this.value;changePos(rolePos)">
+        正面3<input type="radio" name="rolepos" value="3" onclick="rolePos=this.value;changePos(rolePos)">
+        侧面1<input type="radio" name="rolepos" value="4" onclick="rolePos=this.value;changePos(rolePos)">
+        侧面2<input type="radio" name="rolepos" value="5" onclick="rolePos=this.value;changePos(rolePos)">
+        侧面3<input type="radio" name="rolepos" value="6" onclick="rolePos=this.value;changePos(rolePos)">
+    </div>
+    <fieldset>
+        <legend style="color:#7BCA1C">选择一套服装</legend>
+        <div>
+                特殊：
+        <select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
+    	{% for dress in cloth_list %}
+    		{% if dress.type == 'e' %}
+            <option value="{{ dress.id }}"> {{ dress.name }}</option>
+    		{% endif %}
+    	{% endfor %}
+        </select>
+    	校服：
+    	<select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
+    	{% for dress in cloth_list %}
+    		{% if dress.type == 's' %}
+    		<option value="{{ dress.id }}"> {{ dress.name }}</option>
+    		{% endif %}
+    	{% endfor %}
+    	</select>
+    	</div>
+    </fieldset>
+    <fieldset>
+        <legend style="color:#7BCA1C">选择一种发型</legend>
+            <div>短发：
+                <select name="hair" onchange="changeRole(this.name,this.value,rolePos)">
 			{% for dress in hair_list %}
 				{% if dress.type == 's' %}
 				<option value="{{ dress.id }}"> {{ dress.name }}</option>
@@ -152,12 +146,12 @@
 {% block js %}
 <script>
 
-	var roleDom = ['cloth', 'hair', 'face', 'eye'];
+	var roleDom = ['eye','face','hair','cloth'];//['cloth', 'hair', 'face', 'eye'];
 	var roleImage = "{{role.image}}";
-	var roleProfile = [{{ role.profile|safe}}];
+	var roleProfile = "{{ role.profile|safe}}".split(',');
 	var rolePos = 1; //初始站位
 	changePos(rolePos);
-	
+
 	$(document).ready( function(){
 		$('[title]').colorTip({color:'black'});//Tips
 		if (roleImage != ""){
@@ -175,15 +169,19 @@
 			for (var i in roleDom){
 				$("#"+roleDom[i]).attr("style",roleProfile[i]);
 				rolePos = $("#"+roleDom[i]).attr("style").split('.gif')[0].split('/')[5];
-			}	
+			}
 		}
 		{% endif %}
+		
+	{% if role.parent.id %}
+		loadParent({{role.parent.id}});
+	{% endif %}
 		$("input, textarea, select, button").uniform();
 	});
 	
 	function validatorFrom(){
 		for (var i in roleDom){
-			roleProfile[i] = '"'+$("#"+roleDom[i]).attr('style')+'"';
+			roleProfile[i] = $("#"+roleDom[i]).attr('style');
 		}
 		//alert (roleProfile);
 		$('#profile').val(roleProfile.toString());
@@ -192,7 +190,11 @@
 		}else $("#role_form").submit();
 	}
 	
-	function loadRole(v){
+	/**
+	 * 读取父角色
+	 * @param {Number} 父角色ID
+	 */
+	function loadParent(v){
 		var inputDom = ["rolename","gender","relation","tags","resume"]
 		
 		if (v==0) {
@@ -202,6 +204,7 @@
 			}
 			$("#rolename").next().html('您所创建的角色的名字<span class="pointyTipShadow"></span><span class="pointyTip"></span>');
 		}else{
+			$("#parent").val(v);
 			$("#rolename").next().html('角色的状态名</span><span class="pointyTipShadow"></span><span class="pointyTip"></span>');
 			for (i in inputDom){
 				$("#"+inputDom[i]).val($("#role"+v).attr(inputDom[i]));

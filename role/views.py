@@ -13,17 +13,22 @@ from onlinegalgame.role.forms import RoleForm
 import hashlib, datetime, random
 
 def role_list(request):
+
+    #查询引用的角色，append到角色列表中
+    link_role_list = []
+    for link_role in LinkRole.objects.filter(author=request.user.id):
+        link_role_list.append(link_role.linkrole.id)
     role_list = Role.objects.filter(parent=0)
     for i in range(len(role_list)):
-        role_list[i].tags = role_list[i].tags.split(' ') #角色属性标签
+        if role_list[i].tags:
+            role_list[i].tags = role_list[i].tags.split(' ') #角色属性标签
         role_list[i].children = Role.objects.filter(parent=role_list[i].id)
-    link_role_list = []
-    #获得用户ID
-    uid = request.user.id
-    #查询引用的角色，append到角色列表中
-    all_link_role = LinkRole.objects.filter(author=uid)
-    for link_role in all_link_role:
-        link_role_list.append(link_role.linkrole.id)
+        
+        if role_list[i].id in link_role_list:
+            role_list[i].islink   = True
+        else:
+            role_list[i].islink   = False
+    
     #分页开始，9个角色为一页
     paginator = Paginator(role_list,9)
     try:
@@ -107,8 +112,7 @@ def edit_role(request, role_id):
             else:
                 role_image = ''
         else:
-            request.FILES['role_image'].name = hashlib.sha1(
-                str(datetime.datetime.now())+str(random.random())).hexdigest()
+            request.FILES['role_image'].name = role_id#hashlib.sha1(str(datetime.datetime.now())+str(random.random())).hexdigest()
             role_image = request.FILES['role_image']
         userrole.name       = data['rolename']
         userrole.tags       = data['tags']

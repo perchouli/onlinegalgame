@@ -4,7 +4,7 @@
 
 {% block content %}
 <style>
-	.show_role {
+	.role_wapper {
 		margin:10px 5px;width:300px;height:400px;border:1px solid #eee; float:left; 
 		box-shadow : 0 2px 2px rgba(0, 0, 0, 0.2);
 		-moz-box-shadow : 0 2px 2px rgba(0, 0, 0, 0.2);
@@ -19,12 +19,7 @@
 		padding:20px;height: 90px; display: none;
 		overflow:auto;
 	}
-	.pagination {
-		display:block;
-		margin-top:30px;
-		z-index:999;
-	}
-	.pagination a {background-color: #7BCA1C; color: #fcfcfc; padding: 3px 5px; }
+
 	select { background-color: #fcfcfc; border-color: #eee; margin-top:5px;padding: 3px;border-style: solid;}
 </style>
 
@@ -35,21 +30,14 @@
 	</div>
 	<div class="page">
 		<div class="role_list">
-		{% load replace %}
-		{% load islinkuser %}
 	 	{% for role in role_list.object_list %}
-			<div onmouseover="$(this).children('.role_toolbar').show();" id="role_{{role.id}}" class="show_role" 
-			{% if role.image %}
-			style="background-image:url(/{{role.image}}); background-repeat: no-repeat;background-position:bottom; "
-			{% else %}
-			style="background-image:{{role.profile|cut:"background:"|cut:"\""|replace|join:','}}; background-repeat: no-repeat; "
-			{% endif %}
-			>
+			<div onmouseover="$(this).children('.role_toolbar').show();" id="role_{{role.id}}" class="role_wapper" 
+			style="background-image:{% if role.image %}url(/{{role.image}}){% else %}{{role.profile|cut:'background:'}}{% endif %}; background-repeat: no-repeat;background-position:bottom;">
 				<div id="role_{{role.id}}_toolbar" class="role_toolbar">
 					{% if role.author.id == request.user.id %}
 					<input type="button" value="{% trans "Edit" %}" onclick="window.location.href= '{%url edit_role role.id %}'"/>	
 					{% else %}
-						{% if role.id|islinkuser:link_role_list %}
+						{% if role.islink %}
 						<input type="button" value="{% trans "Un Link" %}" onclick="link_role({{role.id}}, 'unlink')"/>
 						{% else %}
 						{% if role.id != 1 %}
@@ -59,24 +47,25 @@
 					{% endif %}	
 					<input type="button" value="{% trans "Resume" %}" onclick="roleResume({{role.id}})"/>
 					<select onchange="roleChild({{role.id}},this.options[this.selectedIndex].title,this.value)" >
-						{% if role.image %}
+					{% if role.image %}
 						<option title="{{role.id}}" value="{{role.image}}">{{role.name}}</option>
-						{% else %}
-						<option title="{{role.id}}" value="{{role.profile|cut:"background:"|cut:"\""|replace|join:','}}">{{role.name}}</option>			
-						{% endif %}	
-						{% for child in role.children %}
+					{% else %}
+						<option title="{{role.id}}" value="{{role.profile|cut:"background:"}}">{{role.name}}</option>			
+					{% endif %}	
+					
+					{% for child in role.children %}
 						{% if child.image %}
 						<option title="{{child.id}}" value="{{child.image}}">{{child.name}}</option>
 						{% else %}
-						<option title="{{child.id}}" value="{{child.profile|cut:"background:"|cut:"\""|replace|join:','}}">{{child.name}}</option>					
+						<option title="{{child.id}}" value="{{child.profile|cut:"background:"}}">{{child.name}}</option>					
 						{% endif %}	
-						{% endfor %}
+					{% endfor %}
 					</select>
 				</div>
 
 				<div id="role_{{role.id}}_resume" class="role_resume">
 					<h3>{{role.name}}</h3>
-					<p><a href="#">{{role.author}}</a> 的 <a href="#">{{role.relation|default:"角色"}}</a></p>
+					<p><a href="#">{{role.author}}</a> 的 <span style="color:#7BCA1C">{{role.relation|default:"角色"}}</span></p>
 					<p>属性：{%for tag in role.tags %}<a href="#" style="text-decoration: underline;">{{tag|default:"无"}}</a> {% endfor %}</p>
 					<p>{{role.resume}}</p>
 				</div>
@@ -119,7 +108,7 @@ $(document).ready(function(){
 });
 /**
  * 显示用户资料
- * @param {int} rid
+ * @param {Number} rid
  */
 function roleResume(rid){	
 	var s = $("#role_"+rid+"_resume").css('display');
@@ -136,7 +125,7 @@ function roleChild(pid,cid,v){
 	if ( v.indexOf('/role/user') == -1){
 		$("#role_"+pid).attr('style','background-image:'+v);
 	}else{
-		$("#role_"+pid).attr('style',"background-image:url('/"+v+"');");
+		$("#role_"+pid).attr('style',"background-image:url('/"+v+"'); background-repeat:no-repeat;background-position:center bottom;");
 	}
 }
 
@@ -147,8 +136,7 @@ function roleChild(pid,cid,v){
  */
 function link_role(rid, action){
 	{% if user.is_authenticated %}
-	if (action == 'link')
-	{
+	if (action == 'link'){
 		$.ajax({
 			type : 'GET',
 			url: '/role/link/',
@@ -168,17 +156,13 @@ function link_role(rid, action){
 		$.ajax({
 			type : 'GET',
 			url: '/role/unlink/',
-			data : {'role_id':rid},
-			
+			data : {'role_id':rid},		
 			statusCode : {
-				200: function()
-				{
+				200: function(){
 					jRight ('取消引用成功', 'Unlink Success',function(){window.location.reload();});
-					
 				}
 			}
 		});
-		
 	}
 	{% else %}
 	location.href = '{% url olgg_login %}?next={%url role_list %}';

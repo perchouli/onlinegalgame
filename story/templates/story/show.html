@@ -43,6 +43,7 @@
 		#story_info .current {background:#7BCA1C;color:#fcfcfc}
 		
 	#popup_ok{ margin-left:30px}
+    input[type="button"] {background:#333; color:#fff;height:20px; border-radius:3px; border:0px;}
 </style>
 </head>
 	<div class="conr-title">
@@ -76,89 +77,69 @@
 
 {% block js %}
 <script>
-	var i = 0;
-	var commandJson = $.parseJSON('{{command|safe}}');
-	var process = commandJson.process;
+	var storyStep = 0;
+    var roleDom = ['eye','face','hair','cloth'];
+    var roleProfile = [];
+	var commandJson = JSON.parse('{{command|safe}}');
 	
 	$(document).ready(function(){
 		//$("#chapter").fadeIn().delay(2000).fadeOut();
 	});
 	
-	function clear_role()
-	{
-		role_dom = ['cloth', 'hair', 'face', 'eye'];
-		for (var i in role_dom) $("#"+role_dom[i]).attr('style','');
-		$("#role_image").attr('style','');
-		$('#role_user option:first, #role_default option:first').attr('selected','selected');
-	}
+    function clearRole(){
+        for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
+        $("#role_image").attr('style','');
+    }
 	
-	function change_role(type, value)
-	{
-		var value = value/1;
-		var role_dom = [];
-		var role_profile = [];
-		var el = document.getElementById('process_frame');
-		{% for role in role_list %}
-		{% if role.image %}
-		role_profile[{{role.id}}] = '{{ role.image }}';
-		{% else %}
-		role_profile[{{role.id}}] = [{{ role.profile|safe }}];
-		{% endif %}
-		{% endfor %}
-		role_dom = ['cloth', 'hair', 'face', 'eye'];
-		
-		if (type == 'default')
-		{
-			if (value !=0)
-			{
-				for (var i in role_dom) $("#"+role_dom[i]).attr('style',role_profile[value][i]);
-				$("#role_image").attr('style','');
-			}
-			else clear_role();
-		}
-		else
-		{
-			if (value !=0)
-			{
-				for (var i in role_dom) $("#"+role_dom[i]).attr('style','');
-				$("#role_image").attr('style',"background:url('/"+role_profile[value]+"') no-repeat center bottom");
-				var role_image = $('#role_image').attr('style');
-			}
-			else clear_role();
+	function changeRole(type, value){
+        {% for role in role_list %}
+        {% if role.image %}
+        roleProfile[{{role.id}}] = '{{ role.image }}';
+        {% else %}
+        roleProfile[{{role.id}}] = "{{ role.profile|safe }}".split(',');
+        //{% endif %}
+        //{% endfor %}
+        if (type == 'default'){
+			for (var i in roleDom) $("#"+roleDom[i]).attr('style',roleProfile[value][i]);
+			$("#role_image").attr('style','');
+		}else{
+			for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
+			$("#role_image").attr('style',"background:url('/"+roleProfile[value]+"') no-repeat center bottom");
 		}
 	}
 
-	function run()
-	{
-		try { process[i].type }
-		catch(err)
-		{
-			var nextUrl = $("#story_info ul li a[class='current']").parent().next().children().attr('href');
+	function run(){
+        var p = commandJson.process;
+		try { p[storyStep].type }
+		catch(err){
+			var nextUrl = $("#story_info ul li a[class='current']").parent().next().next().children('a').attr('href');
 			if (nextUrl) window.location.href = nextUrl; else jRight('这个故事已经结束了，请浏览其他故事');
 		}
-		
-		switch(process[i].type) 
-		{
+
+		switch(p[storyStep].type) {
 			case 'BGD':
-			    $('#story').attr('style','background:url('+process[i].value+')');
+			    $('#story').attr('style','background:url('+p[storyStep].value+')');
 				break;
 			case 'DROLE':
-			    change_role('default',process[i].value);
+			    changeRole('default',p[storyStep].value);
 				break;
 			case 'UROLE':
-			    change_role('user',process[i].value);
+			    changeRole('user',p[storyStep].value);
 				break;
-			case 'ROLE':
-			    clear_role();
+            case 'DIALOG':
+			    $("#dialog").html(p[storyStep].value);
 				break;
-			case 'DIALOG':
-			    $("#dialog").html(process[i].value);
-				break;
+            case 'COM':
+                if (p[storyStep].value == 'CROLE') clearRole();
+                if (p[storyStep].value == 'DIALOG'){
+                    $('#dialog').css('display') == 'block' ? $('#dialog').css('display','none'):$('#dialog').css('display','block');
+                }
+                break;
 			default: 
 				jAlert('这条流程没法解析');
 				break;
 		}
-		i++;
+		storyStep++;
 	};
 	
 	function editStory(el){
