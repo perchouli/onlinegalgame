@@ -31,7 +31,7 @@
 	<div class="page">
 		<div class="role_list">
 	 	{% for role in role_list.object_list %}
-			<div onmouseover="$(this).children('.role_toolbar').show();" id="role_{{role.id}}" class="role_wapper" 
+			<div id="role_{{role.id}}" class="role_wapper" 
 			style="background-image:{% if role.image %}url(/{{role.image}}){% else %}{{role.profile|cut:'background:'}}{% endif %}; background-repeat: no-repeat;background-position:bottom;">
 				<div id="role_{{role.id}}_toolbar" class="role_toolbar">
 					{% if role.author.id == request.user.id %}
@@ -66,7 +66,7 @@
 				<div id="role_{{role.id}}_resume" class="role_resume">
 					<h3>{{role.name}}</h3>
 					<p><a href="#">{{role.author}}</a> 的 <span style="color:#7BCA1C">{{role.relation|default:"角色"}}</span></p>
-					<p>属性：{%for tag in role.tags %}<a href="#" style="text-decoration: underline;">{{tag|default:"无"}}</a> {% endfor %}</p>
+					<p>属性：{%for tag in role.tags %}<a href="?tag={{tag}}" style="text-decoration: underline;">{{tag|default:"无"}}</a> {% endfor %}</p>
 					<p>{{role.resume}}</p>
 				</div>
 			</div>

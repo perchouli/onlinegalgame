@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block title %}
-{% if role.id %}
-修改角色
-{% else %}
-添加角色 
-{% endif %}
+  {% if role.id %}
+    {% trans "Edit Role" %}
+  {% else %}
+    {% trans "Add Role" %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -47,15 +47,15 @@
 		<input type="hidden" id="parent" name="parent" value="0"/>
 		{% endif %}
 		<li  title="您所创建的角色的名字">
-			名字:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}"/>
+			{%trans "Name" %}:<br/><input type="text" name="rolename" id="rolename" value="{{ role.name }}"/>
 		</li>
-		<li>性别:<br/>	
+		<li>{%trans "Gender" %}:<br/>	
 			<input type="radio" name="gender" value="0" checked="checked">女
 			<input type="radio" name="gender" value="1" {% if role.gender == '1' %} checked="checked" {% endif %}>男 
 			<input type="radio" name="gender" value="2" {% if role.gender == '2' %} checked="checked" {% endif %}>？
 		</li>
 		<li title="角色和您的关系？例如:<span style='color:red'><b>代理人</b></span>">
-			关系:<br/><input type="text" name="relation" id="relation" value="{{ role.relation }}" class="required"/>
+			{%trans "Relation" %}:<br/><input type="text" name="relation" id="relation" value="{{ role.relation }}" class="required"/>
 		</li>
 		<li title="角色属性，请使用空格分割，例如:<span style='color:red'><b>眼镜娘 LOLI</b></span>">
 			属性:<br/><input type="text" id="tags" name="tags" value="{{ role.tags|safe}}"/>
@@ -76,8 +76,7 @@
 
 </div>
 <!--END: left-nav -->
- 
- 
+
 <div class="con-r">
     <div class="page">
         <div class="conr-title">
@@ -170,6 +169,7 @@
 				$("#"+roleDom[i]).attr("style",roleProfile[i]);
 				rolePos = $("#"+roleDom[i]).attr("style").split('.gif')[0].split('/')[5];
 			}
+            $('#role_pos input[type="radio"]').eq(rolePos-1).attr('checked','checked');
 		}
 		{% endif %}
 		

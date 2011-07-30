@@ -18,7 +18,11 @@ def role_list(request):
     link_role_list = []
     for link_role in LinkRole.objects.filter(author=request.user.id):
         link_role_list.append(link_role.linkrole.id)
-    role_list = Role.objects.filter(parent=0)
+    #tag查询
+    if request.GET.get('tag'):
+        role_list = Role.objects.filter(parent=0).filter(tags__contains=request.GET.get('tag'))
+    else:
+        role_list = Role.objects.filter(parent=0)
     for i in range(len(role_list)):
         if role_list[i].tags:
             role_list[i].tags = role_list[i].tags.split(' ') #角色属性标签
@@ -58,7 +62,7 @@ def add_role(request):
             request.FILES['role_image']
         except:
             #若没有，则保存角色配置
-            role_profile = data['profile']
+            role_profile = data['profile'].replace(' repeat scroll 0% 0% transparent;','').replace('"',"'")
             role_image = ''
         else:
             #若上传图片，则保存图片，清空角色配置,用hash重置文件名
