@@ -28,9 +28,7 @@
         padding-left: 5px;
     }
     
-    #story_upload_list img {
-        margin-top: 5px
-    }
+    #story_upload_list img {margin-top: 5px}
     
     #hair, #cloth, #eye, #face, #glass_left, #other1_left, #other2_left, #other3_left {
         margin-left: 140px;
@@ -40,17 +38,9 @@
         background-repeat: no-repeat;
     }
     
-    #face {
-        z-index: 2
-    }
-    
-    #eye {
-        z-index: 2
-    }
-    
-    #hair {
-        z-index: 1
-    }
+    #face {z-index: 2}
+    #eye {z-index: 2}
+    #hair {z-index: 1}
     
     #role_image {
         height: 400px;
@@ -100,20 +90,25 @@
         -webkit-border-radius: 3px;
         border-radius: 3px;
         background: url({{STATIC_URL}}images/bg-process.jpg);
+        list-style:circle;
     }
     
     #process_frame li {
         margin: 0px;
+        list-style:decimal;
     }
+        #process_frame li:hover {opacity:0.5}
     
     #process_frame li span {
         margin-right: 15px;
     }
     
     #process_frame li img {
-        margin-right: 15px;
+        margin-right: 5px;
+        float:right;
+        border:1px #aaa solid;
     }
-    
+
     #process_frame li:nth-child(even) {background:#eee; text-overflow: ellipsis; width:200px; height:15px;
         		border-bottom:1px #ccc solid;
         	}
@@ -125,8 +120,18 @@
         	
         	#bgd_default {height:110px; word-break:break-all; overflow:scroll;overflow-x:hidden;}
         	#popup_ok{ margin-left:100px}
+    #branch {display:none; position:absolute;}
 </style>
 </head>
+
+<div id="branch">
+    <table>
+        <tr><td><input type="text" value="显示文字"/></td><td><input type="text" value="跳转链接"/></td></tr>
+        <tr><td><input type="text" value="显示文字"/></td><td><input type="text" value="跳转链接"/></td></tr>
+        <tr><td><input type="text" value="显示文字"/></td><td><input type="text" value="跳转链接"/></td></tr>
+    </table>
+</div>
+
 <!--START: left-nav -->
 <div class="sidebar">
     <h2>Basic Info</h2>
@@ -147,8 +152,8 @@
             </li>
             <li>进程:<span style="color:red">[双击进程可以删除]</span>
                 <br/>
-                <div id="process_frame" onmouseover="liActive()">
-                </div>
+                <ul id="process_frame">
+                </ul>
             </li>
             <li>
                 <input type="hidden" id="process" name="process" value="" />
@@ -185,7 +190,9 @@
         </fieldset>
         <fieldset>
             <legend>系统命令</legend>
-            <input type="button" value="对话框" onclick="storyCommand('DIALOG')"/><input type="button" value="隐藏角色" onclick="storyCommand('CROLE')"/><input type="button" value="分支"/>
+            <input type="button" value="对话框" onclick="storyCommand('DIALOG')"/>
+            <input type="button" value="隐藏角色" onclick="storyCommand('CROLE')"/>
+            <input id="btn_branch" type="button" value="分支" onclick="showBranch()"/>
         </fieldset>
         </td>
         </tr>
@@ -216,8 +223,8 @@
     
     var roleDom = ['eye','face','hair','cloth'];
     var roleProfile = [];
-    var processFrame = document.getElementById('process_frame');
-
+    var processFrame = $('#process_frame');
+    var toolBtn = '<img src="{{STATIC_URL}}images/icon/del.png" onclick="$(this).parent().remove()" alt="Del"/><img src="{{STATIC_URL}}images/icon/down.png" onclick="$(this).parent().insertAfter($(this).parent().next())" alt="Down"/>';
 $(document).ready( function(){
     $('[title]').colorTip({color:'black'}); //Tips显示
     
@@ -247,13 +254,7 @@ $(document).ready( function(){
 				}
 			})
 		}
-		});
-    		
-    		/*故事进程拖动排序*/
-    //		$('#process_frame').live('mousedown',function(){
-    //	  		$('#process_frame').dragsort();
-    //		});
-    		
+	});
     		/*场景预览以及切换*/
     		
     //		$('#bgd_default img, #story_list img').mouseenter(function(){
@@ -261,11 +262,11 @@ $(document).ready( function(){
     //			$("#story").attr('style','background:url("'+bgd_src+'")')
     //		});
     
-	$('#bgd_default img, #story_upload_list img').click(function(){
+	$('#bgd_default img, #story_upload_list img').live('click',function(){
 		var bgdSrc = $(this).attr('src');
 		$("#story").attr('style','background:url("'+bgdSrc+'")')
-		var el = document.getElementById('process_frame');
-		el.innerHTML += '<li type="BGD" content="'+bgdSrc+'"><span style="color:blue">场景</span>场景变更</li>';
+		processFrame.append('<li type="BGD" content="'+bgdSrc+'"><span style="color:blue">场景</span>场景变更</li>');
+        processFrame.children('li:last').append(toolBtn);
 	});
     
     $("input[name!='storyUpload'], textarea, select, button").uniform();
@@ -274,9 +275,10 @@ $(document).ready( function(){
     function addDialog(){
 		var  c = document.getElementById('dialog_input').value;
 		c = c.replace(',','，').replace('\n','');
-		var cSummary = c.slice(0,10);
+		var cSummary = c.slice(0,8);
 
-		processFrame.innerHTML += '<li type="DIALOG" content="'+c+'"><span style="color:green">对话</span>'+cSummary+'……'+'</li>';
+		processFrame.append('<li type="DIALOG" content="'+c+'"><span style="color:green">对话</span>'+cSummary+'……'+'</li>');
+        processFrame.children('li:last').append(toolBtn);
 		$("#dialog").empty().append(c);
 	}
     	
@@ -295,7 +297,13 @@ $(document).ready( function(){
 		}
 		else alert('no');
 	}
-    	
+    
+    function showBranch(){
+        //alert(p)
+        var p = $("#btn_branch").position();
+        //$('#branch').css('left',p.left).fadeIn();
+    }
+    
     function changeRole(type, value, roleName){
 		{% for role in role_list %}
 		{% if role.image %}
@@ -307,31 +315,36 @@ $(document).ready( function(){
 		if (type == 'default'){
             for (var i in roleDom) $("#"+roleDom[i]).attr('style',roleProfile[value][i]);
 			$("#role_image").attr('style','');
-            processFrame.innerHTML += '<li type="DROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>';
+            processFrame.append('<li type="DROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>');
         }else{
 			for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
 			$("#role_image").attr('style',"background:url('/"+roleProfile[value]+"') no-repeat center bottom");
-			processFrame.innerHTML += '<li type="UROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>';
+			processFrame.append('<li type="UROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>');
 		}
+        processFrame.children('li:last').append(toolBtn);
 	}
     
     function storyCommand(type){
         switch(type) {
             case 'CROLE':
-                processFrame.innerHTML += '<li type="COM" content="CROLE"><span style="color:#000">系统</span>隐藏角色</li>';
+                processFrame.append('<li type="COM" content="CROLE"><span style="color:#000">系统</span>隐藏角色</li>');
                 clearRole();
+                processFrame.children('li:last').append(toolBtn);
                 break;
             case 'DIALOG':
                 if ($('#dialog').css('display') == 'block'){
                     $('#dialog').css('display','none');
-                    processFrame.innerHTML += '<li type="COM" content="DIALOG"><span style="color:#000">系统</span>隐藏对话框</li>';
+                    processFrame.append('<li type="COM" content="DIALOG"><span style="color:#000">系统</span>隐藏对话框</li>');
                 }else{
                     $('#dialog').css('display','block');
-                    processFrame.innerHTML += '<li type="COM" content="DIALOG"><span style="color:#000">系统</span>显示对话框</li>';
+                    processFrame.append('<li type="COM" content="DIALOG"><span style="color:#000">系统</span>显示对话框</li>');
                 } 
+                processFrame.children('li:last').append(toolBtn);
                 break;
+            case 'BRANCH':
+                
             default: 
-                alert('test');
+                alert('Error');
         }
     }
     	
@@ -343,22 +356,15 @@ $(document).ready( function(){
                 processJSON['process'][i] = {};
                 processJSON['process'][i]['type'] = $(this).attr('type');
                 processJSON['process'][i]['value'] = $(this).attr('content');
-                alert ($(this).attr('content'));
             });
 
             $('#process').val(JSON.stringify(processJSON));
-            //$('#story_form').submit();
+            $('#story_form').submit();
 		}
 		else{
 			jAlert('您是不是忘记填写故事的标题了？','Submit Failed');
 		}
     }
-
-        
-    function liActive(){
-        $('#process_frame li').dblclick(function(){
-            $(this).remove();
-        });
-    }
+    
 </script>
 {% endblock %}
