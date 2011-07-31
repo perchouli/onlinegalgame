@@ -19,27 +19,7 @@
     .story_list li .summary { text-indent:2em; height:100px; overflow:hidden;text-overflow: ellipsis;}
 </style>
 
-<!--START: STORY-RIGHT -->
-<div class="con-r right" style="width:450px;border:0px;">
-    <div class="category"></div>
-    <div class="story_list">
-        <ul>
-        {% for user in user_list.object_list %}
-            {% if forloop.counter|divisibleby:2 %}
-            <li>
-                <div style="float:left;margin-right:20px"><a href="{%url show_story user.id|getstory:"storyid" %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ user.id|getstory:"title" }}</h4></div>
-                <p><a href="#">{{user.username}}</a> 的故事 </p>
-                <p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
-                <p class="summary"> {{ user.id|getstory:"summary" }} </p>
-            </li>
-            {% endif %}
-        {% endfor %}
-        </ul>
-    </div>
-</div>
-<!--END: STORY-RIGHT -->
-
-<div class="con-r" style="width:450px;">
+<div class="con">
     <div class="conr-title">
         <div class="search-bar">
                 <a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
@@ -51,14 +31,14 @@
         <div class="story_list">
             <ul>
             {% for user in user_list.object_list %}
-                {% if not forloop.counter|divisibleby:2 %}
+
                 <li>
                     <div style="float:left;margin-right:20px"><a href="{%url show_story user.id|getstory:"storyid" %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ user.id|getstory:"title" }}</h4></div>
                     <p><a href="#">{{user.username}}</a> 的故事 </p>
                     <p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
                     <p class="summary"> {{ user.id|getstory:"summary" }} </p>
                 </li>
-                {% endif %}
+
             {% endfor %}
             </ul>
         </div>

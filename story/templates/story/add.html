@@ -180,7 +180,7 @@
                 {% endif %}
                 {% endfor %}
             </select>
-            自定义:<select id="role_user" onchange="changeRole('user',this.value,this.options[this.selectedIndex].text)">
+            <select id="role_user" onchange="changeRole('user',this.value,this.options[this.selectedIndex].text)">
                 <option value="0">未选择</option>
                 {% for role in role_list %}
                 {% if role.image %}<option value='{{ role.id }}'>{{ role.name }}</option>
