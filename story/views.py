@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.utils.crypto import salted_hmac, constant_time_compare
 
 from onlinegalgame.story.models import UserStory
 from onlinegalgame.role.models import Role, LinkRole
@@ -14,8 +15,7 @@ from onlinegalgame.fileupload.models import StoryUpload
 from onlinegalgame.settings import PROJECT_PATH
 
 from datetime import date
-import json
-import os
+import json, time, os
 
 def story_list(request):
     story_list = UserStory.objects.values('author').distinct()
@@ -101,21 +101,26 @@ def add_story(request):
         return render_to_response('story/add.html', ctx, context_instance = RequestContext(request))
 
 def show_story(request, story_id):
-
-    #uid = request.session['_auth_user_id']
     story = UserStory.objects.get(id=story_id)
     command = story.process
     
     role_list = list(Role.objects.filter(author=story.author.id))
     link_role_list = LinkRole.objects.filter(author=story.author.id)
-
+    #SecurityHash
+    timestamp = str(int(time.time()))
+    key_salt = "django.contrib.forms.CommentSecurityForm"
+    info = ('story.userstory', story_id, timestamp)
+    value = "-".join(info)
+    #SecurityHash End
     for role in link_role_list:
         role_list.append(role.linkrole)
     ctx = {
         'story'     : story,
         'command'   : command,
         'role_list' : role_list,
-        'story_list': UserStory.objects.filter(author=story.author.id).order_by('sort')
+        'story_list': UserStory.objects.filter(author=story.author.id).order_by('sort'),
+        'timestamp' : timestamp,
+        'security_hash' : salted_hmac(key_salt, value).hexdigest()
     }
     return render_to_response('story/show.html', ctx, context_instance = RequestContext(request))
 

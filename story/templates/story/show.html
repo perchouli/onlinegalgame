@@ -84,11 +84,12 @@
 			<li>
 			<form action="{% comment_form_target %}" method="post">
 				{% csrf_token %}
+				<input type="hidden" name="next" value="{{request.path_info}}" />
 				<input type="hidden" name="content_type" value="story.userstory" id="id_content_type">
 				<input type="hidden" name="object_pk" value="{{story.id}}" id="id_object_pk">
-				<input type="hidden" name="timestamp" value="1312696834" id="id_timestamp">
-				<input type="hidden" name="security_hash" value="11a082f816a99b56b8166d6c4a6e339fcafcb181" id="id_security_hash">
-				<input id="id_name" type="hidden" name="{{request.user.username}}" maxlength="50" value="chenyang">
+				<input type="hidden" name="timestamp" value="{{timestamp}}" id="id_timestamp">
+				<input type="hidden" name="security_hash" value="{{security_hash}}" id="id_security_hash">
+				<input id="id_name" type="hidden" name="name" maxlength="50" value="{{request.user.username}}">
 				<input type="hidden" name="email" id="id_email" value="{{request.user.email}}">
 				<textarea id="id_comment" rows="5" cols="40" name="comment"></textarea>
 				<input id="btn_post" type="submit" value="{% trans 'Submit' %}" />
