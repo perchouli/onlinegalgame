@@ -31,14 +31,12 @@
         <div class="story_list">
             <ul>
             {% for user in user_list.object_list %}
-
                 <li>
                     <div style="float:left;margin-right:20px"><a href="{%url show_story user.id|getstory:"storyid" %}"><img src="/{{ story.image|default:"static/bgd/mapback.jpg" }}" width="230" height="125" alt="Story Cover"/></a><h4>{{ user.id|getstory:"title" }}</h4></div>
                     <p><a href="#">{{user.username}}</a> 的故事 </p>
                     <p>创建日期： {{user.id|getstory:"date"|date:"Y-m-d"}}</p><br/>
                     <p class="summary"> {{ user.id|getstory:"summary" }} </p>
                 </li>
-
             {% endfor %}
             </ul>
         </div>

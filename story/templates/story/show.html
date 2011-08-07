@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n comments %}
 {% block title%}{{story.title}}{% endblock %}
 
 {% block content %}
@@ -44,6 +45,8 @@
 		
 	#popup_ok{ margin-left:30px}
     input[type="button"] {background:#333; color:#fff;height:20px; border-radius:3px; border:0px;}
+    
+    textarea { color:#ccc; border: 1px #aaa solid; }
 </style>
 </head>
 	<div class="conr-title">
@@ -72,6 +75,26 @@
 			<li style="display:none;">排序：<input name="sort" type="text" value="{{s.sort}}" style="width:30px;"/> 场景名：<input name="title" type="text" value="{{s.title}}" style="width:100px"/> <input type="button" value="Submit" onclick="submitEdit($(this).parent(), {{s.id}})"/></li>			
 			{% endfor %}
 		</ul>
+	<h3>场景评论</h3>
+		<ul>
+			{% get_comment_list for story as comment_list %}
+			{% for comment in comment_list %} 
+			<li>{{comment}}</li>
+			{% endfor %}
+			<li>
+			<form action="{% comment_form_target %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="content_type" value="story.userstory" id="id_content_type">
+				<input type="hidden" name="object_pk" value="{{story.id}}" id="id_object_pk">
+				<input type="hidden" name="timestamp" value="1312696834" id="id_timestamp">
+				<input type="hidden" name="security_hash" value="11a082f816a99b56b8166d6c4a6e339fcafcb181" id="id_security_hash">
+				<input id="id_name" type="hidden" name="{{request.user.username}}" maxlength="50" value="chenyang">
+				<input type="hidden" name="email" id="id_email" value="{{request.user.email}}">
+				<textarea id="id_comment" rows="5" cols="40" name="comment"></textarea>
+				<input id="btn_post" type="submit" value="{% trans 'Submit' %}" />
+			</form>
+			</li>
+		</ul>
 	</div>
 {% endblock%}
 
@@ -84,6 +107,7 @@
 	
 	$(document).ready(function(){
 		//$("#chapter").fadeIn().delay(2000).fadeOut();
+		$("#id_comment, #btn_post").uniform();
 	});
 	
     function clearRole(){

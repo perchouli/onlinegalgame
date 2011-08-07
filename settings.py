@@ -134,7 +134,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     # -'django_openid_auth',
-    
+    'django.contrib.comments', 
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
