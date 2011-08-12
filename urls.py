@@ -6,8 +6,8 @@ from . import settings
 #admin.autodiscover()
 
 urlpatterns = patterns('',
-    # url(r'^$', 'onlinegalgame.views.home', name='home'),
-    url(r'^$', 'django.views.generic.simple.direct_to_template', {'template':'index.html'}),
+    url(r'^$', 'onlinegalgame.views.home', name='home'),
+    # url(r'^$', 'django.views.generic.simple.direct_to_template', {'template':'index.html'}),
     
     #This line in need when run in Apache
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}, name="static"),
