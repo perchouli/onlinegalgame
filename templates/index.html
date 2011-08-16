@@ -5,8 +5,8 @@
 {% block content %}
 <style>
 .gravatar {border: 1px solid #D0D0D0;padding: 2px;float: left;margin-right: 10px;}
-.events li{height: 50px;}
-.events li p{margin-top: 20px;}
+.events li{height: 50px;width: 30%;float: left;}
+.events li p{margin-top: 10px;}
 </style>
 <br/>
 <table id="step">
@@ -17,7 +17,7 @@
 	</tr>
 	<tr>
 		<td>
-			<a name="1" href="{%url show_story 6 %}"><img src="{{STATIC_URL}}images/step3.jpg" height="160" width="260" alt="Share Story"/></a>
+			<a name="1" href="{%url show_story 5 %}"><img src="{{STATIC_URL}}images/step3.jpg" height="160" width="260" alt="Share Story"/></a>
 			<p>不知道这个网站是干嘛的？请先浏览演示剧本。</p>
 		</td>
 		<td>
@@ -30,17 +30,8 @@
 		</td>
 	</tr>
 </table>
-{% if user.is_authenticated %}
-<div class="follow events">
-	<img src="{{STATIC_URL}}images/icon/logo.png" alt="Icon" /> <span>Lastest Update</span>
-	<ul>
-	{% for e in events %}
-		<li><div class="gravatar"><img src="{% gravatar_url e.user.email %}"/></div><br/><a href="#">{{e.user.username}}</a> 创建了 <a href="#">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
-	{% endfor %}
-	</ul>
-	<div class="clear"></div>
-</div>
-{% else %}
+
+{% if not user.is_authenticated %}
 <div class="follow unlogin">
 	<span>You can make a online Galgame by yourself. But first:</span>
 	<ul>
@@ -58,6 +49,17 @@
 	<div class="clear"></div>
 </div>
 {% endif %}
+
+<div class="follow events">
+	<img src="{{STATIC_URL}}images/icon/logo.png" alt="Icon" /> <span>Lastest Update</span>
+	<ul>
+	{% for e in events %}
+		<li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="#">{{e.user.username}}</a> 创建了 <a href="#">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+	{% endfor %}
+	</ul>
+	<div class="clear"></div>
+</div>
+
 <div class="follow">
 	<img src="{{STATIC_URL}}images/icon/logo.png" alt="Icon" /> <span>Other thing you can do</span>
 	<ul>
@@ -67,7 +69,6 @@
 		<li><a href="mailto:jp.chenyang@gmail.com">联系管理员</a></li>
 	</ul>
 </div>
-
 {% endblock %}
 
 {% block js %}
