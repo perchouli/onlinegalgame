@@ -6,6 +6,12 @@
 <title>{% block title %}{% endblock %} - OnlineGalgame - 在线游戏制作平台</title>
 <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
 <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/uniform.css"/>
+
+<script type="text/javascript" src="http://download.ntalker.com/res/imfunction_utf8.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+    im_connectIM("onlinegalgame_com", "{{request.user.id}}", "{{request.user.username}}", "{{request.session.session_key}}", '');
+</script>
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];

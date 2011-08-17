@@ -7,6 +7,7 @@ from . import settings
 
 urlpatterns = patterns('',
     url(r'^$', 'onlinegalgame.views.home', name='home'),
+    url(r'^imxml$', 'onlinegalgame.views.imxml', name='imxml'),
     # url(r'^$', 'django.views.generic.simple.direct_to_template', {'template':'index.html'}),
     
     #This line in need when run in Apache
