@@ -21,11 +21,6 @@
 </script>
 </head>
 <body>
-<script type="text/javascript" src="http://download.ntalker.com/res/imfunction_utf8.js" charset="utf-8"></script>
-<script language="javascript" type="text/javascript">
-    im_connectIM("onlinegalgame_com", "{{request.user.id}}", "{{request.user.username}}", "{{request.session.session_key}}", '');
-</script>
-
 <!--START: Header -->
 <div id="header">
 	<div class="con">
@@ -78,5 +73,11 @@
 <script type="text/javascript" src="{{ STATIC_URL}}js/jquery.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL}}js/uniform.js"></script>
 {% block js %}{% endblock %}
+{% if user.is_authenticated %}
+<script type="text/javascript" src="http://download.ntalker.com/res/imfunction_utf8.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript">
+    im_connectIM("onlinegalgame_com", "{{request.user.id}}", "{{request.user.username}}", "{{request.session.session_key}}", '');
+</script>
+{% endif %}
 </body>
 </html>

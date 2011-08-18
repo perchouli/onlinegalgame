@@ -3,6 +3,8 @@ from django.template.context import RequestContext
 from django.http import HttpResponse
 from django.core import serializers
 
+from xml.dom import minidom, Node
+
 from onlinegalgame.role.models import RoleEvent
 from onlinegalgame.story.models import StoryEvent
 
@@ -21,11 +23,23 @@ def imxml(request):
     im_siteid = 'onlinegalgame_com'
     enablesitekey = ''
 
-    #
     querytype = request.GET.get('query')
-    print querytype
+    query = {
+        'siteprofile' : '<software>custom</software>'+
+                        '<language>utf-8</language>'+
+                        '<sitename>Onlinegalgame</sitename>',
+        'login' : '<version>3.0.0</version>'+
+                  '<sessionvalide>true</sessionvalide>',
+        'addbuddy' : '<userkeyvalide>true</userkeyvalide>'+
+                     '<addbuddyresult>accepted</addbuddyresult>'
+    }
+    res = '<imxml encoding="utf-8">%s</imxml>' % query[querytype]
     if querytype == None:
         return HttpResponse('Invalid query paramter')
-    if querytype == 'siteprofile':
-        return HttpResponse("<imxml encodeing=\"utf-8\"><software>custom</software><language>utf-8</language><sitename>Onlinegalgame</sitename></imxml>",mimetype = 'application/xml')
-    #return HttpResponse(im_siteid)
+    else:
+        return HttpResponse(res,mimetype='application/xml')
+    #elif querytype == 'addbuddy':
+    #    return HttpResponse(action[querytype],mimetype='application/xml')
+    #if querytype == 'siteprofile':
+        
+
