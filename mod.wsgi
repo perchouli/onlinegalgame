@@ -1,5 +1,5 @@
 import os, sys
-sys.path.append("C:/Documents and Settings/Administrator")
+sys.path.append("/var/www")
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'onlinegalgame.settings'
 
