@@ -13,6 +13,10 @@ urlpatterns = patterns('',
 		views.register, 
 		name='olgg_register'),
 
+    url(r'^profile/(?P<uid>\d+)/$', 
+		views.profile, 
+		name='olgg_profile'),
+
     url(r'^logout/$', 
 		auth_views.logout,
 		{'template_name': 'index.html'}, 

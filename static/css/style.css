@@ -139,7 +139,7 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 /* 6. Profile */
 /* layout1 */
 .layout1 .sidebar3{width:200px;float:left;margin-top: 20px;}
-.layout1 .con-r3{float:right;width:700px;margin-top: 20px;}
+.layout1 .con-r3{float:right;width:700px;margin-top: 20px;padding-left:30px;border-left:1px #ccc solid;}
 .user-avatar{text-align:center;}
 .user-avatar .avatar{width:100px;height:100px;}
 .user-treasure{padding-bottom:20px;}

@@ -118,7 +118,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages"
 )
 
-AUTH_PROFILE_MODULE = 'accounts.Profile'
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 ROOT_URLCONF = 'onlinegalgame.urls'
 

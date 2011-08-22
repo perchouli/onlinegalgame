@@ -3,7 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.template.context import RequestContext
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from onlinegalgame.accounts.models import UserProfile
 from onlinegalgame.accounts.forms import RegisterForm
+from onlinegalgame.role.models import Role, RoleEvent
+from onlinegalgame.story.models import UserStory, StoryEvent
 
 def register(request):
     if request.method == 'POST':
@@ -31,22 +34,23 @@ def register(request):
 	    return render_to_response('accounts/register.html',{'form' : RegisterForm() }, context_instance = RequestContext(request))
 
 @login_required
-def profile(request):
+def profile(request,uid):
     # Unfinished
-    user = User.objects.get(username='admin')
+    user = User.objects.get(id=uid)
+    try:
+        profile = user.get_profile()
+    except:
+        profile = UserProfile.objects.create(user=user,qq='',msn='',gtalk='',website='')
+    roles = Role.objects.filter(author=uid).filter(parent=0).order_by('-id')[0:5]
+    stories = UserStory.objects.filter(author=uid).order_by('sort')[0:5]
+    events = list(RoleEvent.objects.filter(user=uid)) + list(StoryEvent.objects.filter(user=uid))
     
-    import urllib, hashlib
-    default =  "http://en.gravatar.com/js/SyntaxHighlighter/styles/help.png"
-    email = user.email
-    size = 100
-    
-    gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
-    gravatar_url += urllib.urlencode({'d':default, 's':str(size)})
-
-    profile = { 
-    'sex':user.get_profile().sex,
-    'ai' : email,
-    'avatar' : gravatar_url,
+    ctx = {
+        'user'  : user,
+        'roles' : roles,
+        'stories' : stories,
+        'profile' : profile,
+        'events'  : events
     }
-    return render_to_response('accounts/profile.html', {'profile':profile} ,context_instance = RequestContext(request))
+    return render_to_response('accounts/profile.html', ctx ,context_instance = RequestContext(request))
 

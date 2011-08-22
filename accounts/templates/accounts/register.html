@@ -20,13 +20,13 @@ label{color:red;float:right;font-family:Tahoma;font-size:12px;height:20px;paddin
 {% csrf_token %}
 	<ul>
 		{{error.username}}
-		<li><span>{{form.username.label}}</span>{{form.username}} </li>
+		<li><span>{% trans "Username" %}</span>{{form.username}} </li>
 		{{error.password}}
-		<li><span>{{form.password.label}}</span>{{form.password}} </li>
+		<li><span>{% trans "Password" %}</span>{{form.password}} </li>
 		<ul id="error_cp" class="errorlist" style="display:none;"><li>两次输入的密码不一致</li></ul>
 		<li><span>{% trans "Comfirm Pass" %}</span><input id="confirm-password" type="password" class="required"/> </li>
 		{{error.email}}
-		<li><span>{{form.email.label}}</span>{{form.email}} </li>
+		<li><span>{% trans "Email" %}</span>{{form.email}} </li>
 		<li><input id="button" type="submit" value="Register"/></li>
 	</ul>
 </form>

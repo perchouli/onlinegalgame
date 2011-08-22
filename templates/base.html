@@ -40,7 +40,7 @@
             </li>
             {% if user.is_authenticated %}
 			<li>
-                <a href="{% url olgg_profile %}" style="color:green">{{request.user.username}}</a>
+                <a href="{% url olgg_profile request.user.id%}" style="color:red">{{request.user.username}}</a>
 			</li>
 			<li>
                 <a href="{% url olgg_logout %}">{% trans "Log out" %}</a>
