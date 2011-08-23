@@ -40,7 +40,9 @@ def profile(request,uid):
     try:
         profile = user.get_profile()
     except:
-        profile = UserProfile.objects.create(user=user,qq='',msn='',gtalk='',website='')
+        #profile = UserProfile.objects.create(user=user,qq='',msn='',gtalk='',website='')
+        profile = UserProfile(user=user,qq='',msn='',gtalk='',website='')
+        profile.save()
     roles = Role.objects.filter(author=uid).filter(parent=0).order_by('-id')[0:5]
     stories = UserStory.objects.filter(author=uid).order_by('sort')[0:5]
     events = list(RoleEvent.objects.filter(user=uid)) + list(StoryEvent.objects.filter(user=uid))

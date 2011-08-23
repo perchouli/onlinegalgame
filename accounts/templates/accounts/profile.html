@@ -16,7 +16,7 @@
   <!--START: sidebar -->
   <div class="sidebar3">
    <div class="userdata">
-    <div class="user-avatar"> <span class="avatar"><img src="{% gravatar_url profile.email %}" width="100" height="100" alt="text"></span>
+    <div class="user-avatar"> <span class="avatar"><img src="{% gravatar_url user.email %}" width="100" height="100" alt="text"></span>
      <p>{{user.username}}</p>
     </div>
     <div class="user_level">
@@ -70,7 +70,7 @@
             <h4>最新动态</h4>
             {% if events %}
             {% for e in events %}
-            <li><label style="width:100px;">{{e.created|date:'m-d H:m'}}</label>{{e.event}}</li>
+            <li><label style="width:100px;">{{e.created|date:'m-d H:m'}}</label> 创建了 {{e.event}}</li>
             {% endfor %}
             {% else %}
             <li>当前没有动态</li>
@@ -85,9 +85,13 @@
         </ul>
         <ul class="profile_ul">
             <h4>拥有角色</h4>
+            {% if stories %}
             {% for role in roles %}
-            <li>{{role.name}}</li>
+            <li><a href="{% url show_role role.id %}">{{role.name}}</a></li>
             {% endfor %}
+            {% else %}
+            <li>还没有创建角色</li>
+            {% endif %}
         </ul>
         <ul class="profile_ul">
             <h4>故事场景</h4>
