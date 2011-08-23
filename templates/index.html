@@ -54,7 +54,7 @@
 	<img src="{{STATIC_URL}}images/icon/logo.png" alt="Icon" /> <span>Lastest Update</span>
 	<ul>
 	{% for e in events %}
-		<li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="#">{{e.user.username}}</a> 创建了 <a href="#">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+		<li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="{% url olgg_profile e.user.id %}">{{e.user.username}}</a> 创建了 <a href="#">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
 	{% endfor %}
 	</ul>
 	<div class="clear"></div>
