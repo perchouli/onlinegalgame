@@ -12,8 +12,8 @@ class GravatarUrlNode(template.Node):
             email = self.email.resolve(context)
         except template.VariableDoesNotExist:
             return ''
-        default = "http://example.com/static/images/defaultavatar.jpg"
-        size = 40
+        default = "http://onlinegalgame.com/static/images/noavatar.jpg"
+        size = 120
         gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
         gravatar_url += urllib.urlencode({'d':default, 's':str(size)})
         return gravatar_url
