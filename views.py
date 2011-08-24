@@ -7,9 +7,10 @@ from xml.dom import minidom, Node
 
 from onlinegalgame.role.models import RoleEvent
 from onlinegalgame.story.models import StoryEvent
+from onlinegalgame.accounts.models import UserProfileEvent
 
 def home(request):
-    events = list(RoleEvent.objects.all()) + list(StoryEvent.objects.all())
+    events = list(RoleEvent.objects.all()) + list(StoryEvent.objects.all()) + list(UserProfileEvent.objects.all())
     ctx = {
         'events' : events
     }
