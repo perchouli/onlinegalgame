@@ -1,9 +1,6 @@
 from django.shortcuts import render_to_response, redirect, get_object_or_404,HttpResponseRedirect
 from django.template.context import RequestContext
 from django.http import HttpResponse
-from django.core import serializers
-
-from xml.dom import minidom, Node
 
 from onlinegalgame.role.models import RoleEvent
 from onlinegalgame.story.models import StoryEvent
@@ -12,9 +9,8 @@ from onlinegalgame.accounts.models import UserProfileEvent
 def home(request):
     events = list(RoleEvent.objects.all()) + list(StoryEvent.objects.all()) + list(UserProfileEvent.objects.all())
     ctx = {
-        'events' : events
+        'events' : events[0:9]
     }
-    print request.session.session_key
     return render_to_response('index.html', ctx, context_instance = RequestContext(request))
 
 def imxml(request):
