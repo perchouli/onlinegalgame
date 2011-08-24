@@ -14,6 +14,10 @@ urlpatterns = patterns('role.views',
 		views.edit_role, 
 		name='edit_role'),
         
+    url(r'^show/(?P<role_id>\d+)/$', 
+		views.show_role, 
+		name='show_role'),
+
     url(r'^link/$', 
         views.link_role, 
         name='link_role'),

@@ -163,3 +163,10 @@ def unlink_role(request):
         linkrole = LinkRole.objects.get(author=uid,linkrole=linkrole)
         linkrole.delete()
         return HttpResponse('Success')
+
+def show_role(request, role_id):
+    role = Role.objects.get(id=role_id)
+    ctx = {
+        'role' : role
+    }
+    return render_to_response('role/show.html', ctx, context_instance = RequestContext(request))
