@@ -11,6 +11,7 @@
 .profile_ul li {margin:8px 0px;}
 .profile_ul label {width:50px;float:left;}
 .colorTip{left:50%;top:-30px;}
+#catact_form {display:none;}
 </style>
 <div  class="layout1"> 
   <!--START: sidebar -->
@@ -33,34 +34,6 @@
       <li>战斗力只有5</li>
      </ul>
     </div>
-    <!--div class="user-treasure">
-     <h3>持有宝贝（<a href="#">4</a>）</h3>
-     <ul class="clearfix">
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-      <li><img src="images/gallery/phone_7.png" width="40" height="40"></li>
-     </ul>
-     <p class="view-all"><a href="#">查看全部...</a></p>
-    </div>
-   </div>
-   <div class="trademark">
-    <h3>品牌</h3>
-    <ul>
-     <li>
-      <label>apple</label>
-      <span>x 20</span></li>
-     <li>
-      <label>TUNEWEAR</label>
-      <span>x 20</span></li>
-     <li>
-      <label>山寨</label>
-      <span>x 20</span></li>
-    </ul-->
    </div>
   </div>
   <!--END: sidebar --> 
@@ -76,12 +49,20 @@
             <li>当前没有动态</li>
             {% endif %}
         </ul>
-        <ul class="profile_ul">
-            <h4>联络信息</h4>
+        <ul id="catact" class="profile_ul">
+            <h4>联络信息 {% if request.user.id == user.id %}<a href="#" onclick="editProfile()">EDIT</a> {% endif %}</h4> 
             <li><label>Email</label>{{user.email|default:'-'}}</li>
             <li><label>QQ</label>{{profile.qq|default:'-'}}</li>
             <li><label>MSN</label>{{profile.msn|default:'-'}}</li>
+            <li><label>Gtalk</label>{{profile.gtalk|default:'-'}}</li>
             <li><label>主页</label>{{profile.website|default:'http://'}}</li>
+        </ul>
+        <ul id="catact_form" class="profile_ul">
+            <h4>联络信息</h4>
+            <form method="POST" action="{% url olgg_profile request.user.id %}">{% csrf_token %}
+            {{ form.as_p}}
+            <input type="submit" value="SUBMIT"/>
+            </form>
         </ul>
         <ul class="profile_ul">
             <h4>拥有角色</h4>
@@ -119,12 +100,17 @@ $(function(){
             type:'bullet',
             targetColor:'#7BCA1C',
             performanceColor: '#7BCA1C',
-            rangeColors : ['#eeeeee'],
+            rangeColors : ['#fcfcfc'],
         };
     $('#user_level_zdl').sparkline([5,5,100],option);
     $('#user_level_zl').sparkline([0,0,100],option);
     $('#user_level_ml').sparkline([0,0,100],option);
 });
+
+function editProfile(){
+    $('#catact').hide();
+    $('#catact_form').show();
+}
 
 </script>
 {% endblock %}
