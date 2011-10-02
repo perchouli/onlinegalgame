@@ -8,3 +8,4 @@
 *.swp
 dmyz.db
 .git
+.tmp_base*

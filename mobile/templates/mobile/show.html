@@ -1,0 +1,39 @@
+{% extends "mobile/base.html" %}
+{% load i18n gravatar%}
+{% block title %} 我的主页  {% endblock %}
+
+{% block content %}
+<div id="title">
+    <h4><a href="#">故事介绍</a></h4>        
+</div>
+<div id="content">
+    <ul>
+
+    </ul>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/spark.js"></script>
+<script>	
+$(function(){
+    var option = {
+            width:'150px',
+            height:'15px',
+            type:'bullet',
+            targetColor:'#7BCA1C',
+            performanceColor: '#7BCA1C',
+            rangeColors : ['#fcfcfc'],
+        };
+    $('#user_level_zdl').sparkline([5,5,100],option);
+    $('#user_level_zl').sparkline([0,0,100],option);
+    $('#user_level_ml').sparkline([0,0,100],option);
+});
+
+function editProfile(){
+    $('#catact').hide();
+    $('#catact_form').show();
+}
+
+</script>
+{% endblock %}

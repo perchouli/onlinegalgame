@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'onlinegalgame.story',
     'onlinegalgame.fileupload',
     'onlinegalgame.wiki',
+    'onlinegalgame.mobile',
 )
 
 # A sample logging configuration. The only tangible logging
