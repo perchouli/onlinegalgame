@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.template.context import RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from onlinegalgame.accounts.models import UserProfile
@@ -35,6 +36,7 @@ def register(request):
 	    return render_to_response('accounts/register.html',{'form' : RegisterForm()}, context_instance = RequestContext(request))
 
 @csrf_exempt
+@login_required
 def profile(request, uid):
     if request.method == 'POST':
         form = UserProfileForm(request.POST)
