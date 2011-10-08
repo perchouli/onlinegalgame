@@ -1,14 +1,12 @@
 {% extends "mobile/base.html" %}
-{% load i18n gravatar%}
-{% block title %} 我的主页  {% endblock %}
 
 {% block content %}
-<div id="header">
-    <h2><a href="#">故事列表</a></h2>        
-</div>
-<div id="content">
+<div id="home">
+    <div class="toolbar">
+        <h1>查询结果</h1>
+    </div>
     <ul>
-        <li><a href="{%url m_show_story 1 %}"><h4>《故事介绍》</h4><span>新客人你好，现在由我来介绍这个Seal的情况。</a></span></li>
+        <li><a href="{%url m_show_story 5 %}" target="_blank"><h4>《故事介绍》</h4></a><span>新客人你好，现在由我来介绍这个Seal的情况。</span></li>
         <li><h4>《1.入学式》</h4><span>路人和男主角的言语。</span></li>
         <li><h4>《早晨》</h4><span>没有文字介绍。</span></li>
         <li><h4>《test》</h4><span>test role。</span></li>
@@ -20,24 +18,8 @@
 {% block js %}
 <script type="text/javascript" src="{{STATIC_URL}}js/spark.js"></script>
 <script>	
-$(function(){
-    var option = {
-            width:'150px',
-            height:'15px',
-            type:'bullet',
-            targetColor:'#7BCA1C',
-            performanceColor: '#7BCA1C',
-            rangeColors : ['#fcfcfc'],
-        };
-    $('#user_level_zdl').sparkline([5,5,100],option);
-    $('#user_level_zl').sparkline([0,0,100],option);
-    $('#user_level_ml').sparkline([0,0,100],option);
+var jQT = $.jQTouch({
+    icon: 'icon.png'
 });
-
-function editProfile(){
-    $('#catact').hide();
-    $('#catact_form').show();
-}
-
 </script>
 {% endblock %}

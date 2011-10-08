@@ -1,39 +1,133 @@
 {% extends "mobile/base.html" %}
-{% load i18n gravatar%}
-{% block title %} 我的主页  {% endblock %}
 
 {% block content %}
+<style type="text/css">
+
+body { background: #ffffff; background-repeat: no-repeat; background-size: 100%;}
+
+#title h4 a{
+    border-bottom: 1px solid #333;
+    color: #fcfcfc;
+    display:block;
+    text-decoration:none;
+    padding:2px 5px;
+    text-shadow:0px 1px 1px #fff;
+    background:-webkit-gradient(linear, left top, left bottom,
+                                from(#ccc), to(#555));
+}
+
+	#dialog {
+		z-index:11;
+		width: 70%;
+		height:70px;
+		max-height: 70px;
+		background:#c6c6c6;
+        position: absolute;
+        bottom: 25px;
+        margin: 0 auto;
+		border-bottom-right-radius:5px;
+        border-top-right-radius:5px;
+		opacity:0.5;
+		padding:15px;
+		font-size:14px;
+		color:#000;
+		text-shadow:rgba(0, 0, 0, 0.3) 0 -1px 0;
+	}
+	
+	#hair, #cloth, #eye, #face, #glass_left, #other1_left, #other2_left, #other3_left {
+		margin-left:140px;
+	    width: 267px;
+	    height: 400px;
+	    position: absolute;
+	    background-repeat: no-repeat;
+	}
+	#chapter { position:absolute;width:500px;height:30px; background:#fcfcfc;display:none;}
+	#face {z-index: 2}
+	#eye {z-index: 2}
+	#hair {z-index: 1}
+	#role_image { height:400px; width:500px;}
+	
+</style>
 <div id="title">
     <h4><a href="#">故事介绍</a></h4>        
 </div>
-<div id="content">
-    <ul>
-
-    </ul>
+<div id="story" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');"  onclick="run()">
+    <div id="dialog">【点击对话框开始阅读故事】</div>
+    	<div id="chapter"></div>
+		<div id="hair"></div>
+		<div id="eye"></div>
+		<div id="face"></div>
+		<div id="cloth"></div>
+		<div id="dialog"></div>
+		<div id="role_image"></div>
 </div>
 {% endblock %}
 
 {% block js %}
-<script type="text/javascript" src="{{STATIC_URL}}js/spark.js"></script>
-<script>	
-$(function(){
-    var option = {
-            width:'150px',
-            height:'15px',
-            type:'bullet',
-            targetColor:'#7BCA1C',
-            performanceColor: '#7BCA1C',
-            rangeColors : ['#fcfcfc'],
-        };
-    $('#user_level_zdl').sparkline([5,5,100],option);
-    $('#user_level_zl').sparkline([0,0,100],option);
-    $('#user_level_ml').sparkline([0,0,100],option);
+<script>
+    var storyStep = 0;
+    var commandJson = JSON.parse('{{command|safe}}');
+    var roleDom = ['eye','face','hair','cloth'];
+    var roleProfile = [];
+    
+    function clearRole(){
+        for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
+        $("#role_image").attr('style','');
+    }
+
+	function changeRole(type, value){
+        {% for role in role_list %}
+        {% if role.image %}
+        roleProfile[{{role.id}}] = '{{ role.image }}';
+        {% else %}
+        roleProfile[{{role.id}}] = "{{ role.profile|safe }}".split(',');
+        //{% endif %}
+        //{% endfor %}
+        if (type == 'default'){
+			for (var i in roleDom) $("#"+roleDom[i]).attr('style',roleProfile[value][i]);
+			$("#role_image").attr('style','');
+		}else{
+			for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
+			$("#role_image").attr('style',"background:url('/"+roleProfile[value]+"') no-repeat center bottom");
+		}
+	}
+
+	function run(){
+        var p = commandJson.process;
+		try { p[storyStep].type }
+		catch(err){
+			alert('这个故事已经结束了，请浏览其他故事');
+		}
+
+		switch(p[storyStep].type) {
+			case 'BGD':
+			    $('body').attr('style','background:url('+p[storyStep].value+')');
+				break;
+			case 'DROLE':
+			    changeRole('default',p[storyStep].value);
+				break;
+			case 'UROLE':
+			    changeRole('user',p[storyStep].value);
+				break;
+            case 'DIALOG':
+			    $("#dialog").html(p[storyStep].value);
+				break;
+            case 'COM':
+                if (p[storyStep].value == 'CROLE') clearRole();
+                if (p[storyStep].value == 'DIALOG'){
+                    $('#dialog').css('display') == 'block' ? $('#dialog').css('display','none'):$('#dialog').css('display','block');
+                }
+                break;
+			default: 
+				alert('这条流程没法解析');
+				break;
+		}
+		storyStep++;
+	};
+
+
+$(document).ready(function(){
+    
 });
-
-function editProfile(){
-    $('#catact').hide();
-    $('#catact_form').show();
-}
-
 </script>
 {% endblock %}
