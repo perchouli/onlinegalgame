@@ -6,6 +6,6 @@
 .pydevproject
 .settings
 *.swp
-dmyz.db
+*.db
 .git
 .tmp_base*
