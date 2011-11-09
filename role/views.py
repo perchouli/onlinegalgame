@@ -7,8 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
-from onlinegalgame.role.models import Role, RoleDress, LinkRole
-from onlinegalgame.role.forms import RoleForm
+from role.models import Role, RoleDress, LinkRole
 
 import hashlib, datetime, random
 
@@ -143,7 +142,7 @@ def edit_role(request, role_id):
 @login_required
 def link_role(request):
     if request.method == 'GET':
-        uid = request.session['_auth_user_id']
+        uid = request.user.id
         role_id = int(request.GET.get('role_id'))
         linkrole = LinkRole (
             linkrole        = Role.objects.get(id=role_id),
