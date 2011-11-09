@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from onlinegalgame.accounts.models import UserProfile
+from accounts.models import UserProfile
 
 class RegisterForm(forms.Form):
     username = forms.CharField(max_length=16)
