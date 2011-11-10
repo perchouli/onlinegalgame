@@ -139,7 +139,7 @@ function link_role(rid, action){
 	if (action == 'link'){
 		$.ajax({
 			type : 'GET',
-			url: '/role/link/',
+			url: '/role/link/link',
 			data : {'role_id':rid},
 			statusCode : {
 				200: function(){
@@ -155,7 +155,7 @@ function link_role(rid, action){
 	if (action == 'unlink'){
 		$.ajax({
 			type : 'GET',
-			url: '/role/unlink/',
+			url: '/role/link/unlink',
 			data : {'role_id':rid},		
 			statusCode : {
 				200: function(){

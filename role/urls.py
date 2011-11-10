@@ -18,11 +18,7 @@ urlpatterns = patterns('role.views',
 		views.show_role, 
 		name='show_role'),
 
-    url(r'^link/$', 
+    url(r'^link/(?P<islink>\S+)/$', 
         views.link_role, 
         name='link_role'),
-        
-    url(r'^unlink/$', 
-        views.unlink_role, 
-        name='unlink_role'),
 	)
