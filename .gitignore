@@ -8,4 +8,4 @@
 *.swp
 *.db
 .git
-.tmp_base*
+.tmp*
