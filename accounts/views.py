@@ -1,27 +1,29 @@
+# -*- coding:utf-8 -*-
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.template.context import RequestContext
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from onlinegalgame.accounts.models import UserProfile
-from onlinegalgame.accounts.forms import RegisterForm, UserProfileForm
-from onlinegalgame.role.models import Role, RoleEvent
-from onlinegalgame.story.models import UserStory, StoryEvent
+from accounts.models import UserProfile
+from accounts.forms import RegisterForm, UserProfileForm
+from role.models import Role, RoleEvent
+from story.models import UserStory, StoryEvent
 
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = User.objects.create_user(
-                form.cleaned_data['username'],
-                form.cleaned_data['email'],
-                form.cleaned_data['password'],
-            )
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            user = User.objects.create_user(username, email, password)
             user.is_staff = True
             user.save()
-            return redirect ('/accounts/login/?next=/')
+            #自动登录部分
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect ('/')
         else:
             error_form = RegisterForm(initial={
                 'username':request.POST['username'],
@@ -33,7 +35,7 @@ def register(request):
             }
             return render_to_response('accounts/register.html', ctx , context_instance = RequestContext(request))
     else:
-	    return render_to_response('accounts/register.html',{'form' : RegisterForm()}, context_instance = RequestContext(request))
+        return render_to_response('accounts/register.html',{'form' : RegisterForm()}, context_instance = RequestContext(request))
 
 @csrf_exempt
 @login_required

@@ -7,8 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
-from onlinegalgame.role.models import Role, RoleDress, LinkRole
-from onlinegalgame.role.forms import RoleForm
+from role.models import Role, RoleDress, LinkRole
 
 import hashlib, datetime, random
 
@@ -141,9 +140,9 @@ def edit_role(request, role_id):
         return render_to_response('role/view.html', ctx, context_instance = RequestContext(request))
 
 @login_required
-def link_role(request):
-    if request.method == 'GET':
-        uid = request.session['_auth_user_id']
+def link_role(request,islink):
+    uid = request.session['_auth_user_id']
+    if islink == 'link':
         role_id = int(request.GET.get('role_id'))
         linkrole = LinkRole (
             linkrole        = Role.objects.get(id=role_id),
@@ -151,18 +150,11 @@ def link_role(request):
             token           = hashlib.sha1(str(uid)+str(role_id)).hexdigest(),
         )
         linkrole.save()
-        return HttpResponse('Success')
-
-        
-@login_required
-def unlink_role(request):
-    if request.method == 'GET':
-        uid = request.session['_auth_user_id']
+    else:
         linkrole = int(request.GET['role_id'])
-
         linkrole = LinkRole.objects.get(author=uid,linkrole=linkrole)
         linkrole.delete()
-        return HttpResponse('Success')
+    return HttpResponse('Success')
 
 def show_role(request, role_id):
     role = Role.objects.get(id=role_id)
