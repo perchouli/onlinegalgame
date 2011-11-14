@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %} {% trans "Role List" %}  {% endblock %}
+
+{% block content %}
+<style>
+	.role_wapper {
+		margin:10px 5px;width:300px;height:400px;border:1px solid #eee; float:left; 
+		box-shadow : 0 2px 2px rgba(0, 0, 0, 0.2);
+		-moz-box-shadow : 0 2px 2px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow : 0 2px 2px rgba(0, 0, 0, 0.2);
+	}
+	.role_toolbar {
+		height:30px;  z-index:100;position:absolute; width: 300px;
+	}
+
+	.role_resume {
+		position:absolute; margin-top:250px; z-index:100; width:260px; background:#fcfcfc;
+		padding:20px;height: 90px; display: none;
+		overflow:auto;
+	}
+
+	select { background-color: #fcfcfc; border-color: #eee; margin-top:5px;padding: 3px;border-style: solid;}
+</style>
+
+<div>
+	<div class="conr-title">
+		<div class="breadcrumb"></div>
+		<h2><a href="{% url add_role %}"><img src="{{STATIC_URL}}images/btn_createrole.png" /></a></h2>
+	</div>
+	<div class="page">
+		<div class="role_list">
+	 	{% for role in role_list.object_list %}
+			<div id="role_{{role.id}}" class="role_wapper" 
+			style="background-image:{% if role.image %}url(/{{role.image}}){% else %}{{role.profile|cut:'background:'}}{% endif %}; background-repeat: no-repeat;background-position:bottom;">
+				<div id="role_{{role.id}}_toolbar" class="role_toolbar">
+					{% if role.author.id == request.user.id %}
+					<input type="button" value="{% trans "Edit" %}" onclick="window.location.href= '{%url edit_role role.id %}'"/>	
+					{% else %}
+						{% if role.islink %}
+						<input type="button" value="{% trans "Un Link" %}" onclick="link_role({{role.id}}, 'unlink')"/>
+						{% else %}
+						{% if role.id != 1 %}
+						<input type="button" id="btn_link_role" value="{% trans "Link" %}" onclick="link_role({{role.id}},'link')"/>
+						{% endif %}	
+						{% endif %}	
+					{% endif %}	
+					<input type="button" value="{% trans "Resume" %}" onclick="roleResume({{role.id}})"/>
+					<select onchange="roleChild({{role.id}},this.options[this.selectedIndex].title,this.value)" >
+					{% if role.image %}
+						<option title="{{role.id}}" value="{{role.image}}">{{role.name}}</option>
+					{% else %}
+						<option title="{{role.id}}" value="{{role.profile|cut:"background:"}}">{{role.name}}</option>			
+					{% endif %}	
+					
+					{% for child in role.children %}
+						{% if child.image %}
+						<option title="{{child.id}}" value="{{child.image}}">{{child.name}}</option>
+						{% else %}
+						<option title="{{child.id}}" value="{{child.profile|cut:"background:"}}">{{child.name}}</option>					
+						{% endif %}	
+					{% endfor %}
+					</select>
+				</div>
+
+				<div id="role_{{role.id}}_resume" class="role_resume">
+					<h3>{{role.name}}</h3>
+					<p><a href="#">{{role.author}}</a> 的 <span style="color:#7BCA1C">{{role.relation|default:"角色"}}</span></p>
+					<p>属性：{%for tag in role.tags %}<a href="?tag={{tag}}" style="text-decoration: underline;">{{tag|default:"无"}}</a> {% endfor %}</p>
+					<p>{{role.resume}}</p>
+				</div>
+			</div>
+		 {% endfor %}
+		 <div class="clear"></div>
+			<div class="pagination">
+			    <span class="step-links">
+			        {% if role_list.has_previous %}
+			            <a href="?page={{ role_list.previous_page_number }}">Previous</a>
+			        {% endif %}
+			
+			        <span class="current">
+			            Page {{ role_list.number }} of {{ role_list.paginator.num_pages }}.
+			        </span>
+			
+			        {% if role_list.has_next %}
+			            <a href="?page={{ role_list.next_page_number }}">Next</a>
+			        {% endif %}
+			    </span>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+$(document).ready(function(){
+
+	/*显示的角色倾斜随机角度
+	var allRole = $('.show_role');
+	for ( var i=0; i < allRole.length; i++){
+		var degree = Math.round(Math.random()*10);
+		if ( degree > 5 ) degree = -degree;
+		$('.show_role').eq(i).css('-o-transform','rotate('+degree+'deg)').css('-webkit-transform','rotate('+degree+'deg)').css('-moz-transform','rotate('+degree+'deg)');
+	}
+	*/
+	$("input, button").uniform();
+});
+/**
+ * 显示用户资料
+ * @param {Number} rid
+ */
+function roleResume(rid){	
+	var s = $("#role_"+rid+"_resume").css('display');
+	if (s == 'none')
+		$("#role_"+rid+"_resume").fadeIn();
+	else
+		$("#role_"+rid+"_resume").fadeOut();
+}
+
+function roleChild(pid,cid,v){
+	if (pid != 1 ) {
+		$("#role_"+pid+"_toolbar").find('input[value="编辑"]').attr('onclick',"window.location.href= '/role/edit/"+cid+"'");
+	}
+	if ( v.indexOf('/role/user') == -1){
+		$("#role_"+pid).attr('style','background-image:'+v);
+	}else{
+		$("#role_"+pid).attr('style',"background-image:url('/"+v+"'); background-repeat:no-repeat;background-position:center bottom;");
+	}
+}
+
+/**
+ * 引用/取消引用角色
+ * @param {int} rid
+ * @param {link/unlink} action
+ */
+function link_role(rid, action){
+	{% if user.is_authenticated %}
+	if (action == 'link'){
+		$.ajax({
+			type : 'GET',
+			url: '/role/link/link',
+			data : {'role_id':rid},
+			statusCode : {
+				200: function(){
+					jRight ('引用成功，现在您可以在自己的<a href="{%url story_list %}">剧本</a>中使用这个人物了','Add Success');
+				},
+				500: function(){
+					//$("#link_role_"+role_id).val('Link').parent().prepend('Un');
+					jAlert ('引用失败，是否重复添加？','Add Failed');
+				}
+			}
+		});
+	}
+	if (action == 'unlink'){
+		$.ajax({
+			type : 'GET',
+			url: '/role/link/unlink',
+			data : {'role_id':rid},		
+			statusCode : {
+				200: function(){
+					jRight ('取消引用成功', 'Unlink Success',function(){window.location.reload();});
+				}
+			}
+		});
+	}
+	{% else %}
+	location.href = '{% url olgg_login %}?next={%url role_list %}';
+	{% endif %}
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load i18n comments %}
+{% block title%}{{story.title}}{% endblock %}
+
+{% block content %}
+<style>
+	#story , #story_list {margin-top:15px;}
+	#story {float:left; width:500px;height:400px;border:1px solid #ccc; background:#000;}
+	#story_list { background:url({{STATIC_URL}}images/bg-story-sort.jpg) no-repeat; float:left; width:130px; height:400px;border:1px solid #ccc;}
+
+	#hair, #cloth, #eye, #face, #glass_left, #other1_left, #other2_left, #other3_left {
+		margin-left:140px;
+	    width: 267px;
+	    height: 400px;
+	    position: absolute;
+	    background-repeat: no-repeat;
+	}
+	#chapter { position:absolute;width:500px;height:30px; background:#fcfcfc;display:none;}
+	#face {z-index: 2}
+	#eye {z-index: 2}
+	#hair {z-index: 1}
+	#role_image { height:400px; width:500px;}
+
+	#dialog {
+		z-index:11;
+		width: 400px;
+		height:70px;
+		background:#c6c6c6;
+		position: absolute;
+		margin:280px 0 0 30px;
+		border-radius:5px;
+		-webkit-border-radius:5px;
+		opacity:0.5;
+		padding:20px;
+		font-size:14px;
+		color:#000;
+		text-shadow:rgba(0, 0, 0, 0.3) 0 -1px 0;
+		font-family: '黑体';
+	}
+	#dialog p { opacity:1;}
+	
+	#story_info { margin:18px;float:left;  float:left; width:300px;}
+		#story_info h3 { margin-top:15px;}
+		#story_info .current {background:#7BCA1C;color:#fcfcfc}
+		
+	#popup_ok{ margin-left:30px}
+    input[type="button"] {background:#333; color:#fff;height:20px; border-radius:3px; border:0px;}
+    
+    textarea { color:#ccc; border: 1px #aaa solid; }
+</style>
+</head>
+	<div class="conr-title">
+		<div class="search-bar">
+			<a href="{% url add_story %}"><img src="{{STATIC_URL}}images/btn_createstory.png"/></a>
+			<span style="font-size:12px;">TIPS：和普通Galgame一样，点击场景即可进行游戏</span>
+		</div>
+	</div>
+	<div id="story" style="background:url('{{ STATIC_URL }}bgd/mapback.jpg');"  onclick="run()">
+		<div id="chapter"></div>
+		<div id="hair"></div>
+		<div id="eye"></div>
+		<div id="face"></div>
+		<div id="cloth"></div>
+		<div id="dialog"></div>
+		<div id="role_image"></div>
+	</div>
+	<div id="story_info">
+	<h2>{{story.title}}</h2><br>
+			{{story.summary}}
+	<h3>故事的所有场景</h3>
+		<ul>
+			<li id="tips"></li>
+			{% for s in story_list %}
+			<li>{% if s.author.id = request.user.id %}<span onclick="delStory({{s.id}})" style="font-size:10;margin-right:10px;color:red;">x</span>{% endif %}<a {% if s.id == story.id %}class="current"{% endif %} href="{% url show_story s.id %}">{{s.title}}</a> {% if s.author.id = request.user.id %}<input type="button" value="Edit" onclick="editStory($(this).parent())"/>{% endif %}</li>
+			<li style="display:none;">排序：<input name="sort" type="text" value="{{s.sort}}" style="width:30px;"/> 场景名：<input name="title" type="text" value="{{s.title}}" style="width:100px"/> <input type="button" value="Submit" onclick="submitEdit($(this).parent(), {{s.id}})"/></li>			
+			{% endfor %}
+		</ul>
+	<h3>场景评论</h3>
+		<ul>
+			{% get_comment_list for story as comment_list %}
+			{% for comment in comment_list %} 
+			<li>{{comment}}</li>
+			{% endfor %}
+			<li>
+			<form action="{% comment_form_target %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="next" value="{{request.path_info}}" />
+				<input type="hidden" name="content_type" value="story.userstory" id="id_content_type">
+				<input type="hidden" name="object_pk" value="{{story.id}}" id="id_object_pk">
+				<input type="hidden" name="timestamp" value="{{timestamp}}" id="id_timestamp">
+				<input type="hidden" name="security_hash" value="{{security_hash}}" id="id_security_hash">
+				<input id="id_name" type="hidden" name="name" maxlength="50" value="{{request.user.username}}">
+				<input type="hidden" name="email" id="id_email" value="{{request.user.email}}">
+				<textarea id="id_comment" rows="5" cols="40" name="comment"></textarea>
+				<input id="btn_post" type="submit" value="{% trans 'Submit' %}" />
+			</form>
+			</li>
+		</ul>
+	</div>
+{% endblock%}
+
+{% block js %}
+<script>
+	var storyStep = 0;
+    var roleDom = ['eye','face','hair','cloth'];
+    var roleProfile = [];
+	var commandJson = JSON.parse('{{command|safe}}');
+	
+	$(document).ready(function(){
+		//$("#chapter").fadeIn().delay(2000).fadeOut();
+		$("#id_comment, #btn_post").uniform();
+	});
+	
+    function clearRole(){
+        for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
+        $("#role_image").attr('style','');
+    }
+	
+	function changeRole(type, value){
+        {% for role in role_list %}
+        {% if role.image %}
+        roleProfile[{{role.id}}] = '{{ role.image }}';
+        {% else %}
+        roleProfile[{{role.id}}] = "{{ role.profile|safe }}".split(',');
+        //{% endif %}
+        //{% endfor %}
+        if (type == 'default'){
+			for (var i in roleDom) $("#"+roleDom[i]).attr('style',roleProfile[value][i]);
+			$("#role_image").attr('style','');
+		}else{
+			for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
+			$("#role_image").attr('style',"background:url('/"+roleProfile[value]+"') no-repeat center bottom");
+		}
+	}
+
+	function run(){
+        var p = commandJson.process;
+		try { p[storyStep].type }
+		catch(err){
+			var nextUrl = $("#story_info ul li a[class='current']").parent().next().next().children('a').attr('href');
+			if (nextUrl) window.location.href = nextUrl; else jRight('这个故事已经结束了，请浏览其他故事');
+		}
+
+		switch(p[storyStep].type) {
+			case 'BGD':
+			    $('#story').attr('style','background:url('+p[storyStep].value+')');
+				break;
+			case 'DROLE':
+			    changeRole('default',p[storyStep].value);
+				break;
+			case 'UROLE':
+			    changeRole('user',p[storyStep].value);
+				break;
+            case 'DIALOG':
+			    $("#dialog").html(p[storyStep].value);
+				break;
+            case 'COM':
+                if (p[storyStep].value == 'CROLE') clearRole();
+                if (p[storyStep].value == 'DIALOG'){
+                    $('#dialog').css('display') == 'block' ? $('#dialog').css('display','none'):$('#dialog').css('display','block');
+                }
+                break;
+			default: 
+				jAlert('这条流程没法解析');
+				break;
+		}
+		storyStep++;
+	};
+	
+	function editStory(el){
+		el.hide();
+		el.next().show();	
+	}
+	
+	function submitEdit(el,sid){
+		var s = el.children('input[name="sort"]').val();
+		var t = el.children('input[name="title"]').val();
+		el.hide();
+		el.prev().show();
+		$.ajax({
+			type:'POST',
+			url: '{% url edit_story %}',
+			dataType: 'json',
+			data: {"sort" : s, "title": t ,"sid":sid},
+			success: function() {
+				$("#tips").css('color','#7BCA1C').fadeIn().text('提交成功，刷新后可以看到修改结果').delay(2000).fadeOut();
+				//jRight('提交成功，刷新后可以看到新')
+			},
+			error: function() {
+				$("#tips").css('color','red').fadeIn().text('提交失败，可能是服务器错误，请稍候再提交').delay(2000).fadeOut();
+			}
+		});
+	}
+
+	function delStory(sid){
+		jConfirm('删除后的场景不能再恢复，确认要删除吗？', 'Confirmation Dialog', function(r) {
+			if (r){
+				$.ajax({
+					type:'POST',
+					url: '{%url del_story %}',
+					dataType:'json',
+					data: {"sid": sid },
+					success: function(){
+						if (sid != {{story.id}}) window.location.reload();
+						else window.location.href = '{% url story_list %}'
+					}
+				});
+			}
+       });
+	}
+</script>
+{% endblock %}
