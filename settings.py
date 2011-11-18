@@ -109,6 +109,7 @@ INSTALLED_APPS = (
     'onlinegalgame.wiki',
     'onlinegalgame.mobile',
     
+    'south',
     'userena',
     'guardian',
     'easy_thumbnails',
