@@ -52,7 +52,19 @@
 
 <div class="follow events">
 	<img src="{{STATIC_URL}}images/icon/logo.png" alt="Icon" /> <span>Lastest Update</span>
-
+        <ul>
+        {% for e in events %}
+            {% if e.content_type_id == 11 %}
+            <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="{% url olgg_profile e.user.id %}">{{e.user.username}}</a> 创建了场景 <a href="{%url show_story e.object_id %}">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+            {% endif %}
+            {% if e.content_type_id == 8 %}
+            <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="{% url olgg_profile e.user.id %}">{{e.user.username}}</a> 创建了角色 <a href="{% url show_role e.object_id %}">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+            {% endif %}
+            {% if e.content_type_id == 31 %}
+            <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="{% url olgg_profile e.user.id %}">{{e.user.username}}</a> 拥有了自己的封绝   <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
 	<div class="clear"></div>
 </div>
 
