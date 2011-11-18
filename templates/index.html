@@ -36,13 +36,13 @@
 	<span>You can make a online Galgame by yourself. But first:</span>
 	<ul>
 		<li>
-			<a href="{%url olgg_register %}"><img src="{{STATIC_URL}}images/icon/register.png" width="100" alt="Register" /></a>
-			<h2><a href="{%url olgg_register %}">Register</a></h2>
+			<a href="{%url userena_signup %}"><img src="{{STATIC_URL}}images/icon/register.png" width="100" alt="Register" /></a>
+			<h2><a href="{%url userena_signup %}">Register</a></h2>
 			<p> 在本站注册一个账号，只需要填写邮箱地址，用户名和密码。 </p>
 		</li>
 		<li>
-			<a href="{%url olgg_login %}"><img src="{{STATIC_URL}}images/icon/login.png" width="100" alt="Login"/></a>
-			<h2><a href="{%url olgg_login %}">Login</a></h2>
+			<a href="{%url userena_signin %}"><img src="{{STATIC_URL}}images/icon/login.png" width="100" alt="Login"/></a>
+			<h2><a href="{%url userena_signin %}">Login</a></h2>
 			<p> 如果您已经注册，请使用注册的账号登陆，您也可以使用OpenID来进行登陆。 </p>
 		</li>
 	</ul>
@@ -52,19 +52,7 @@
 
 <div class="follow events">
 	<img src="{{STATIC_URL}}images/icon/logo.png" alt="Icon" /> <span>Lastest Update</span>
-	<ul>
-	{% for e in events %}
-        {% if e.content_type_id == 11 %}
-        <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="{% url olgg_profile e.user.id %}">{{e.user.username}}</a> 创建了场景 <a href="{%url show_story e.object_id %}">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
-        {% endif %}
-        {% if e.content_type_id == 8 %}
-        <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="{% url olgg_profile e.user.id %}">{{e.user.username}}</a> 创建了角色 <a href="{% url show_role e.object_id %}">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
-        {% endif %}
-        {% if e.content_type_id == 31 %}
-        <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="{% url olgg_profile e.user.id %}">{{e.user.username}}</a> 拥有了自己的封绝   <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
-        {% endif %}
-	{% endfor %}
-	</ul>
+
 	<div class="clear"></div>
 </div>
 

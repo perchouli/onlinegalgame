@@ -39,12 +39,3 @@ class RoleEvent(models.Model):
     
     event = generic.GenericForeignKey('content_type', 'object_id')
     created = models.DateTimeField(auto_now_add = True)
-    
-from django.db.models.signals import post_save
-def role_save(sender, instance, created, *args, **kwargs):
-    if created:
-        event = RoleEvent(user = instance.author, event = instance)
-        event.save()
-
-post_save.connect(role_save, sender = Role)
-

@@ -2,12 +2,11 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404,Htt
 from django.template.context import RequestContext
 from django.http import HttpResponse
 
-from onlinegalgame.role.models import RoleEvent
-from onlinegalgame.story.models import StoryEvent
-from onlinegalgame.accounts.models import UserProfileEvent
+from role.models import RoleEvent
+from story.models import StoryEvent
 
 def home(request):
-    events = list(RoleEvent.objects.all()) + list(StoryEvent.objects.all()) + list(UserProfileEvent.objects.all())
+    events = list(RoleEvent.objects.all().order_by('-id')) + list(StoryEvent.objects.all().order_by('-id'))
     ctx = {
         'events' : events[0:9]
     }

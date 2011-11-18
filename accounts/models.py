@@ -1,12 +1,16 @@
-from django.db import models
+from django.db import models 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from userena.models import UserenaLanguageBaseProfile
+from django.utils.translation import ugettext_lazy as _
 
-ZODIAC_CHOICES = ()
+class UserProfile(UserenaLanguageBaseProfile):
+    user = models.OneToOneField(User,
+                                unique=True,
+                                verbose_name=_('user'),
+                                related_name='olgg_profile')
 
-class UserProfile(models.Model):
-    user = models.ForeignKey(User)
     
     qq = models.CharField(max_length=16,blank=True)
     msn = models.CharField(max_length=32,blank=True)
@@ -15,7 +19,8 @@ class UserProfile(models.Model):
     
     honor = models.CharField(max_length=32,blank=True)
     career = models.CharField(max_length=16,blank=True)
-    
+
+'''  
 class UserProfileEvent(models.Model):
     user = models.ForeignKey(User)
     content_type = models.ForeignKey(ContentType)
@@ -23,7 +28,7 @@ class UserProfileEvent(models.Model):
     
     event = generic.GenericForeignKey('content_type', 'object_id')
     created = models.DateTimeField(auto_now_add = True)
-    
+  
 from django.db.models.signals import post_save
 def user_profile_save(sender, instance, created, *args, **kwargs):
     if created:
@@ -31,4 +36,4 @@ def user_profile_save(sender, instance, created, *args, **kwargs):
         event.save()
 
 post_save.connect(user_profile_save, sender = UserProfile)
-
+'''
