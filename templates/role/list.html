@@ -165,7 +165,7 @@ function link_role(rid, action){
 		});
 	}
 	{% else %}
-	location.href = '{% url olgg_login %}?next={%url role_list %}';
+	location.href = '{% url userena_signin %}?next={%url role_list %}';
 	{% endif %}
 }
 
