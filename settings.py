@@ -145,10 +145,16 @@ LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 DEFAULT_FROM_EMAIL = 'dantalion@onlinegalgame.com'
 
+EMAIL_HOST = 'smtp.exmail.qq.com'
+EMAIL_PORT = 25
+
+EMAIL_HOST_USER = 'dantalion@onlinegalgame.com'
+EMAIL_HOST_PASSWORD = '@Forelord12'
+
 
 DJIKI_IMAGES_PATH = os.path.join(PROJECT_PATH,'static/images/wiki')
 DJIKI_SPACES_AS_UNDERSCORES = True
-DJIKI_ALLOW_ANONYMOUS_EDITS = True
+DJIKI_ALLOW_ANONYMOUS_EDITS = False
 
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'

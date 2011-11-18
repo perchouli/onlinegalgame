@@ -2,12 +2,12 @@
 
 {% blocktrans with user.username as username %} {{ username }}, 欢迎你{% endblocktrans %}
 
-{% blocktrans with site.name as site %}Onlinegalgame是一个在线制作，分享GalGame的网站 {{ site }}。{% endblocktrans %}
+{% blocktrans with site.name as site %}Onlinegalgame是一个在线制作，分享GalGame的网站。您可以通过网站自带的素材，或是上传，来创建角色和场景。{% endblocktrans %}
 
-现在请点击以下链接激活，我会激活您的帐号，以后您就后可以使用邮箱或是用户名登录。
+现在请点击以下链接，我会激活您的帐号，以后您就后可以使用邮箱或是用户名登录了。
 http://onlinegalgame.com{% url userena_activate user.username activation_key %}
 
-有任何其他问题欢迎回复本邮件或是直接联系管理员Perchouli(jp.chenyang@gmail.com)
+有任何其他问题欢迎回复本邮件或是联系Perchouli(jp.chenyang@gmail.com)
 
 {% trans "Thanks for using our site!" %}
 
