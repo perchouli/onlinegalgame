@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     #The url about app
     #url(r'^accounts/', include('onlinegalgame.accounts.urls')),
     url(r'^accounts/', include('userena.urls')),
+    url(r'^messages/', include('userena.contrib.umessages.urls')),
+    
     url(r'^role/', include('onlinegalgame.role.urls')),
     url(r'^story/', include('onlinegalgame.story.urls')),
     url(r'^wiki/', include('onlinegalgame.wiki.urls')),

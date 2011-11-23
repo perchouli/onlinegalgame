@@ -6,6 +6,7 @@
 <title>{% block title %}{% endblock %} - OnlineGalgame - 在线游戏制作平台</title>
 <link type="text/css" rel="stylesheet" href="/static/css/main.css"/>
 <link type="text/css" rel="stylesheet" href="/static/css/uniform.css"/>
+{% block style %}{% endblock %}
 </head>
 <body>
 <!--START: Header -->
@@ -46,7 +47,8 @@
 </div>
 <!--END: Header--> 
 <!--START: Wrapper -->
-<div id="wrapper"> 
+<div id="wrapper">
+    {% block breadcrumb %}{% endblock %} 
 	{% block content %}{% endblock %}
 	<div class="clear"></div>
 </div>

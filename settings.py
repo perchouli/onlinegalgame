@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     
     'south',
     'userena',
+    'userena.contrib.umessages',
     'guardian',
     'easy_thumbnails',
 )

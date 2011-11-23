@@ -25,7 +25,7 @@ a:hover { color: green; text-decoration: none; cursor: pointer; }
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* End hide from IE-mac */  
-#wrapper { margin: 0 auto; text-align: left; width: 960px; padding:20px; min-height: 100%;}
+#wrapper { margin: 0 auto; text-align: left; width: 960px; min-height: 100%;}
 .clear { clear: both; height: 0; overflow: hidden; }
 /*1.1public style end*/
 
@@ -93,7 +93,6 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 .page { padding: 0px 7px 20px; }
 /* 2 list.html end*/
 
-	
 /* 3 Alert */
 #popup_container{font-family:Arial, sans-serif;font-size:12px;min-width:300px;max-width:600px;background:#fcfcfc;border:solid 3px #ccc;color:#000;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
 #popup_title{font-size:14px;font-weight:700;text-align:center;line-height:1.75em;color:#666;background:#CCC url(/static/images/title.gif) top repeat-x;border:solid 1px #FFF;border-bottom:solid 1px #999;cursor:default;width:100%;margin:0;padding:0;}
@@ -135,3 +134,6 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 .black .pointyTip{border-top-color:#333}
 .black .pointyTipShadow{border-top-color:#111}
 .black .colorTip{background-color:#333;border:1px solid #111;color:#fcfcfc;text-shadow:none;}
+
+/* 6. Profile */
+/* layout1 */
