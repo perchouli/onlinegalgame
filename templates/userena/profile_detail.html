@@ -4,6 +4,21 @@
 {% block title %}{% blocktrans with profile.user.username as username %}{{ username }}'s profile.{% endblocktrans %}{% endblock %}
 {% block content_title %}<h2>{{ profile.user.username }} {% if profile.user.get_full_name %}({{ profile.user.get_full_name }}){% endif %}</h2>{% endblock %}
 
+{% block style %}
+<style>
+.user_level {padding:15px 0px;}
+.user_level li{margin:8px 0px;}
+.user_level label {width:50px;float:left;}
+.profile_ul { border-bottom:1px dashed #7BCA1C;padding:15px 0px;}
+.profile_ul li {margin:8px 0px;}
+.profile_ul label {width:50px;float:left;}
+.colorTip{left:50%;top:-30px;}
+#catact_form {display:none;}
+fieldset {line-height:35px;}
+label {float:left; width:100px;}
+</style>
+{% endblock %}
+
 {% block content %}
 
 {% include "userena/sidebar.html" %}
