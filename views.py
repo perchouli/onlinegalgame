@@ -9,9 +9,9 @@ from story.models import UserStory
 
 def home(request):
     events = {
-        'user' : User.objects.all()[0:3],
-        'role' : Role.objects.all()[0:3],
-        'story': UserStory.objects.all()[0:3],
+        'user' : User.objects.all().order_by('-id')[0:3],
+        'role' : Role.objects.all().order_by('-id')[0:3],
+        'story': UserStory.objects.all().order_by('-id')[0:3],
     }
     '''
     for e in User.objects.all()[0:3]:
