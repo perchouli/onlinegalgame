@@ -1,8 +1,9 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.http import HttpResponse
-
 from django.contrib import admin
 admin.autodiscover()
+
+from settings import MEDIA_ROOT
 
 urlpatterns = patterns('',
     url(r'^$', 'onlinegalgame.views.home', name='home'),
@@ -10,7 +11,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'django.views.generic.simple.direct_to_template', {'template':'index.html'}),
     
     #This line in need when run in Apache
-    #url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}, name="static"),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}, name="media"),
 
     #The url about app
     #url(r'^accounts/', include('onlinegalgame.accounts.urls')),

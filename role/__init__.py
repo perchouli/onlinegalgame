@@ -1,4 +1,4 @@
-from role.models import Role, RoleEvent
+'''from role.models import Role, RoleEvent
 from django.db.models.signals import post_save
 def role_save(sender, instance, created, *args, **kwargs):
     if created:
@@ -6,4 +6,4 @@ def role_save(sender, instance, created, *args, **kwargs):
         event.save()
 
 post_save.connect(role_save, sender = Role)
-
+'''

@@ -9,10 +9,10 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.utils.crypto import salted_hmac, constant_time_compare
 
-from onlinegalgame.story.models import UserStory
-from onlinegalgame.role.models import Role, LinkRole
-from onlinegalgame.fileupload.models import StoryUpload
-from onlinegalgame.settings import PROJECT_PATH
+from story.models import UserStory
+from role.models import Role, LinkRole
+from fileupload.models import StoryUpload
+from settings import PROJECT_PATH
 
 from datetime import date
 import json, time, os

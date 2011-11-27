@@ -318,7 +318,7 @@ $(document).ready( function(){
             processFrame.append('<li type="DROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>');
         }else{
 			for (var i in roleDom) $("#"+roleDom[i]).attr('style','');
-			$("#role_image").attr('style',"background:url('/"+roleProfile[value]+"') no-repeat center bottom");
+			$("#role_image").attr('style',"background:url('/media/"+roleProfile[value]+"') no-repeat center bottom");
 			processFrame.append('<li type="UROLE" content="'+value+'"><span style="color:red">角色</span>'+roleName+' 登场</li>');
 		}
         processFrame.children('li:last').append(toolBtn);

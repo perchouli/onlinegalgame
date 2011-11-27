@@ -7,6 +7,7 @@
 .gravatar {border: 1px solid #D0D0D0;padding: 2px;float: left;margin-right: 10px;}
 .events li{height: 50px;width: 30%;float: left;}
 .events li p{margin-top: 10px;}
+.tips {margin:15px;}
 </style>
 <div class="tips">>> [11.18]重置了注册和登录的app，现在需要邮箱激活；没有收到邮件请查看[垃圾邮箱]或是<a href="mailto:jp.chenyang@gmail.com">联系我</a></div>
 <table id="step">
@@ -53,17 +54,15 @@
 <div class="follow events">
 	<img src="{{STATIC_URL}}images/icon/logo.png" alt="Icon" /> <span>Lastest Update</span>
         <ul>
-        {% for e in events %}
-            {% if e.content_type_id == 11 %}
-            <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="/accounts/{{e.user.username}}">{{e.user.username}}</a> 创建了场景 <a href="{%url show_story e.object_id %}">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
-            {% endif %}
-            {% if e.content_type_id == 8 %}
-            <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="/accounts/{{e.user.username}}">{{e.user.username}}</a> 创建了角色 <a href="{% url show_role e.object_id %}">{{e.event}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
-            {% endif %}
-            {% if e.content_type_id == 31 %}
-            <li><div class="gravatar"><img src="{% gravatar_url e.user.email %}" width="40"/></div><br/><a href="/accounts/{{e.user.username}}">{{e.user.username}}</a> 拥有了自己的封绝   <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
-            {% endif %}
-        {% endfor %}
+            {% for e in events.user %}
+            <li><div class="gravatar"><img src="{% gravatar_url e.email %}" width="40"/></div><br/><a href="/accounts/{{e.user.username}}">{{e.username}}</a> 拥有了自己的封绝   <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+            {% endfor %}
+            {% for e in events.role %}
+            <li><div class="gravatar"><img src="{% gravatar_url e.author.email %}" width="40"/></div><br/><a href="/accounts/{{e.user.username}}">{{e.author.username}}</a> 创建了角色 <a href="{%url show_story e.id %}">{{e.name}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+            {% endfor %}
+            {% for e in events.story %}
+            <li><div class="gravatar"><img src="{% gravatar_url e.author.email %}" width="40"/></div><br/><a href="/accounts/{{e.user.username}}">{{e.author.username}}</a> 书写了场景 <a href="{% url show_role e.id %}">{{e.title}}</a> <br/> <span style="color:#ccc; font-size:12px;font-weight:100;">{{e.created|date:"Y-m-d H:m"}}</a></li>
+            {% endfor %}
         </ul>
 	<div class="clear"></div>
 </div>

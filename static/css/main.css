@@ -65,7 +65,7 @@ box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 #footer .copyright { width: 960px; margin: 0 auto; text-align: left; }
 /*1.3main style end*/
 /*1.4footer style*/
-#footer {padding: 15px 0 15px 0; background-color: #efefef; line-height: 20px; -webkit-box-shadow: 5px 5px 5px #c9c9c9; /* Safari */ border: 1px solid; border-color: #c9c9c9; }
+#footer {padding: 15px 0 15px 0; background-color: #efefef; line-height: 20px; -webkit-box-shadow: 5px 5px 5px #c9c9c9; /* Safari */ border: 1px solid; border-color: #c9c9c9; margin-top:20px; }
 #footer .footer-menu, #footer .footer-menu a { margin: 0px 8px; text-align:center; }
 
 /* Delete
