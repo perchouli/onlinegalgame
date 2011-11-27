@@ -1,0 +1,50 @@
+    <div id="role_pos" style="margin-bottom:15px">
+        站位：
+        正面1<input type="radio" name="rolepos" value="1" onclick="rolePos=this.value;changePos(rolePos)">
+        正面2<input type="radio" name="rolepos" value="2" onclick="rolePos=this.value;changePos(rolePos)">
+        正面3<input type="radio" name="rolepos" value="3" onclick="rolePos=this.value;changePos(rolePos)">
+        侧面1<input type="radio" name="rolepos" value="4" onclick="rolePos=this.value;changePos(rolePos)">
+        侧面2<input type="radio" name="rolepos" value="5" onclick="rolePos=this.value;changePos(rolePos)">
+        侧面3<input type="radio" name="rolepos" value="6" onclick="rolePos=this.value;changePos(rolePos)">
+    </div>
+    <fieldset>
+        <legend style="color:#7BCA1C">选择一套服装</legend>
+        <div>
+                特殊：
+        <select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
+        {% for dress in cloth_list %}
+            {% if dress.type == 'e' %}
+            <option value="{{ dress.id }}"> {{ dress.name }}</option>
+            {% endif %}
+        {% endfor %}
+        </select>
+        校服：
+        <select name="cloth" onchange="changeRole(this.name,this.value,rolePos)">
+        {% for dress in cloth_list %}
+            {% if dress.type == 's' %}
+            <option value="{{ dress.id }}"> {{ dress.name }}</option>
+            {% endif %}
+        {% endfor %}
+        </select>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend style="color:#7BCA1C">选择一种发型</legend>
+            <div>短发：
+                <select name="hair" onchange="changeRole(this.name,this.value,rolePos)">
+            {% for dress in hair_list %}
+                {% if dress.type == 's' %}
+                <option value="{{ dress.id }}"> {{ dress.name }}</option>
+                {% endif %}
+            {% endfor %}
+                </select>
+                长发：
+                <select name="hair" onchange="changeRole(this.name,this.value,rolePos)">
+            {% for dress in hair_list %}
+                {% if dress.type == 'l' %}
+                <option value="{{ dress.id }}"> {{ dress.name }}</option>
+                {% endif %}
+            {% endfor %}
+                </select>
+            </div>
+        </fieldset>
