@@ -1,11 +1,5 @@
 {{layout "layout"}}
 
-
-        <div class="alert-message success fade in" data-alert="alert" style="display:none;">
-            <a class="close" href="#">×</a>
-            <p><strong>Success!</strong> You bought some good things ...</p>
-          </div>
-
      
 <!--div id="breadcrumb" class="span16">
   <ul class="breadcrumb">
@@ -15,10 +9,9 @@
     <li class="active">You are here</li>
   </ul>
 </div-->
-
 <div id="content" class="container">
-    <div class="row">
-      <div class="span8">
+  <div class="row">
+    <div class="span6">
         <form>
             <fieldset>
               <legend>创建一个新角色</legend>
@@ -30,25 +23,42 @@
                     </div>
                 </div><!-- /clearfix -->
                 <div class="clearfix">
-                    <label for="image">角色图片</label>
-                        <div class="input">
-                            <button class="btn" onclick="document.getElementById('id_image').click(); return false;">选择图片</button>
-                            <input id="id_image" name="image" size="10" type="file" onchange="$(this).prev().text('已选择')" />
-                            <span class="help-block">Here's some help text</span>
-                        </div>
-                </div><!-- /clearfix -->
+                  <label for="rolepos">站位选择</label>
+                  <div class="input">
+                    <ul class="inputs-list">
+                    {{each(i, pos) rolePos}} 
+                      <li>
+                        <label>
+                          <input type="radio" checked="true" name="rolepos" value="${i+1}"/>
+                          <span>${pos}</span>
+                        </label>
+                      </li>
+                    {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <label for="cloth">服装</label>
+                  <div class="input">
+                    <select style="width:50px;" name="clothType" id="id_clothType">
+                      <option value="unusual">特殊</option>
+                      <option value="schooluniform">校服</option>
+                    </select>
+                    <select class="small" name="cloth" id="id_cloth">
+                    </select>
+                  </div>
+                </div>
                 <div class="clearfix"><div class="input">
                   <input type="submit" class="btn success" value="创建" />
-                  &nbsp;&nbsp;<a href="/roles/create/default" >用默认素材创建 >></a>
+                  &nbsp;&nbsp;<a href="/roles/create" >自己上传图片 >></a>
                 </div></div>
         </form>
-      </div>
-      <div class="span8">
-        <blockquote>角色是会在<a href="#">场景</a>中登场的<a data-placement="below" href="#" rel="popover" data-content="元素是构成一个场景的最基本实体，目前只有三种元素：角色，对话，背景。" data-original-title="元素">元素</a>。</blockquote>
-      </div>
     </div>
+    <div class="span10">
+      ...
+    </div>
+  </div>
 </div>
-
 
           <div id="modal-from-dom" class="modal hide fade">
             <div class="modal-header">
@@ -63,10 +73,24 @@
               <a href="http://onlinegalgame.com/" class="btn primary" target="_blank">OnlineGalgame</a>
             </div>
           </div>
-<p data-bind="text: testItem" onclick="testItem()"></p>
 
 <script type="text/javascript">
 $(document).ready(function (){
-  $("a[rel=popover]").popover({offset: 10}).click(function(e){e.preventDefault()})
-})          
+  $("a[rel=popover]").popover({offset: 10}).click(function(e){e.preventDefault()});
+  
+  
+  appendCloth('unusual');
+  $("#id_clothType").bind('change',function(){
+    var type = this.value;
+    appendCloth(type);
+  })
+});
+
+function appendCloth(type){
+  var clothType = {{html clothType}};
+  $("#id_cloth").empty();
+  for (i in clothType[type]){
+    $("#id_cloth").append('<option>'+clothType[type][i]+'</option>');
+  }
+}          
 </script>
