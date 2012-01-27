@@ -1,8 +1,8 @@
 {
-  "name": "kanoya",
-  "description": "Knockoutjs and nodejs",
-  "version": "0.0.1",
-  "homepage": "http://www.dmyz.org",
+  "name": "onlinegalgame",
+  "description": "Onlinegalgame 是一个在线制作/分享游戏剧本/人设的网站，您可以利用网站提供的默认素材，或是自行上传，利用场景/人物/对白来构建一个故事。",
+  "version": "0.0.2",
+  "homepage": "http://www.onlinegalgame.org",
   "author": "Perchouli",
   "private": true,
   "main": "app.js",
