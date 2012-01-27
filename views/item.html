@@ -1,0 +1,156 @@
+{{layout "layout"}}
+
+
+    <div id="intro">
+        <h1>Test Project Made by <a href="http://twitter.github.com/bootstrap/" target="_blank">BootStrap</a> and <a href="http://knockoutjs.com" target="_blank">KnockoutJS</a></h1>
+    </div>
+    
+        <div class="alert-message success fade in" data-alert="alert" style="display:none;">
+            <a class="close" href="#">×</a>
+            <p><strong>Success!</strong> You bought some good things ...</p>
+          </div>
+
+<div id="content" class="container-fluid">
+    <div class="content" data-bind="foreach: shopItems" style="margin-left:340px;">
+        <div class="grid_2">
+            <img width="140" data-bind="click: $parent.addToCart, attr: {src: imgSrc, id: id}"/>
+            <h3></h3> <span class="label success"  data-bind="text:name">Default</span> - <span data-bind="text:Cart.formatCurrency(price)"></span>
+        </div>
+    </div>
+        <div id="drop_zone" class="sidebar"
+        ondragenter="return false" 
+        ondragover="new Drag.dragOver(event);" 
+        ondragleave="new Drag.dragLeave(event)" 
+        ondrop="new Drag.drop(event)">
+            <h3 data-bind="visible: cartItems().length == 0">Shopping Cart</h3>
+            <ul data-bind="foreach: cartItems">
+                <li data-bind="attr: {id: _id}"><img data-bind="attr:{ src: imgSrc}" src="" width="30" align="absmiddle"/><span data-bind="text:name"></span><span data-bind="text:Cart.formatCurrency(price)"></span><input type="number" data-bind="value: count"/></li>
+            </ul>
+            <button class="btn success" data-bind="visible: cartItems().length != 0" onclick="new Cart.buy">Buy!</button>
+        </div>
+</div>
+
+
+          <div id="modal-from-dom" class="modal hide fade">
+            <div class="modal-header">
+              <a href="#" class="close">&times;</a>
+              <h3>Congratulation!</h3>
+            </div>
+            <div class="modal-body">
+              <p>You click a hidden button (￣▽￣)~… </p>
+            </div>
+            <div class="modal-footer">
+              <a href="http://dmyz.org/" class="btn primary" target="_blank">Dmyz</a>
+              <a href="http://onlinegalgame.com/" class="btn primary" target="_blank">OnlineGalgame</a>
+            </div>
+          </div>
+<p data-bind="text: testItem" onclick="testItem()"></p>
+
+<script type="text/javascript">
+function testItem(){
+    cartViewModel.testItem(2);
+    cartViewModel.cartItems()[0].count(3)
+}
+var Cart = {}
+
+Cart.formatCurrency = function(value) {
+    return "$" + value.toFixed(2);
+}
+
+Cart.buy = function(){
+    console.log(cartViewModel.cartItems());
+    $.ajax({
+        type : 'POST',
+        data : {"cartItems" : cartViewModel.cartItems},
+        statusCode : {
+            200 : function(response){
+                alert('test');
+            }
+        }
+    })
+    $(".alert-message").fadeIn(1000).alert()
+}
+
+var cartItem = {
+    _id : ko.observable(),
+    imgSrc : ko.observable(),
+    id : ko.observable(),
+    name :  ko.observable(),
+    price :  ko.observable(),
+    count : ko.observable(1)
+}
+
+var cartViewModel =  {
+    testItem : ko.observable(1),
+    shopItems : {{html shopItems}},
+    cartItems : ko.observableArray([]),
+    addToCart : function(){
+        //$("#"+this.id).animate({opacity : 0.5 });
+        
+        var _id = this._id;
+        cartItem.price = 15;
+   
+
+        cartViewModel.cartItems.push(cartItem);
+        /*
+        for (i in cartViewModel.shopItems ){
+            var item = cartViewModel.shopItems[i];
+            item.count = 1;
+            if (item._id == _id) {
+                if (cartViewModel.cartItems.indexOf(item) < 0 ){
+                    cartViewModel.cartItems.push(item);
+                } else {
+                    var i = cartViewModel.cartItems.indexOf(item);
+                    cartViewModel.cartItems()[i].count = 1;
+                    console.log(cartViewModel.cartItems()[i]);
+                    //var input = $("#drop_zone ul").children("li").eq(i).children("input");
+                    //input.val(input.val()/1 + 1);
+                }  
+            }
+        } 
+        */  
+    },
+    showCartTitle : ko.observable(true)
+}    
+
+var Drag = {};
+
+Drag.dragStart = function(event){
+    event.dataTransfer.setData ("Text", event.srcElement.id);
+}
+
+Drag.drop = function(event){
+    var _id = event.dataTransfer.getData ("Text");
+    // TODO : Bugs in Firefox 8
+    /**
+    for (i in cartViewModel.shopItems ){
+        var item = cartViewModel.shopItems[i];
+        if (item._id == _id) cartViewModel.cartItems.push(item);
+    }
+    $("#drop_zone").attr('style','opacity:1');
+    **/
+    return false
+}
+
+Drag.dragOver = function(e){
+    $("#drop_zone").attr('style','opacity:0.5');
+    e.stopPropagation();
+    e.preventDefault();
+    return false
+}
+
+Drag.dragLeave = function(e){
+    $("#drop_zone").attr('style','opacity:1');
+    return false
+}
+
+    /*
+    var cartViewModel = {
+        cartName: '${pageTitle}',
+    };
+    */
+ko.applyBindings(cartViewModel);
+
+$(".content img").attr('draggable','true').attr('ondragstart',"new Drag.dragStart(event)");
+
+</script>

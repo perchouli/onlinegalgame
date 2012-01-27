@@ -1,0 +1,17 @@
+{
+  "name": "kanoya",
+  "description": "Knockoutjs and nodejs",
+  "version": "0.0.1",
+  "homepage": "http://www.dmyz.org",
+  "author": "Perchouli",
+  "private": true,
+  "main": "app.js",
+  "dependencies": {
+    "express": ">= 0.0.3",
+    "mongodb": ">= 0.x",
+    "mongoskin": ">= 0.x"
+  },
+  "engines": { "node": ">= 0.4.7" }
+}
+
+

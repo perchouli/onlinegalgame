@@ -1,0 +1,98 @@
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, form, img, dl, dt, dd, table, th, td, blockquote, fieldset, div, strong, label, em { border: 0 none; margin: 0; padding: 0; }
+
+.images (@name, @format: jpg) {
+    @url: "/images/" ;
+    background: url("@{url}@{name}.@{format}");
+}
+
+.corners (@radius: 5px) {
+    border-radius: @radius;
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+}
+
+.shadow {
+    box-shadow: ~"rgba(200,200,20)";
+    -webkit-box-shadow: ~"rgba(200,200,20)";
+    -khtml-box-shadow: ~"rgba(200,200,200,1) 0 2px 18px";
+}
+
+.transition {
+    transition: color .1s linear .1s;
+    -moz-transition-property: color;
+    -moz-transition-timing-function: ease-in;
+    -moz-transition-duration: 1s;
+    -moz-transition-delay: 0;
+    -webkit-transition-property: color;
+    -webkit-transition-timing-function: ease-in;
+    -webkit-transition-duration: 1s;
+    -webkit-transition-delay: 0;
+}
+
+body {
+    margin:0px; padding:0px;
+    .images(bg-body);
+}
+a {
+    color: #D03D27;
+    text-decoration: none;
+    .transition;
+}
+a:hover {
+    text-decoration: none;
+    color: #800A04;
+}
+
+#content {
+    margin-top:50px;
+}
+
+header{
+    .images(bg-mainnav);
+    width:100%; height:45px;
+    text-align:center;
+    li {background:#A20E05; color:#fff; height:45px; width:120px; text-align:center; line-height:45px;}
+}
+
+#intro{
+    margin:50px 0px 20px 0px;
+    h1 { font-family:Tahoma; text-align:center;text-shadow: 0 2px 0 white;}
+}
+
+.cart {
+    //.images(bg-cart);
+}
+
+
+#content {
+    background:#fcfcfc;
+    padding:20px 0px;
+    .corners;.shadow;
+    img {
+        .corners(2px);
+    }  
+}
+
+.grid_2{
+    text-align:center;
+    h3 { display:inline;}
+
+}
+
+#drop_zone {
+    border: 2px dashed #bbb;
+    text-align: center;
+    -moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;
+    overflow:auto;
+    height:230px;
+    .images(bg-cart);
+    ul, ol { margin:0px;}
+    li {
+        list-style:none;
+        vertical-align:middle;
+        margin:10px 0px;
+        span { margin:0px 10px;}
+        input[type='number'] { border:0px; height:20px; width:50px; .shadow; .corners(2px);}
+    }
+    h3 {padding:40px 0px;}
+  }
