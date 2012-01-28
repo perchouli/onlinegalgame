@@ -51,8 +51,8 @@ app.get('/roles/create', function(req, res){
 app.get('/roles/create/default', function(req, res){
     rolePos = ['正面1','正面2','正面3','侧面1', '侧面2', '侧面3'];
     clothType = {
-      'unusual' : ['中式旗袍','修女'],
-      'schooluniform' : ['校服1']
+      'unusual' : [{4: '中式旗袍'}, {2: '修女'}],
+      'schooluniform' : [{8 :'校服1'}]
     };
     res.render('roles/default', { 'rolePos': rolePos, 'clothType': JSON.stringify(clothType) });
 });

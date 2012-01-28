@@ -29,7 +29,7 @@
                     {{each(i, pos) rolePos}} 
                       <li>
                         <label>
-                          <input type="radio" checked="true" name="rolepos" value="${i+1}"/>
+                          <input type="radio" onclick="rolePos=this.value;changePos(rolePos)" name="rolepos" value="${i+1}"/>
                           <span>${pos}</span>
                         </label>
                       </li>
@@ -44,7 +44,8 @@
                       <option value="unusual">特殊</option>
                       <option value="schooluniform">校服</option>
                     </select>
-                    <select class="small" name="cloth" id="id_cloth">
+                    <select class="small" name="cloth" id="id_cloth" onchange="changeRole(this.name,this.value,rolePos)">
+                      <option value="1">未选择</option>
                     </select>
                   </div>
                 </div>
@@ -55,7 +56,14 @@
         </form>
     </div>
     <div class="span10">
-      ...
+      <div id="story" style="background:url('/images/mapback.jpg');">
+        <div id="hair"></div>
+        <div id="eye"></div>
+        <div id="face"></div>
+        <div id="cloth"></div>
+        <div id="dialog"></div>
+        <div id="role_image"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -75,6 +83,9 @@
           </div>
 
 <script type="text/javascript">
+var rolePos = 1; //初始站位
+var roleDom = ['eye','face','hair','cloth'];
+
 $(document).ready(function (){
   $("a[rel=popover]").popover({offset: 10}).click(function(e){e.preventDefault()});
   
@@ -84,13 +95,39 @@ $(document).ready(function (){
     var type = this.value;
     appendCloth(type);
   })
+  
+  changePos(rolePos);
 });
 
 function appendCloth(type){
   var clothType = {{html clothType}};
-  $("#id_cloth").empty();
+  $("#id_cloth").children(':not(:eq(0))').remove();
   for (i in clothType[type]){
-    $("#id_cloth").append('<option>'+clothType[type][i]+'</option>');
+    //console.log(clothType[type][i]);
+    for (n in clothType[type][i]){
+      $("#id_cloth").append('<option value="'+n+'">'+clothType[type][i][n]+'</option>');
+    }
   }
-}          
+}
+
+function changePos(p){
+    if (typeof($("#cloth").attr('style')) != 'undefined'){
+        //在修改站位时保存原来选择的衣服和头发
+        var c = $("#cloth").attr('style').split('.gif')[0].split('/')[4];
+        var h = $("#hair").attr('style').split('.gif')[0].split('/')[4];
+        $("#cloth").attr("style","background:url('/images/role/cloth/"+c+"/"+p+".gif')");
+        $("#hair").attr("style","background:url('/images/role/hair/"+h+"/"+p+".gif')");
+        $("#face").attr("style","background:url('/images/role/face/1/"+p+".gif')");
+        $("#eye").attr("style","background:url('/images/role/eye/1/"+p+".gif')");
+    }
+    else{
+        for (var i in roleDom){
+            $("#"+roleDom[i]).attr("style","background:url('/images/role/"+(roleDom[i])+"/1/"+p+".gif')");
+        }
+    }
+}
+
+function changeRole(name, value, pos){
+    $("#"+name).attr("style","background:url('/images/role/"+name+"/"+value+"/"+pos+".gif')");
+}
 </script>
