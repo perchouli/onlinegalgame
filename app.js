@@ -41,7 +41,7 @@ app.configure('production', function(){
 app.get('/', function(req, res){
     db.collection('items').find().toArray(function(err, items){
         res.render('item', { pageTitle: 'Items', 'shopItems' :JSON.stringify(items) });
-    })
+    });
 });
 
 app.get('/roles/create', function(req, res){
@@ -60,5 +60,5 @@ app.get('/roles/create/default', function(req, res){
 app.post('/', function(req, res){
     console.log(req);
 });
-app.listen(3000)
+app.listen(3000);
 
