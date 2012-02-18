@@ -9,3 +9,4 @@
 *.db
 .git
 .tmp*
+migrations

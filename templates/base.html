@@ -4,30 +4,22 @@
 <head>
 <meta charset="utf-8" /> 
 <title>{% block title %}{% endblock %} - OnlineGalgame - 在线游戏制作平台</title>
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
-<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/uniform.css"/>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-24432560-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
+<link type="text/css" rel="stylesheet" href="/static/css/main.css"/>
+<link type="text/css" rel="stylesheet" href="/static/css/uniform.css"/>
+{% block style %}{% endblock %}
 </head>
 <body>
 <!--START: Header -->
 <div id="header">
 	<div class="con">
-        <h1 onclick="javascript:window.location.href ='/'"><img src="{{ STATIC_URL }}images/logo_top.png" alt="Logo" /></h1>
+        <h1 onclick="javascript:window.location.href ='/'"><img src="/static/images/logo_top.png" alt="Logo" /></h1>
         <ul id="header_menu">
             <li><img src="{{STATIC_URL}}images/icon/home.png" alt="Home Icon" />
+                {% if user.is_authenticated %}
                 <a href="/">{% trans "Home" %}</a>
+                {% else %}
+                <a href="{% url userena_signup %}" style="color:green;">{% trans "Register" %}</a>
+                {% endif %}
             </li>
             <li>
                 <a href="{% url role_list %}">{% trans "Role List" %}</a>
@@ -40,14 +32,14 @@
             </li>
             {% if user.is_authenticated %}
 			<li>
-                <a href="{% url olgg_profile request.user.id%}" style="color:green">Hi, {{request.user.username}}</a>
+                <a href="/accounts/{{request.user.username}}" style="color:green; font-weight:bold;">{{request.user.username}}</a>
 			</li>
 			<li>
-                <a href="{% url olgg_logout %}">{% trans "Log out" %}</a>
+                <a href="{% url userena_signout %}">{% trans "Log out" %}</a>
 			</li>
 				{% else %}
 			<li>
-				<a href="{% url olgg_login %}" style="color:red">{% trans "Log in" %}</a>
+				<a href="{% url userena_signin %}" style="color:red">{% trans "Log in" %}</a>
             </li>
 			{% endif %}
         </ul>
@@ -55,7 +47,8 @@
 </div>
 <!--END: Header--> 
 <!--START: Wrapper -->
-<div id="wrapper"> 
+<div id="wrapper">
+    {% block breadcrumb %}{% endblock %} 
 	{% block content %}{% endblock %}
 	<div class="clear"></div>
 </div>
@@ -70,8 +63,8 @@
 	</div>
 <!--END: Footer-->
 
-<script type="text/javascript" src="{{ STATIC_URL}}js/jquery.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL}}js/uniform.js"></script>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/uniform.js"></script>
 {% block js %}{% endblock %}
 
 </body>
