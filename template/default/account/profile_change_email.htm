@@ -1,0 +1,28 @@
+<!--{subtemplate common/header}-->
+<!--{subtemplate account/profile_header}-->
+<!--{subtemplate account/sidebar}-->
+<!--{if $user[emailstatus]}-->
+<fieldset>
+	<legend><!--{lang change_email}--></legend>
+	<div class="con-r">
+		<ul class="profile_ul">
+			<li>用户邮箱 <font style="color:red; font-weight:bold;">已激活</font>，请先 <a href="account.php?mod=profile&do=antiactivate_email&id=<!--{$user[uid]}-->&formhash={FORMHASH}">反激活</a></li>
+		</ul>
+	</div>
+</fieldset>
+<!--{else}-->
+<form action="account.php?mod=profile&do=change_email&id=<!--{$user[uid]}-->" enctype="multipart/form-data" method="post">
+  <div style='display:none'><input type='hidden' name='formhash' value='{FORMHASH}' /></div>
+  <fieldset>
+    <legend><!--{lang change_email}--></legend>
+		<div class="con-r">
+			<ul class="profile_ul">
+				<li><label for="id_password">密码</label> <input id="id_password" type="password" name="password" /></li>
+				<li><label for="id_password">新email</label> <input id="id_email" type="text" name="email" /></li>
+			</ul>
+		</div>
+  </fieldset>
+  <input type="submit" class="btn btn-primary btn-large" value="<!--{lang save_changes}-->" />
+</form>
+<!--{/if}-->
+<!--{subtemplate common/footer}-->

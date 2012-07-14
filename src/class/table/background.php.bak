@@ -1,0 +1,58 @@
+<?php
+
+/**
+ *      [EarlyImbrian] (C)2009-2012 EarlyImbrian Committee.
+ *      This is NOT a freeware, use is subject to license terms
+ *
+ *      $Id: class/table/background.php 2012-06-18 07:43:00 Beijing tengattack $
+ */
+
+if(!defined('IN_EI')) {
+	exit('Access Denied');
+}
+
+class table_background extends ei_table
+{
+	private $_tableids = array();
+
+	public function __construct() {
+
+		$this->_table = 'background';
+		$this->_pk    = 'bid';
+		
+		parent::__construct();
+	}
+
+	public function count_by_uid($uid) {
+		return $uid ? DB::result_first("SELECT COUNT(*) FROM %t WHERE uid=%d", array($this->_table, $uid)) : 0;
+	}
+
+	public function fetch_by_aid_uid($aid, $uid) {
+		$query = DB::query("SELECT * FROM %t WHERE aid=%d AND uid=%d", array($this->_table, $aid, $uid));
+		return DB::fetch($query);
+	}
+
+	public function get_all_by_uid($uid, $count = 0, $start = 0, $limit = 0) {
+		if(!is_numeric($uid) || $uid < 0) {
+			return;
+		}
+		if($count) {
+			return DB::result_first("SELECT COUNT(*)
+				FROM ".DB::table($this->_table)."
+				WHERE uid=".DB::quote($uid));
+		}
+		
+		$bgs = array();
+		$query = DB::query("SELECT b.*, a.*
+				FROM ". DB::table($this->_table)." b
+				INNER JOIN ".DB::table('attachment')." a USING(aid)
+				WHERE a.aid=b.aid AND b.uid=".DB::quote($uid).DB::limit($start, $limit));
+		while($tb = DB::fetch($query)) {
+			$bgs[] = $tb;
+		}
+		return $bgs;
+	}
+
+}
+
+?>

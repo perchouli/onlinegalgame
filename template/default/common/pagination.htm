@@ -1,0 +1,13 @@
+<div class="pagination">
+	<span class="step-links">
+		<!--{if $pagination[has_previous]}-->
+		<a href="<!--{$pagination[file]}-->?mod=list&<!--{if $tag}-->tag=<!--{$tag}-->&<!--{/if}-->p=<!--{$pagination[page_previous]}-->">Previous</a>
+		<!--{/if}-->
+		<span class="current">
+			Page <!--{$pagination[page]}--> of <!--{$pagination[page_count]}-->.
+		</span>
+		<!--{if $pagination[has_next]}-->
+		<a href="<!--{$pagination[file]}-->?mod=list&<!--{if $tag}-->tag=<!--{$tag}-->&<!--{/if}-->p=<!--{$pagination[page_next]}-->">Next</a>
+		<!--{/if}-->
+	</span>
+</div>

@@ -1,0 +1,17 @@
+  <div class="sidebar" style="float:left;">
+   <div class="userdata">
+    <div class="user-avatar"> 
+        <span class="avatar"><img src="<!--{$user[avatar_url]}-->" alt="Avatar" /></span>
+        <p style="font-size:14px; font-weight:bold;"><!--{$user[username]}--></p>
+    </div>
+    <div id="details">
+    <div class="user_level">
+     <h4>用户资料</h4>
+     <ul class="profile_ul">
+      <li><label>性别</label><div id="user_level_zdl"><!--{if $profile[gender]==1}-->男<!--{else}--><!--{if $profile[gender]==2}-->女<!--{else}-->-<!--{/if}--><!--{/if}--></div></li>
+      <li><label>积分</label><div id="user_level_zdl"><!--{$user[credits]}--></div></li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </div>

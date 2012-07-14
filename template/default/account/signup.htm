@@ -1,0 +1,37 @@
+<!--{subtemplate common/header}-->
+
+<link type="text/css" rel="stylesheet" href="/static/css/account.css?{VERHASH}"/>
+
+<div style="float:left;width:400px;height:400px;background:url(/static/img/login.jpg);"></div>
+<div style="float:left;">
+<br/>
+<h1><img src="/static/img/register_title.png"/></h1><p class="clearfix"></p><br/>
+<form action="account.php?mod=signup&do=submit" method="post">
+	<div style='display:none'><input type='hidden' name='formhash' value='{FORMHASH}' /></div>
+	<fieldset>
+		<p>
+			<label for="id_username">用户名</label> 
+			<input id="id_username" type="text" class="required" name="username" maxlength="30" />
+		</p>
+		<p>
+			<label for="id_email">电子邮件地址</label> 
+			<input id="id_email" type="text" class="required" name="email" maxlength="75" />
+		</p>
+		<p>
+			<label for="id_password1">设置密码</label> 
+			<input id="id_password1" type="password" class="required" name="password1" />
+		</p>
+		<p>
+			<label for="id_password2">重复密码</label> 
+			<input id="id_password2" type="password" class="required" name="password2" />
+		</p>
+	</fieldset>
+	<input type="submit" class="btn btn-primary btn-large" value="注册" />
+</form>
+<p class="ar">
+	<i class="icon-user"></i>
+	已经有账号了？
+	<a href="account.php?mod=signin">登录 →</a>
+</p>
+</div>
+<!--{subtemplate common/footer}-->

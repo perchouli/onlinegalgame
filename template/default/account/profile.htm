@@ -1,0 +1,46 @@
+<!--{subtemplate common/header}-->
+<!--{subtemplate account/profile_header}-->
+<!--{subtemplate account/sidebar}-->
+    <div class="con-r">
+        <ul class="profile_ul event">
+            <h4>最新动态</h4>
+            <!--{if $events}-->
+            <!--{loop $events $event}-->
+            <li><!--{$event}--></li>
+            <!--{/loop}-->
+            <!--{else}-->
+            <li>当前没有动态</li>
+            <!--{/if}-->
+        </ul>
+        <ul id="catact" class="profile_ul">
+            <h4>联络信息</h4> 
+            <li><label>Email</label><a href="mailto:<!--{$user[email]}-->" target="_blank"><!--{$user[email]}--></a><!--{if !$user[emailstatus]}--> <font style="color:red; font-weight:bold;">未激活</font> <a href="account.php?mod=profile&do=resend_email&id=<!--{$user[uid]}-->&formhash={FORMHASH}">点击重新发送激活邮件</a><!--{/if}--></li>
+            <li><label>手机</label><!--{if $profile[mobile]}--><!--{$profile[mobile]}--><!--{else}-->-<!--{/if}--></li>
+			<li><label>QQ</label><!--{if $profile[qq]}--><!--{$profile[qq]}--><!--{else}-->-<!--{/if}--></li>
+            <li><label>MSN</label><!--{if $profile[msn]}--><!--{$profile[msn]}--><!--{else}-->-<!--{/if}--></li>
+            <li><label>主页</label><!--{if $profile[site]}--><a href="<!--{$profile[site]}-->" target="_blank"><!--{$profile[site]}--></a><!--{else}-->-<!--{/if}--></li>
+			<li><label>简介</label><!--{if $profile[bio]}--><p id="u_sign"><!--{$profile[bio]}--></p><!--{else}-->-<!--{/if}--></li>
+        </ul>
+        <ul class="profile_ul">
+            <h4>拥有角色</h4>
+            <!--{if $roles}-->
+            <!--{loop $roles $id $role}-->
+            <li><a href="role.php?mod=show&id=<!--{$role[rid]}-->"><!--{$role[name]}--></a></li>
+            <!--{/loop}-->
+            <!--{else}-->
+            <li>还没有创建角色</li>
+            <!--{/if}-->
+        </ul>
+        <ul class="profile_ul">
+            <h4>故事</h4>
+            <!--{if $stories}-->
+            <!--{loop $stories $id $story}-->
+            <li><a href="story.php?mod=show&id=<!--{$story[sid]}-->"><!--{$story[name]}--></a></li>
+            <!--{/loop}-->
+            <!--{else}-->
+            <li>还没有开始制作故事</li>
+            <!--{/if}-->
+        </ul>
+  </div>
+
+<!--{subtemplate common/footer}-->

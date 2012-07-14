@@ -1,0 +1,845 @@
+<!--{subtemplate common/header}-->
+<style>
+    #story {
+        float:right;
+		right:0px;
+        width:800px;
+        height:450px;
+        border:1px solid #ccc;
+        background:#000;
+		margin-top:15px;
+   }
+    
+    #story_upload_list {
+        word-break:break-all;
+        overflow-x:hidden;
+        overflow-y:scroll;
+		height:150px;
+   }
+    
+    #story_upload_list img {margin:0 5px 5px 0;}
+    #bgd_default {height:110px;word-break:break-all;overflow:scroll;overflow-x:hidden;display:none;}
+	
+    #role_image_container {width:800px;height:450px;}
+	#role_image {height:450px;}
+	
+	#branch {
+		display:table;
+		position:absolute;
+		width:760px;
+		height:410px;
+		padding:20px;
+		text-align:center;
+		margin:0 auto;
+	}
+	div#branch > div {
+		display:table-row;
+	}
+	div#branch > div > div {
+		display:table-cell;
+		vertical-align:middle;
+	}
+	#branch ul {
+		display:none;
+		position:relative;
+	}
+	#branch li {
+		display:block;
+		text-align:center;
+		margin:0;
+		padding:8px 0;
+	}
+	.btn-branch {
+		-webkit-font-smoothing:antialiased;
+		height:28px;
+		font-weight:bold;
+		font-size:14px;
+		letter-spacing:1px;
+		display:inline-block;
+		line-height:1;
+		text-align:center;
+	}
+    
+    #dialog {
+		z-index:11;
+		width:720px;
+		height:80px;
+		background:#c6c6c6;
+		position:absolute;
+		margin:310px 20px 20px 20px;
+		border-radius:5px;
+		-webkit-border-radius:5px;
+		opacity:0.6;
+		padding:20px;
+		font-size:14px;
+		color:#000;
+	}
+	#dialog p {opacity:1;}
+    
+    #bgd img {
+        margin:0px 3px 0px 3px;
+        -moz-border-radius:3px;
+        -webkit-border-radius:3px;
+        border-radius:3px;
+   }
+	
+    #process_frame {
+		position:relative;
+        width:220px;
+        height:220px;
+        padding-top:22px;
+        overflow-y:auto;
+        overflow-x:hidden;
+        border:1px #ccc solid;
+        -moz-border-radius:3px;
+        -webkit-border-radius:3px;
+        border-radius:3px;
+        background:url(/static/img/bg-process.jpg);
+        list-style:circle;
+   }
+	
+    #process_frame li {
+        margin:0px;
+        list-style:decimal;
+   }
+    
+    #process_frame li span {
+        margin-right:15px;
+   }
+    
+    #process_frame li img {
+        margin-right:5px;
+        float:right;
+        border:1px #aaa solid;
+   }
+
+	#process_frame .pli:hover {opacity:0.5}
+    #process_frame>li:nth-child(even) {background:#eee;text-overflow:ellipsis;width:200px;height:15px;
+        		border-bottom:1px #ccc solid;
+	}
+	#process_frame>li:nth-child(odd) {text-overflow:ellipsis;width:200px;height:15px;
+		border-bottom:1px #ccc solid;
+	}
+	
+	fieldset {border:1px #ccc solid;padding:15px;text-overflow:ellipsis;width:620px;}
+	table textarea {margin-top:25px;}
+	
+	#popup_ok{margin-left:100px}
+			
+	.dropmenu {
+		display:none;
+		position:absolute;
+		right:20px;
+	}
+	
+	.dropmenu li{
+		display:block;
+		float:right;
+		background-color:#99D9EA;
+		border-bottom:1px #FFFFFF solid;
+	}
+	.dropmenu li:hover {background-color:#BFE8F2;}
+	
+</style>
+
+<!--START: left-nav -->
+<div class="sidebar">
+    <h2><!--{lang basic_info}--></h2>
+    <form id="story_form" action="story.php?mod=<!--{if $_G[ssid]}-->edit<!--{else}-->add<!--{/if}--><!--{if $_G[sid]}-->&id=<!--{$_G[sid]}--><!--{/if}--><!--{if $_G[ssid]}-->&ssid=<!--{$_G[ssid]}--><!--{/if}-->" method="POST" enctype="multipart/form-data">
+        <div style="display:none"><input type="hidden" name="formhash" value="{FORMHASH}"></div>
+        <ul>
+			<!--{if $_G[sid]}-->
+			<li>故事名称: <a href="story.php?mod=show&id=<!--{$story[id]}-->" target="_blank"><!--{$story[name]}--></a></li>
+			<!--{else}-->
+			<li title="故事的名称">名称:<br/>
+                <input type="text" name="story_title" id="story_title" class="required"/>
+            </li>
+            <li title="故事的简介">简介:<br/>
+				<textarea id="id_description" rows="10" cols="40" name="description" maxlength="255"></textarea>
+            </li>
+			<li title="在[所有故事]页显示的图片。<br/>建议使用大小为230x125的图片。">故事封面:<br/>
+                <input type="file" name="story_image" id="story_image"/>
+            </li>
+			<!--{/if}-->
+			<li title="当前场景的标题">场景标题:<br/>
+                <input type="text" name="scene_title" id="scene_title" class="required"<!--{if $_G[ssid]}--> value="<!--{$scene[name]}-->"<!--{/if}--> />
+            </li>
+			<!--{if $_G[ssid] || (CURMODULE=='add' && $_G[sid])}-->
+			<li title="当前场景的简介">场景简介:<br/>
+				<textarea id="id_description" rows="10" cols="40" name="description" maxlength="255"><!--{if $_G[ssid]}--><!--{$scene[description]}--><!--{/if}--></textarea>
+            </li>
+			<!--{/if}-->
+            <li title="当前场景在您整个故事中的顺序，用数字表示。">排序:<br/>
+                <input type="text" name="sort" id="sort" style="width:100px"<!--{if $_G[ssid]}--> value="<!--{$scene[sortid]}-->"<!--{/if}--> />
+            </li>
+            <li title="在[所有场景]页显示的图片。<br/>建议使用大小为230x125的图片。">场景封面:<br/>
+                <input type="file" name="scene_image" id="scene_image"/>
+            </li>
+            <li>流程:</span>
+                <br/>
+				<ul id="process_frame"></ul>
+            </li>
+            <li>
+                <input type="hidden" id="process" name="process" value="" />
+                <p><input type="button" class="btn btn-primary btn-small" value="<!--{lang submit}-->" onclick="validatorFrom()" /></p>
+            </li>
+        </ul>
+    </form>
+</div><!--END: left-nav -->
+<div class="con-r">
+    <div class="page">
+        <fieldset>
+            <legend>系统命令</legend>
+			<input type="button" class="btn btn-primary btn-small" value="添加对话" onclick="addDialog()"/>
+            <input type="button" class="btn btn-primary btn-small" value="对话框" onclick="storyCommand('DLG')"/>
+			<input type="button" class="btn btn-primary btn-small" value="显示角色" onclick="showRole()"/>
+            <input type="button" class="btn btn-primary btn-small" value="隐藏角色" onclick="storyCommand('CROLE')"/>
+			<input type="button" class="btn btn-primary btn-small" value="添加音乐" onclick="addSound()"/>
+			<!--{if $story[id]}-->
+			<input type="button" class="btn btn-primary btn-small" value="分支" onclick="showBranch()"/>
+			<input type="button" class="btn btn-primary btn-small" value="跳转场景" onclick="storyJmp()"/>
+			<!--{/if}-->
+			<input type="button" class="btn btn-primary btn-small" value="结束游戏" onclick="storyCommand('END')"/>
+        </fieldset>
+        <fieldset>
+            <legend>背景库<span style="color:red">[单击选择背景]</span></legend>
+			<div id="story_upload_list">
+				<input type="file" name="storyUpload" id="storyUpload" /><br/>
+			</div>
+            <div id="bgd_default">
+                <!--{loop $bgd_list $id $bgd}--><img src="<!--{$bgd[url]}-->" width="95px"/><!--{/loop}-->
+            </div>
+        </fieldset>
+        <div id="story" style="background:url('/static/img/mapback.jpg');">
+			<div id="branch">
+			<div><div>
+				<ul id="branch_container"></ul>
+			</div></div>
+			</div>
+            <div id="dialog" onclick="run()"></div>
+            <table id="role_image_container"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
+<script type="text/javascript" src="/static/js/xheditor-1.1.13-zh-cn.js"></script>
+<script type="text/javascript" src="/static/js/ubb.js"></script>
+<script>
+
+	var new_id = 0;
+	var inbranch = false;
+	var roleProfile = [];
+	
+	<!--{loop $roles $id $role}-->
+	roleProfile[<!--{$role[rid]}-->] = {"rid":<!--{$role[rid]}-->, 
+		"name":"<!--{$role[name]}-->",
+		"postures":[
+		<!--{loop $role[postures] $idp $rp}-->
+		{"pid":<!--{$rp[pid]}-->, "name":"<!--{$rp[name]}-->", "img":"<!--{$rp[img]}-->"},
+		<!--{/loop}-->
+		]};
+	<!--{/loop}-->
+	
+	<!--{if $_G[ssid]}-->
+	var commandJson = <!--{$scene[script]}-->;
+	var last_bgdId = '';
+	var last_dialog_value = false;
+	<!--{/if}-->
+    var processFrame = $('#process_frame');
+	//$(this).parent().children("ul").slideDown();
+    var toolBtn = '<img src="/static/img/icon/del.png" onclick="$(this).parent().remove()" alt="Del"/><img id="dropbtn" src="/static/img/icon/down.png" alt="Down"/><ul class="dropmenu"><li onclick="menu_moveup(this)">上移</li><li onclick="menu_movedown(this)">下移</li><li id="id_li_wait" onclick="menu_wait(this)">等待</li><li onclick="menu_edit(this)">编辑</li></ul>';
+$(document).ready( function(){
+    $('[title]').colorTip({color:'black'}); //Tips显示
+    
+    //批量上传按钮
+	$('#storyUpload').uploadify ({
+		'swf'		: '/static/uploadify.swf',
+		'uploader' 	: 'story.php?mod=background&do=upload&uid=<!--{$_G[uid]}-->', 
+		//'script'	: 'story.php?mod=background&do=upload&uid=<!--{$_G[uid]}-->', 
+		'cancelImage' : '/static/img/icon/cancel.png',
+		'checkExisting' : false,
+		'removeCompleted': true,
+		'fileTypeDesc'    : '图片文件',
+		'fileTypeExts'    : '*.jpg;*.gif;*.png',
+		'fileExt'     : '*.jpg;*.gif;*.png',
+		'auto'		: true,
+		'multi'		: true,
+		'buttonText': '批量上传文件',
+		'onUploadComplete' : function () {
+			reloadBackground();
+		}
+	});
+	
+    /*场景预览以及切换*/
+	$('#bgd_default img, #story_upload_list img').live('click',function(){
+		var bgdSrc = $(this).attr('src');
+		changeBackground(bgdSrc, 1, false);
+	});
+
+	reloadBackground();
+	
+	<!--{if $_G[ssid]}-->
+	initScene();
+	<!--{/if}-->
+});
+	<!--{if $_G[ssid]}-->
+	function initScene(type, value){
+		var p = commandJson.process;
+		for (var i = 0; i < p.length; i++) {
+			var value = p[i].value;
+			var wait = p[i].wait;
+			switch (p[i].type) {
+			case 'DLG':
+				last_dialog_value = value;
+				var c = htmlspecialchars(value.content);
+				var cSummary = c.slice(0,5);
+				add_process('DLG', value, wait, cSummary+'……');
+				break;
+			case 'COM':
+				storyCommand(value, wait);
+				break;
+			case 'ROLE':
+				changeRolePosture(value, wait);
+				break;
+			case 'BGD':
+				changeBackground(value, wait, true);
+				break;
+			case 'BRANCH':
+			case 'JMP':
+			case 'BGM':
+			case 'SND':
+				add_process(p[i].type, value, wait);
+				break;
+			default:
+			}
+		}
+		
+		if (last_bgdId) $("#story").attr('style','background:url("file.php?id='+last_bgdId+'")');
+		if (last_dialog_value) {
+			setDialog(last_dialog_value);
+		}
+	}
+	<!--{/if}-->
+
+	function reloadBackground(){
+		$("#story_upload_list img").remove();
+		$.ajax({
+				//查询数据库重新获得用户上传文件列表
+				type: 'GET',
+				url: 'story.php?mod=background&do=update',
+				success: function(msg){
+					if (msg) {
+						var file_list = JSON.parse(msg);
+						for ( var i=0; i < file_list.length; i++){
+							$("#story_upload_list").append('<img id="file'+i+'" src="'+file_list[i].url+'" alt="'+file_list[i].name+'" width="100px" height="80"/>');
+						}
+					}
+				}
+		});
+	}
+	
+	function setDialog(value) {
+		if (value) {
+			if (value.name) {
+				$("#dialog").html('【'+value.name+'】<br/>'+ubb2html(value.content));
+			} else {
+				$("#dialog").html(ubb2html(value.content));
+			}
+		}
+	}
+    
+	function addDialogText(name, shtml){
+		var c = html2ubb(shtml);
+		c = htmlspecialchars(c);
+		var cSummary = c.slice(0,5);
+		
+		var json_data = {'name':name, 'content':c};
+		
+		add_process('DLG', json_data, 1, cSummary+'……');
+		setDialog(json_data);
+	}
+	
+	function editDialogText(name, shtml, obj){
+		var c = html2ubb(shtml);
+		c = htmlspecialchars(c);
+		var cSummary = c.slice(0,5);
+		
+		var json_data = {'name':name, 'content':c};
+		
+		$(obj).data('content', json_data);
+		$(obj).find('#id_span2').text(cSummary+'……');
+		
+		setDialog(json_data);
+	}
+	
+	function editDialog(obj){
+		var json_content = $(obj).data('content');
+		var ubbcode = json_content.content;
+		jEditor('请输入您想要的对话:<br />说话人:', json_content.name, ubb2html(ubbcode), '编辑对话', function(subval, val){
+			if (val != '' || subval != '') {
+				clearBranch();
+				editDialogText(subval, val, obj);
+			}
+		});
+	}
+	
+    function addDialog(){
+		jEditor('请输入您想要的对话:<br />说话人:', '', '', '添加对话', function(subval, val){
+			if (val != '' || subval != '') {
+				clearBranch();
+				addDialogText(subval, val);
+			}
+		});
+	}
+    	
+	function clearRole(){
+		$("#role_image_container").html('');
+	}
+	
+	<!--{if $story[id]}-->
+	function createBranch(){
+		new_id++;
+		$('div#pop_branch').append(
+		'<div class="branch">' + 
+		'<p>选项: <input class="branch_name" name="id_branch_name_' + new_id + '" type="text" maxlength="32" /> ' + 
+		'<select class="branch_select" id="id_branch_select_' + new_id + '">' +
+                '<option value="0">继续</option>' +
+                <!--{loop $scenes $id $scene}-->
+                '<option value="<!--{$scene[ssid]}-->"><!--{$scene[name]}--></option>' +
+                <!--{/loop}-->
+        '</select>&nbsp;' +
+		'<input type="button" class="btn btn-primary btn-small" class="remove" value="<!--{lang delete}-->" onclick="$(this).parent().remove();"/></p></div>'
+		);
+    }
+	
+	function getBranch(){
+		var branch=$('div.branch');
+		
+		if ($(branch).size() > 0) {
+			var branchjson=[];
+			var count = 0;
+			for(var i=0;i<$(branch).size();i++){
+				var obj = $(branch).eq(i);
+				var name = $(obj).find("input.branch_name").val();
+				var ssid = $(obj).find("select.branch_select").val();
+				if (name != '') {
+					count++;
+					branchjson.push({'name':name,'ssid':ssid});
+				}
+			}
+			
+			if (count > 0) {
+				add_process('BRANCH', branchjson);
+				
+				clearBranch();
+				
+				inbranch = true;
+				for (var i=0;i<branchjson.length;i++){
+					$('#branch_container').append('<li><input type="button" class="btn btn-branch" id="id_btn_branch" value="'+branchjson[i].name+'"></li>');
+				}
+				$('#branch_container').css('display','block');
+			}
+		}
+	}
+	
+	function clearBranch(){
+		if (inbranch) {
+			$('#branch_container').css('display','none');
+			$('#id_btn_branch').remove();
+			inbranch = false;
+		}
+	}
+	
+	function getJmpScene(){
+		var ssid = $('select.jmpscene_select').val();
+		if (ssid != 0) {
+			add_process('JMP', ssid);
+		}
+	}
+    
+    function showBranch(){
+		jCustom('创建选项，并选择目标场景。', '<input type="button" class="btn btn-primary btn-small" value="创建选项" onclick="createBranch()"/><br/><br/><div id="pop_branch"></div>', '添加分支', function(val){getBranch()});
+    }
+	
+	function storyJmp(){
+		jCustom('选择跳转到的目标场景。', '<div id="pop_jmpscene">' + 
+							'<select class="jmpscene_select" id="id_jmpscene_select">' +
+							<!--{loop $scenes $id $scene}-->
+							'<option value="<!--{$scene[ssid]}-->"><!--{$scene[name]}--></option>' +
+							<!--{/loop}-->
+							'</select></div>', '场景跳转', function(val){getJmpScene()});
+    }
+	<!--{else}-->
+	function clearBranch(){}
+	<!--{/if}-->
+	
+	function getSound(){
+		var music_type_id = parseInt($('select.music_type_select').val());
+		var music_id = $('select.music_select').val();
+		switch (music_type_id) {
+			case 0:
+				add_process('BGM', music_id);
+				break;
+			case 1:
+				add_process('SND', music_id);
+				break;
+			case 2:
+				add_process('BGM', '0');
+				break;
+			case 3:
+				add_process('SND', '0');
+				break;
+			default:
+				return;
+		}
+	}
+	
+	function reloadSound(){
+		$("#id_music_select option").remove();
+			$.ajax({
+				//查询数据库重新获得用户上传文件列表
+				type: 'GET',
+				url: 'story.php?mod=music&do=update',
+				success: function(msg){
+					if (msg) {
+						var file_list = JSON.parse(msg);
+						for (var i=0; i < file_list.length; i++){
+							$("#id_music_select").append('<option id="id_sound_'+file_list[i].id+'" value="'+file_list[i].id+'">'+file_list[i].name+'</option>');
+						}
+					}
+				}
+		});
+	}
+	
+	function addSound(){
+		jCustom('选择需要播放的音乐。', '<div id="pop_sound">' + 
+					'<input type="file" name="soundUpload" id="soundUpload" /><br/>' + 
+					'<select class="music_type_select" id="id_music_type_select">' +
+					'<option value="0">背景音乐</option>' +
+					'<option value="1">人物语音</option>' +
+					'<option value="2">停止背景音乐</option>' +
+					'<option value="3">停止人物语音</option>' +
+					'</select>&nbsp;' +
+					'<select class="music_select" id="id_music_select">' +
+					'</select></div>', '添加音乐', function(val){getSound()});
+					
+		$('#soundUpload').uploadify ({
+			'swf'		: '/static/uploadify.swf',
+			'uploader' 	: 'story.php?mod=music&do=upload&uid=<!--{$_G[uid]}-->',
+			'cancelImage' : '/static/img/icon/cancel.png',
+			'checkExisting' : false,
+			'removeCompleted': true,
+			'fileTypeDesc'    : '声音文件',
+			'fileTypeExts'    : '*.mp3;*.ogg;*.wav',
+			'fileExt'     : '*.mp3;*.ogg;*.wav',
+			'auto'		: true,
+			'multi'		: true,
+			'buttonText': '批量上传文件',
+			'onUploadComplete' : function () {
+				reloadSound();
+			}
+		});
+		reloadSound();
+	}
+	
+	function getRoleSelect(){
+		var role=$('div.role');
+		
+		if ($(role).size() > 0) {
+			var rolejson=[];
+			var count = 0;
+			for(var i=0;i<$(role).size();i++){
+				var obj = $(role).eq(i);
+				var value = $(obj).find("select#role_posture").val();
+				if (value != '' && value != '0') {
+					count++;
+					rolejson.push(value);
+				}
+			}
+		
+			if (count > 0) {
+				changeRolePosture(rolejson,1,'');
+			}
+		}
+	}
+	
+	function createRole(){
+		new_id++;
+		$('div#pop_showrole').append(
+		'<div class="role">' + 
+				'角色:<select class="role_select" onchange="changeRole(this,this.value,this.options[this.selectedIndex].text)">' +
+				'<option value="0">未选择</option>' +
+				<!--{loop $roles $id $role}-->
+				'<option value="<!--{$role[rid]}-->"><!--{$role[name]}--></option>' +
+				<!--{/loop}-->
+				'</select>&nbsp;' +
+				'姿势:<select id="role_posture">' +
+				'<option value="0">未选择</option>' +
+				'</select>&nbsp;' +
+		'<input type="button" class="btn btn-primary btn-small" class="remove" value="<!--{lang delete}-->" onclick="$(this).parent().remove();"/></p></div>'
+		);
+    }
+	
+	function showRole(){
+		jCustom('选择要显示的角色。', '<input type="button" class="btn btn-primary btn-small" value="添加角色" onclick="createRole()"/><br/><br/><div id="pop_showrole"><div class="role">' + 
+							'角色:<select class="role_select" onchange="changeRole(this,this.value,this.options[this.selectedIndex].text)">' +
+							'<option value="0">未选择</option>' +
+							<!--{loop $roles $id $role}-->
+							'<option value="<!--{$role[rid]}-->"><!--{$role[name]}--></option>' +
+							<!--{/loop}-->
+							'</select>&nbsp;' +
+							'姿势:<select id="role_posture">' +
+							'<option value="0">未选择</option>' +
+							'</select><p></p></div></div>', '显示角色', function(val){getRoleSelect()});
+		//onchange="changeRolePosture(this.value,this.options[this.selectedIndex].text)
+	}
+	
+	function changeBackground(bgdSrc,wait,isid){
+		var bgdId = '';
+		if (isid) {
+			bgdId = bgdSrc;
+			last_bgdId = bgdId;
+		} else {
+			$("#story").attr('style','background:url("'+bgdSrc+'")');
+			var s = bgdSrc.lastIndexOf("/");
+			var se = bgdSrc.lastIndexOf(".");
+			bgdId = bgdSrc.substr(s+1, se-s-1);
+		}
+		add_process('BGD', bgdId, wait);
+	}
+    
+    function changeRole(obj,value,name){
+		var role_posture_obj = $(obj).parent().find("#role_posture");
+		$(role_posture_obj).find('option').remove();
+		if (value != "0") {
+			$(role_posture_obj).append('<option value="0">未选择</option>');
+			for (var i = 0; i < roleProfile[value].postures.length; i++) {
+				$(role_posture_obj).append('<option value="'+value+"_"+String(i+1)+'">'+roleProfile[value].postures[i].name+'</option>');
+			}
+		} else {
+			$(role_posture_obj).append('<option value="0">未选择</option>');
+		}
+		$(role_posture_obj).find('option:first').attr('selected');
+	}
+	
+	function changeRolePosture(value,wait,name){
+		if (value) {
+			clearBranch();
+			var cname = ''
+			var shtml = '<tr>';
+			for (var i = 0; i<value.length; i++) {
+				if (value[i] != "0") {
+					var mid = value[i].split('_');
+					var rid = parseInt(mid[0]);
+					var pidIndex = parseInt(mid[1]);
+					if (pidIndex > 0) {			
+						pidIndex = pidIndex - 1;
+						shtml += '<th><div id="role_image" style="background:url('+roleProfile[rid].postures[pidIndex].img+') no-repeat center bottom"></div></th>'
+						cname += roleProfile[rid].name+'('+roleProfile[rid].postures[pidIndex].name+')';
+					}
+				}
+			}
+			shtml += '</tr>';
+			if (value.length > 1) {
+				cname = '('+value.length+') '+cname;
+			}
+			if (cname.length > 8) cname = cname.slice(0,5) + '……';
+			$("#role_image_container").html(shtml);
+			add_process('ROLE', value, wait, cname);
+		}
+	}
+            
+    function storyCommand(type, wait){
+		clearBranch();
+        switch(type) {
+            case 'CROLE':
+				add_process('COM', 'CROLE', wait);
+                clearRole();
+                break;
+            case 'DLG':
+                if ($('#dialog').css('display') == 'block'){
+                    $('#dialog').css('display','none');
+					add_process('COM', 'DLG', wait);
+                }else{
+                    $('#dialog').css('display','block');
+					add_process('COM', 'DLG', wait);
+                }
+                break;
+			case 'END':
+				add_process('COM', 'END', wait);
+                break;
+            default: 
+        }
+    }
+    	
+	function validatorFrom(){
+		<!--{if !$_G[sid]}-->
+		if ($("#story_title").val() == ''){
+			jAlert('您是不是忘记填写故事的标题了？','Submit Failed');
+			return;
+		}
+		<!--{/if}-->
+		if ($("#scene_title").val() == ''){
+			jAlert('您是不是忘记填写场景的标题了？','Submit Failed');
+			return;
+		}
+		
+		var processJSON = {};
+		processJSON['process'] = new Array;
+		$("#process_frame>li").each(function(i){
+			processJSON['process'][i] = {};
+			processJSON['process'][i]['type'] = $(this).data('type');
+			processJSON['process'][i]['value'] = $(this).data('content');
+			processJSON['process'][i]['wait'] = $(this).data('wait');
+		});
+		
+		if (processJSON['process'].length <= 0){
+			jAlert('请添加场景进程！','Submit Failed');
+			return;
+		}
+		
+		//confirm(JSON.stringify(processJSON)) && return;
+		
+		$('#process').val(JSON.stringify(processJSON));
+		$('#story_form').submit();
+    }
+	
+	function htmlspecialchars(str) {  
+        var s = "";
+        if (str.length == 0) return "";
+        for (var i=0; i<str.length; i++) {
+            switch (str.substr(i,1))
+            {
+                case "<": s += "&lt;"; break;
+                case ">": s += "&gt;"; break;
+                case "&": s += "&amp;"; break;
+                case " ":
+                    if(str.substr(i + 1, 1) == " "){
+                        s += " &nbsp;";
+                        i++;
+                    } else s += " ";
+                    break;
+                case "\"": s += "&quot;"; break;
+                case "\n": s += "<br>"; break;
+                default: s += str.substr(i,1); break;
+            }
+        }
+        return s;
+    }
+	
+	function add_process(type, content, wait, text) {
+		var color = '';
+		var spantext = '';
+		var base_wait=1;
+		switch (type) {
+		case 'DLG':
+			color = 'green';
+			spantext = '对话';
+			break;
+		case 'BRANCH':
+			color = '#ff00ff';
+			spantext = '分支';
+			text = '显示选项';
+			break;
+		case 'JMP':
+			color = '#ff00ff';
+			spantext = '场景';
+			text = '跳转场景';
+			break;
+		case 'BGM':
+			color = '#00ffff';
+			spantext = '音乐';
+			if (content == "0") {
+				text = '停止背景音乐';
+			} else {
+				text = '播放背景音乐';
+			}
+			base_wait = 0;
+			break;
+		case 'SND':
+			color = '#00ffff';
+			spantext = '音乐';
+			if (content == "0") {
+				text = '停止人物语音';
+			} else {
+				text = '播放人物语音';
+			}
+			base_wait = 0;
+			break;
+		case 'BGD':
+			color = 'blue';
+			spantext = '场景';
+			text = '场景变更';
+			break;
+		case 'ROLE':
+			color = 'red';
+			spantext = '角色';
+			break;
+		case 'COM':
+			color = '#000';
+			spantext = '系统';
+			switch (content) {
+			case 'CROLE':
+				text = '隐藏角色';
+				break;
+			case 'DLG':
+				text = '显示/隐藏对话框';
+				break;
+			case 'END':
+				text = '结束游戏';
+				break;
+			default:
+				return;
+			}
+			break;
+		default:
+			return;
+		}
+		
+		var wait=wait||base_wait;
+		processFrame.append('<li data-type="'+type+'" data-wait="'+wait+'"><span id="id_span1" style="color:'+color+'">'+spantext+'</span><span id="id_span2">'+text+'</span></li>');
+		var li_last = processFrame.children('li:last');
+		$(li_last).data('content', content);
+		$(li_last).append(toolBtn);
+		$(li_last).hover(function(){},function(){
+			$(this).find("#dropbtn").css("background","#fff");
+			$(this).children("ul").slideUp();
+		  });
+		$(li_last).find("#dropbtn").hover(function(){
+			$(this).css("background","#333333").parent().children("ul").slideDown();
+		  },function(){});
+		if (wait == 1) $(li_last).find("#id_li_wait").text('√等待');
+	}
+	
+	function menu_edit(obj) {
+		var liobj = $(obj).parent().parent();
+		if (liobj.data('type') == 'DLG') editDialog(liobj);
+	}
+	
+	function menu_wait(obj) {
+		var liobj = $(obj).parent().parent();
+		var wait = $(liobj).data('wait');
+		if (wait == '0') {
+			wait = '1';
+			$(liobj).find("#id_li_wait").text('√等待');
+		} else {
+			wait = '0';
+			$(liobj).find("#id_li_wait").text('等待');
+		}
+		$(liobj).data('wait', wait);
+	}
+	
+	function menu_moveup(obj) {
+		var liobj = $(obj).parent().parent();
+		$(liobj).insertBefore($(liobj).prev());
+	}
+	
+	function menu_movedown(obj) {
+		var liobj = $(obj).parent().parent();
+		$(liobj).insertAfter($(liobj).next());
+	}
+    
+</script>
+
+<!--{subtemplate common/footer}-->

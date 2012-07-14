@@ -1,0 +1,54 @@
+<!--{subtemplate common/header_common}-->
+	<meta name="application-name" content="$_G['setting']['bbname']" />
+	<meta name="msapplication-tooltip" content="$_G['setting']['bbname']" />
+	<link type="text/css" rel="stylesheet" href="/static/css/main.css?{VERHASH}"/>
+	<link type="text/css" rel="stylesheet" href="/static/css/uniform.css?{VERHASH}"/>
+	<link type="text/css" rel="stylesheet" href="/static/css/bootstrap.css?{VERHASH}"/>
+	<link type="text/css" rel="stylesheet" href="/static/css/bootstrap-responsive.css?{VERHASH}"/>
+	<script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="/static/js/uniform.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+</head>
+
+<body id="nv_{$_G[basescript]}" class="pg_{CURMODULE}{if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if}" onkeydown="if(event.keyCode==27) return false;">
+
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+
+<div id="header">
+<div class="con">
+	<h1 onclick="javascript:window.location.href ='/'"><img src="/static/img/logo_top.png" alt="Logo" /></h1>
+	<ul id="header_menu">
+		<li>
+			<img src="/static/img/icon/home.png" alt="Home Icon" />
+			<!--{if !$_G[uid]}-->
+			<a href="account.php?mod=signup" style="color:green;">注册</a>
+			<!--{else}-->
+			<a href="/">首页</a>
+			<!--{/if}-->
+		</li>
+		<li>
+			<a href="role.php?mod=list">角色列表</a>
+		</li>
+		<li>
+			<a href="story.php?mod=list">所有故事</a>
+		</li>
+		<li>
+			<a href="/wiki/">图书馆</a>
+		</li>
+		<!--{if !$_G[uid]}-->
+		<li>
+			<a href="account.php?mod=signin&t={TIMESTAMP}" style="color:red">登录</a>
+		</li>
+		<!--{else}-->
+		<li>
+			<a href="account.php?mod=profile" style="color:<!--{if !$_G[member][emailstatus]}-->gray<!--{else}-->green<!--{/if}-->; font-weight:bold;">$_G[username]<!--{if !$_G[member][emailstatus]}--><font style="color:red; font-weight:bold;">[!]</font><!--{/if}--></a>
+		</li>
+		<li>
+			<a href="account.php?mod=signin&do=logout&t={TIMESTAMP}">退出</a>
+		</li>
+		<!--{/if}-->
+	</ul>
+</div>
+</div>
+
+<div id="wrapper">

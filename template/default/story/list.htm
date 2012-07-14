@@ -1,0 +1,71 @@
+<!--{subtemplate common/header}-->
+<style>
+    .category {height:54px;}
+    .right {margin-left:20px;}
+    .story_list li h4 { font-size:14px; color:#ffb83b; text-align:center; }
+    .story_list li { display: inline-block; vertical-align: top; min-height:100px; zoom: 1;  *display:inline;
+    height:160px; width:90%; margin-left:20px 0px 0px 20px; padding:15px 0 10px 0; text-align:left; border-bottom:1px dashed #c6c6c6;}
+    .story_list li img {border-top:1px solid #efefef; border-right :2px solid #efefef;
+    border-radius:3px;
+    -webkit-border-radius:3px;
+    box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow:0 2px 2px rgba(0, 0, 0, 0.2);
+    }
+    .story_list li .summary { text-indent:2em; height:100px; overflow:hidden;text-overflow: ellipsis;}
+</style>
+
+<div class="con">
+    <div class="conr-title">
+        <div class="search-bar">
+            <a href="story.php?mod=add"><img src="/static/img/btn_createstory.png"/></a>
+            <input name="" type="text" class="t">
+            <input name="" type="image" src="/static/img/icon/search.png">
+        </div>
+    </div>
+	<br/>
+    <div class="page">
+        <div class="story_list">
+            <ul>
+			<!--{loop $stories $id $story}-->
+                <li>
+                    <div style="float:left;margin-right:20px"><a href="story.php?mod=show&id=<!--{$story[sid]}-->"><img src="<!--{if $story[img]}--><!--{$story[img]}--><!--{else}-->/static/img/mapback.jpg<!--{/if}-->" width="230" height="125" alt="Story Cover"/></a><h4><!--{$story[name]}--></h4></div>
+                    <p><a href="account.php?mod=profile&id=<!--{$story[uid]}-->" target="_blank">@<!--{$story[username]}--></a> 的故事<!--{if $story[uid] == $_G[uid]}--> <input type="button" class="btn btn-primary btn-mini" value="<!--{lang edit}-->" onclick="window.location.href='story.php?mod=edit&id=<!--{$story[sid]}-->'"/> <input type="button" class="btn btn-primary btn-mini" value="<!--{lang delete}-->" onclick="delStory(<!--{$story[sid]}-->)"/><!--{/if}--></p>
+                    <p>创建时间： <!--{$story[createdate]}--></p>
+					<p>更新时间： <!--{$story[updatedate]}--></p><br/>
+                    <p class="summary"><!--{$story[description]}--></p>
+                </li>
+            <!--{/loop}-->
+            </ul>
+        </div>
+		<div class="clear"></div>
+		<!--{subtemplate common/pagination}-->
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+    });
+	
+	function delStory(id){
+		jConfirm('删除后的故事不能再恢复，确认要删除吗？', 'Confirmation Dialog', function(r) {
+			if (r){
+				$.ajax({
+					type:'POST',
+					url: 'story.php?mod=del&ajax=1',
+					dataType:'json',
+					data: {"id": id },
+					success: function(msg){
+						if (msg == '0') {
+							window.location.href = 'story.php?mod=list';
+						} else {
+							jAlert('删除故事失败！','Submit Failed');
+						}
+					}
+				});
+			}
+       });
+	}
+</script>
+
+<!--{subtemplate common/footer}-->

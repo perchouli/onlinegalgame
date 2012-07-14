@@ -1,0 +1,54 @@
+    <fieldset>
+        <legend><!--{if !$role[isshow]}-->创建<!--{else}-->所有<!--{/if}-->姿势</legend>
+        <div id="posture_ctrl">
+			<!--{if !$role[isshow]}-->
+			<input type="button" class="btn btn-primary btn-small" id="add" name="add" value="<!--{lang add}-->" onclick="addPosture(this, 32);" />
+			<input type="button" class="btn btn-primary btn-small" id="id_submit" value="<!--{lang submit}-->" onclick="submitPosture();" />
+			<!--{/if}-->
+			<input type="button" class="btn btn-primary btn-small" id="show" value="<!--{lang show}-->" onclick="showPosture('<!--{$role[img]}-->');" />
+		</div>
+		<br/>
+		<form id="role_posture_form" action="role.php?mod=addposture&id=<!--{$role[id]}-->" method="POST" enctype="multipart/form-data">
+		<div id="postures">
+		<!--{loop $role[posture] $id $rp}-->
+		<div class="posture">
+			<p>名称: <input name="id_posture_name_<!--{$id}-->" type="text" maxlength="32"<!--{if $rp[name]}--> value="{$rp[name]}"<!--{/if}--> />
+			<!--{if !$role[isshow]}-->
+			<input name="id_posture_image_<!--{$id}-->" type="file" />
+			<input type="hidden" name="id_posture_pid_<!--{$id}-->" value="<!--{$rp[pid]}-->" />
+			<input type="button" class="btn btn-primary btn-small" class="remove" value="<!--{lang delete}-->" onclick="deletePosture(this);" />
+			<!--{/if}-->
+			<input type="button" class="btn btn-primary btn-small" class="remove" value="<!--{lang show}-->" onclick="showPosture('<!--{$rp[img]}-->');" /></p>
+		</div>
+		<!--{/loop}-->
+		</div>
+		</form>
+    </fieldset>
+<!--{if !$role[isshow]}-->	
+<script type="text/javascript">
+var new_id = <!--{$role[posture_count]}-->;
+
+function addPosture(obj, sm) { 
+new_id++;
+$('div#postures').append( 
+'<div class="posture">' + 
+'<p>名称: <input name="id_posture_name_' + new_id + '" type="text" maxlength="32" /> ' + 
+'<input name="id_posture_image_' + new_id + '" type="file" /> ' + 
+'<input type="button" class="btn btn-primary btn-small" class="remove" value="<!--{lang delete}-->" /></p></div>') 
+.find("input.remove").click(function(){ 
+$(this).parent().remove(); 
+$('input#add').show();
+});
+if($('div.posture').size() >= sm) {$(obj).hide();} 
+}
+
+function submitPosture() {
+$("#role_posture_form").submit();
+}
+
+function deletePosture(obj) {
+$(obj).parent().remove(); 
+}
+
+</script>
+<!--{/if}-->

@@ -1,0 +1,80 @@
+<!--{subtemplate common/header}-->
+<style>
+.gravatar {border: 1px solid #D0D0D0;padding: 2px;float: left;margin-right: 10px;}
+.events li{height: 50px;width: 30%;float: left;}
+.events li p{margin-top: 10px;}
+.tips {margin:15px;}
+</style>
+<div class="tips">>> 公告</div>
+<table id="step">
+	<tr>
+		<td><span class="stepnum">0</span><span class="stepfont">Please! Read Demo</span></td>
+		<td><span class="stepnum">1</span><span class="stepfont">Create Your Role</span></td>
+		<td><span class="stepnum">2</span><span class="stepfont">Write Your Story</span></td>
+	</tr>
+	<tr>
+		<td>
+			<a href="story.php?mod=show&id=1"><img src="/static/img/step3.jpg" height="160" width="260" alt="Share Story"/></a>
+			<p>不知道这个网站是干嘛的？请先浏览演示剧本。</p>
+		</td>
+		<td>
+			<a href="role.php?mod=list"><img src="/static/img/step1.jpg" height="160" width="260" alt="Creat Role" /></a>
+			<p>你可以使用系统提供的默认素材，创建你自己喜欢的人物，也可以直接上传。</p>
+		</td>
+		<td>
+			<a href="story.php?mod=list"><img src="/static/img/step2.jpg" height="160" width="260" alt="Create Story"/></a>
+			<p>创建人物之后，你将在故事中让自己人物登场，给她们添加对白和动作。</p>
+		</td>
+	</tr>
+</table>
+
+<!--{if !$_G[uid]}-->
+<div class="follow unlogin">
+	<span>You can make a online Galgame by yourself. But first:</span>
+	<ul>
+		<li>
+			<a href="account.php?mod=signup"><img src="/static/img/icon/register.png" width="100" alt="Register" /></a>
+			<h2><a href="account.php?mod=signup">Register</a></h2>
+			<p> 在本站注册一个账号，只需要填写邮箱地址，用户名和密码。 </p>
+		</li>
+		<li>
+			<a href="account.php?mod=signin&t={TIMESTAMP}"><img src="/static/img/icon/login.png" width="100" alt="Login"/></a>
+			<h2><a href="account.php?mod=signin&t={TIMESTAMP}">Login</a></h2>
+			<p> 如果您已经注册，请使用注册的账号登录。 </p>
+		</li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<!--{/if}-->
+
+<div class="follow events">
+	<img src="/static/img/icon/logo.png" alt="Icon" /> <span>Lastest Update</span>
+		<ul>
+			<!--{loop $events $event}-->
+			<li><!--{$event}--></li>
+			<!--{/loop}-->
+		</ul>
+	<div class="clear"></div>
+</div>
+
+<div class="follow">
+	<img src="/static/img/icon/logo.png" alt="Icon" /> <span>Other thing you can do</span>
+	<ul>
+		<li><a href="role.php?mod=list">查看其他人的角色</a></li>
+		<li><a href="story.php?mod=list">查看其他人的剧本</a></li>
+		<li><a href="/wiki/">去图书馆找资料</a></li>
+		<li><a href="mailto:tengattack@gmail.com">联系管理员</a></li>
+	</ul>
+</div>
+
+<script type="text/javascript" >
+$(document).ready(function(){
+	$("#step img").mouseenter(function(){
+		$(this).parent().parent().css('color','#7BCA1C');
+	});
+	$("#step img").mouseout(function(){
+		$(this).parent().parent().css('color','');
+	});
+});
+</script>
+<!--{subtemplate common/footer}-->

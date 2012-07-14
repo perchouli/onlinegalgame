@@ -1,0 +1,94 @@
+<!--{subtemplate common/header}-->
+<style>
+fieldset {border:1px #ccc solid; width:85%; padding:15px;}
+</style>
+
+<!--START: left-nav -->
+<div class="sidebar">
+    <h2><!--{lang role_info}--></h2>
+    <!--{if $role[id]}-->
+    <form id="role_form" action="role.php?mod=edit&id=<!--{$role[id]}-->" method="POST" enctype="multipart/form-data">
+    <!--{else}-->
+    <form id="role_form" action="role.php?mod=add" method="POST" enctype="multipart/form-data">
+    <!--{/if}-->
+    <div style="display:none"><input type="hidden" name="formhash" value="{FORMHASH}"></div>
+    <ul>
+        <li title="您所创建的角色的名字">
+            <!--{lang role_name}-->:<br/><input id="id_name" type="text" name="name" maxlength="32"<!--{if $role[name]}--> value="{$role[name]}"<!--{/if}--> />
+        </li>
+        <li><!--{lang role_gender}-->:<br/>
+            <input type="radio" name="gender" value="0" <!--{if $role[gender] == 0}--> checked="checked" <!--{/if}-->>？&nbsp;
+            <input type="radio" name="gender" value="1" <!--{if $role[gender] == 1}--> checked="checked" <!--{/if}-->>男&nbsp;
+            <input type="radio" name="gender" value="2" <!--{if $role[gender] == 2}--> checked="checked" <!--{/if}-->>女&nbsp;
+        </li>
+        <li title="角色属性，请使用空格分割，例如:<span style='color:red'><b>眼镜娘 LOLI</b></span>">
+            属性: <!--{if $role[tags_errors]}--><!--{$role[tags_errors]}--><br/><!--{/if}--><input id="id_tags" type="text" name="tags" maxlength="64"<!--{if $role[tag_text]}--> value="{$role[tag_text]}"<!--{/if}--> />
+        </li>
+        <li title="对角色进行描述">
+            简介: <textarea id="id_description" rows="10" cols="40" name="description" maxlength="255"><!--{if $role[description]}-->{$role[description]}<!--{/if}--></textarea>
+        </li>
+		<!--{if !$role[isshow]}-->
+        <!--{if $role[id]}-->
+        <li title="上传角色描述图片。<br/>建议使用大小在330x400以下的图片。">
+            自定义图片：<!--{if $role[image_errors]}--><!--{$role[image_errors]}--><br/><!--{/if}--><input id="id_image" type="file" name="image" />
+        </li>
+        <!--{else}-->
+        <li title="上传角色描述图片。<br/>建议使用大小在330x400以下的图片。">
+            自定义图片：<!--{if $role[image_errors]}--><!--{$role[image_errors]}--><br/><!--{/if}--><input id="id_image" type="file" name="image" />
+        </li>
+        <!--{/if}-->
+        <li>
+            <input type="hidden" id="profile" name="profile" value="" />
+            <p><input type="button" class="btn btn-primary btn-small" value="<!--{lang submit}-->" onclick="validatorFrom()"/></p>
+        </li>
+		<!--{else}-->
+		<!--{if $role[uid] == $_G[uid]}-->
+		<li>
+			<p><input type="button" class="btn btn-primary btn-small" value="<!--{lang edit}-->" onclick="window.location.href='role.php?mod=edit&id=<!--{$role[id]}-->'"/></p>
+		</li>
+		<!--{/if}-->
+		<!--{/if}-->
+    </ul>
+    </form>
+
+</div>
+<!--END: left-nav -->
+
+<div class="con-r">
+    <div class="page">
+        <div class="conr-title">
+            <h2><!--{lang role_profile}--></h2>
+        </div>
+        <!--{if $role[id]}-->
+            <!--{subtemplate role/posture}-->
+        <!--{/if}-->
+
+		<!--{if $role[id]}-->
+        <div id="role" style="background:url('<!--{$role[img]}-->');background-repeat:no-repeat;background-position:center bottom;margin-top:10px;width:500px;height:400px;border:1px solid #ccc;" >
+        </div>
+		<!--{else}-->
+		<p>请先创建好人物，选择好人物封面，设置好相关属性，再进行人物姿势的创建。</p>
+		<!--{/if}-->
+    </div>
+</div>
+
+<script>
+
+
+$(document).ready( function(){
+    $('[title]').colorTip({color:'black'});//Tips
+});
+
+<!--{if !$role[isshow]}-->
+function validatorFrom(){
+    if ( $("#id_name").val() == '' ){
+        jAlert('您是不是忘记填写<span style="color:red">名字</span>了？', 'Submit Failed') ;
+    }else $("#role_form").submit();
+}
+<!--{/if}-->
+
+function showPosture(url){
+    $("#role").attr("style","background:url('"+url+"');background-repeat:no-repeat;background-position:center bottom;margin-top:10px;width:500px;height:400px;border:1px solid #ccc;");
+}
+</script>
+<!--{subtemplate common/footer}-->

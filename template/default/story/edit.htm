@@ -1,0 +1,94 @@
+<!--{subtemplate common/header}-->
+<style>
+	input, textarea { display:block;}
+
+	#e_menu, #c_menu, #h_menu{
+		border:1px solid #CCCCCC;
+		overflow:hidden;
+		position:absolute;
+		text-align:left;
+		width:120px;
+		height:300px;
+		z-index:98;
+	}
+	
+	#story_info { margin:18px;float:left;  float:left; width:300px;}
+		#story_info h3 { margin-top:15px;}
+		#story_info .current {background:#7BCA1C;color:#fcfcfc}
+</style>
+<div class="sidebar">
+<h2><!--{lang basic_info}--></h2>
+<form id="story_form" action="story.php?mod=edit&id=<!--{$story[id]}-->" method="POST" enctype="multipart/form-data">
+	<div style="display:none"><input type="hidden" name="formhash" value="{FORMHASH}"></div>
+	<ul>
+		<li title="故事的名称">名称:<br/>
+            <input type="text" name="story_title" id="story_title" class="required" value="<!--{$story[name]}-->" />
+		</li>
+		<li title="故事的简介">简介:<br/>
+			<textarea id="id_description" rows="10" cols="40" name="description" maxlength="255"><!--{$story[description]}--></textarea>
+		</li>
+		<li title="在[所有故事]页显示的图片。<br/>建议使用大小为230x125的图片。">故事封面:<br/>
+			<input type="file" name="story_image" id="story_image"/>
+		</li>
+		<li>
+            <input type="button" class="btn btn-primary btn-small" value="<!--{lang submit}-->" onclick="validatorFrom()" />
+        </li>
+	</ul>
+</form>
+</div>
+<div class="con-r">
+	<div class="page">
+		<div class="conr-title">
+			<h2><!--{lang story_scene_info}--></h2>
+		</div>
+	</div>
+	<div id="story_info">
+		<ul>
+			<li>
+				<p><input type="button" class="btn btn-primary btn-mini" value="<!--{lang add}-->" onclick="window.location.href='story.php?mod=add&id=<!--{$story[id]}-->';"/></p>
+			</li>
+			<!--{loop $scenes $id $scene}-->
+			<li><!--{if $scene[uid] == $_G[uid] || $story[uid] == $_G[uid]}--><span onclick="delScene(<!--{$scene[ssid]}-->)" style="font-size:10;margin-right:10px;color:red;">x</span><!--{/if}--><a <!--{if $scene[ssid] == $_G[ssid]}-->class="current"<!--{/if}--> href="story.php?mod=show&id=<!--{$story[id]}-->&ssid=<!--{$scene[ssid]}-->"><!--{$scene[name]}--></a> <!--{if $scene[uid] == $_G[uid] || $story[uid] == $_G[uid]}--><input type="button" class="btn btn-primary btn-mini" value="<!--{lang edit}-->" onclick="editStory(<!--{$scene[ssid]}-->)"/><!--{/if}--></li>			
+			<!--{/loop}-->
+		</ul>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('[title]').colorTip({color:'black'}); //Tips显示
+    });
+	
+	function delScene(sid){
+		jConfirm('删除后的场景不能再恢复，确认要删除吗？', 'Confirmation Dialog', function(r) {
+			if (r){
+				$.ajax({
+					type:'POST',
+					url: 'story.php?mod=del&id=<!--{$story[id]}-->&ajax=1',
+					dataType:'json',
+					data: {"ssid": sid},
+					success: function(msg){
+						if (msg == '0') {
+							window.location.reload();
+						} else {
+							jAlert('删除场景失败！','Submit Failed');
+						}
+					}
+				});
+			}
+       });
+	}
+	
+	function editStory(sid){
+		window.location.href = 'story.php?mod=edit&id=<!--{$story[id]}-->&ssid='+sid;
+	}
+	
+	function validatorFrom(){
+		if ($("#story_title").val() == ''){
+			jAlert('您是不是忘记填写故事的标题了？','Submit Failed');
+			return;
+		}
+		$('#story_form').submit();
+	}
+</script>
+<!--{subtemplate common/footer}-->

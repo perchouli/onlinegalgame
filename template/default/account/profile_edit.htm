@@ -1,0 +1,37 @@
+<!--{subtemplate common/header}-->
+<!--{subtemplate account/profile_header}-->
+<!--{subtemplate account/sidebar}-->
+
+<form action="account.php?mod=profile&do=edit&id=<!--{$user[uid]}-->" enctype="multipart/form-data" method="post">
+  <div style='display:none'><input type='hidden' name='formhash' value='{FORMHASH}' /></div>
+  <fieldset>
+    <legend><!--{lang edit_profile}--></legend>
+		<div class="con-r">
+			<ul class="profile_ul">
+				<li><label for="id_realname">姓名</label> <input id="id_realname" type="text" name="realname" maxlength="30"<!--{if $profile[realname]}--> value="<!--{$profile[realname]}-->"<!--{/if}--> /></li>
+				<li><label for="id_avatar">头像</label> <input id="id_avatar" type="file" name="avatar" /></li>
+				<li><label for="id_gender">性别</label> 
+					<input type="radio" name="gender" value="0" <!--{if $profile[gender] == 0}--> checked="checked" <!--{/if}-->>保密&nbsp;
+					<input type="radio" name="gender" value="1" <!--{if $profile[gender] == 1}--> checked="checked" <!--{/if}-->>男&nbsp;
+					<input type="radio" name="gender" value="2" <!--{if $profile[gender] == 2}--> checked="checked" <!--{/if}-->>女&nbsp;
+				</li>
+				<!-- <li><label for="id_privacy">Privacy:</label> <select name="privacy" id="id_privacy">
+				<option value="open">Open</option>
+				<option value="registered" selected="selected">Registered</option>
+				<option value="closed">Closed</option>
+				</select> <span class="helptext">Designates who can view your profile.</span></li>
+				<li><label for="id_language">Language:</label> <select name="language" id="id_language">
+				<option value="en">English</option>
+				<option value="zh-cn">中文</option>
+				</select></li> -->
+				<li><label for="id_qq">手机</label> <input id="id_mobile" type="text" name="mobile" maxlength="16"<!--{if $profile[mobile]}--> value="<!--{$profile[mobile]}-->"<!--{/if}--> /></li>
+				<li><label for="id_qq">QQ</label> <input id="id_qq" type="text" name="qq" maxlength="16"<!--{if $profile[qq]}--> value="<!--{$profile[qq]}-->"<!--{/if}--> /></li>
+				<li><label for="id_msn">MSN</label> <input id="id_msn" type="text" name="msn" maxlength="64"<!--{if $profile[msn]}--> value="<!--{$profile[msn]}-->"<!--{/if}--> /></li>
+				<li><label for="id_website">主页</label> <input id="id_site" type="text" name="site" maxlength="64"<!--{if $profile[site]}--> value="<!--{$profile[site]}-->"<!--{/if}--> /></li>
+				<li><label for="id_bio">简介</label> <textarea id="id_bio" name="bio" style="height:120px;"><!--{if $profile[bio]}--><!--{$profile[bio]}--><!--{/if}--></textarea>
+			</ul>
+		</div>
+  </fieldset>
+  <input type="submit" class="btn btn-primary btn-large" value="<!--{lang save_changes}-->" />
+</form>
+<!--{subtemplate common/footer}-->

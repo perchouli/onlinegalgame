@@ -1,4 +1,0 @@
-django
-easy-thumbnails
-django-userena
-PIL

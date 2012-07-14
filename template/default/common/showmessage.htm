@@ -1,0 +1,95 @@
+<!--{if !$_G['inajax']}-->
+	<!--{template common/header}-->
+	<style>
+	.altw{padding:100px 0}
+	.$alerttype{-khtml-border-radius:11px;-khtml-box-shadow:rgba(200,200,200,1) 0 4px 18px;-moz-border-radius:11px;-moz-box-shadow:rgba(200,200,200,1) 0 4px 18px;-webkit-border-radius:11px;-webkit-box-shadow:rgba(200,200,200,1) 0 4px 18px;border:1px solid #E5E5E5;border-radius:5px;box-shadow:rgba(200,200,20);padding:16px 50px 20px 30px;height:200px;text-align:center;font-size: 14px;}
+	#lc_a {padding:30px 0;}
+	#lc_b {padding:0 0;}
+	</style>
+	<div id="ct" class="wp cl w">
+		<!--{if !$param[login]}-->
+			<div class="nfl">
+		<!--{else}-->
+			<div class="nfl" id="main_succeed" style="display: none">
+				<div class="altw">
+					<div class="alert_right">
+					<div id="lc_a"><div id="lc_b">
+						<p id="succeedmessage"></p>
+						<p id="succeedlocation" class="alert_btnleft"></p>
+						<p class="alert_btnleft"><a id="succeedmessage_href">{lang message_forward}</a></p>
+					</div></div>
+					</div>
+				</div>
+			</div>
+			<div class="nfl" id="main_message">
+		<!--{/if}-->
+<!--{else}-->
+	<!--{template common/header_ajax}-->
+<!--{/if}-->
+<!--{if $param[msgtype] == 1 || $param[msgtype] == 2 && !$_G[inajax]}-->
+		<div class="altw">
+			<div id="messagetext" class="$alerttype">
+			<div id="lc_a"><img src="/static/img/{$modes[$alerttype]}.png"></img></div>
+			<div id="lc_b"><p>$show_message</p>
+				<!--{if $url_forward}-->
+					<!--{if !$param[redirectmsg]}-->
+						<p class="alert_btnleft"><a href="$url_forward">{lang message_forward}</a></p>
+					<!--{else}-->
+						<p class="alert_btnleft"><a href="$url_forward">{lang attach_forward}</a></p>
+					<!--{/if}-->
+				<!--{elseif $allowreturn}-->
+				<script type="text/javascript">
+					if(history.length > (BROWSER.ie ? 0 : 1)) {
+						document.write('<p class="alert_btnleft"><a href="javascript:history.back()">{lang message_go_back}</a></p>');
+					} else {
+						document.write('<p class="alert_btnleft"><a href="./">[ $_G['setting']['bbname'] {lang homepage} ]</a></p>');
+					}
+				</script>
+				<!--{/if}-->
+			</div>
+			</div>
+			<!--{if $param[login]}-->
+				<div id="messagelogin"></div>
+				<script type="text/javascript">ajaxget('member.php?mod=logging&action=login&infloat=yes&frommessage', 'messagelogin');</script>
+			<!--{/if}-->
+		</div>
+<!--{elseif $param[msgtype] == 2}-->
+		<h3 class="flb"><em>{lang board_message}</em><!--{if $_G[inajax]}--><span><a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']');" title="{lang close}">{lang close}</a></span><!--{/if}--></h3>
+		<div class="altw">
+			<div class="$alerttype">
+			<div id="lc_a"><img src="/static/img/{$modes[$alerttype]}.png"></img></div>
+			<div id="lc_b"><p>$show_message</p></div>
+			</div>
+		</div>
+		<p class="o pns">
+			<!--{if $param['closetime']}-->
+				<span class="z xg1">$param['closetime'] {lang message_closetime}</span>
+			<!--{elseif $param['locationtime']}-->
+				<span class="z xg1">$param['locationtime'] {lang message_locationtime}</span>
+			<!--{/if}-->
+			<!--{if $param[login]}-->
+				<button type="button" class="pn pnc" onclick="hideWindow('$_GET['handlekey']');showWindow('login', 'member.php?mod=logging&action=login');"><strong>{lang login}</strong></button>
+				<!--{if !$_G['setting']['bbclosed']}-->
+					<button type="button" class="pn pnc" onclick="hideWindow('$_GET['handlekey']');window.open('member.php?mod={$_G[setting][regname]}');"><em>$_G['setting']['reglinkname']</em></button>
+				<!--{/if}-->
+				<button type="button" class="pn" onclick="hideWindow('$_GET['handlekey']');"><em>{lang cancel}</em></button>
+			<!--{elseif !$param['closetime'] && !$param['locationtime']}-->
+				<button type="button" class="pn pnc" id="closebtn" onclick="hideWindow('$_GET['handlekey']');"><strong>{lang confirms}</strong></button>
+				<script type="text/javascript" reload="1">if($('closebtn')) {$('closebtn').focus();}</script>
+			<!--{/if}-->
+		</p>
+<!--{else}-->
+		<div class="altw">
+			<div class="$alerttype">
+			<div id="lc_a"><img src="/static/img/{$modes[$alerttype]}.png"></img></div>
+			<div id="lc_b"><p>$show_message</p></div>
+			</div>
+		</div>
+<!--{/if}-->
+<!--{if !$_G['inajax']}-->
+		</div>
+	</div>
+	<!--{template common/footer}-->
+<!--{else}-->
+	<!--{template common/footer_ajax}-->
+<!--{/if}-->

@@ -1,0 +1,13 @@
+#
+# robots.txt for EarlyImbrian
+#
+
+User-agent: *
+Disallow: /data/
+Disallow: /src/
+Disallow: /install/
+Disallow: /template/
+Disallow: /static/
+Disallow: /comment.php
+Disallow: /account.php
+Disallow: /*mobile=yes*

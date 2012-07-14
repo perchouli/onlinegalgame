@@ -1,0 +1,402 @@
+<!--{subtemplate common/header}-->
+<style>
+	#story_list {margin-top:15px;}
+	#story_header {margin:0px auto;width:800px;height:160px;}
+	#story_description {float:left;padding:20px;width:480px;height:120px;}
+	#story_author {float:left;padding:20px;width:240px;height:120px;}
+	
+	#story_info {margin:0px auto;width:800px;}
+	#story_info h3 {margin-top:15px;}
+	#story_info .current {background:#7BCA1C;color:#fcfcfc}
+	#story_scene {float:left;padding:20px;width:240px;}
+	#story_comment {float:left;padding:20px;width:480px;}
+	
+	#story {margin:0px auto;width:800px;height:450px;border:1px solid #ccc;background:#000;}
+	#story_list {background:url(/static/img/bg-story-sort.jpg) no-repeat;float:left;width:130px;height:450px;border:1px solid #ccc;}
+
+	#u_face {
+		float:left;
+		width:72px;
+		border:1px solid #ccc;
+	}
+	#u_info {
+		float:left;
+		padding:10px;
+	}
+	#u_name, #u_sign {line-height:16px;padding:5px;}
+	#u_name {border-bottom:1px dashed #7BCA1C;}
+	#u_sign {color:#999;}
+	
+	#role_image_container {width:800px;height:450px;}
+	#role_image {height:450px;}
+	
+	#branch {
+		display:table;
+		position:absolute;
+		width:760px;
+		height:410px;
+		padding:20px;
+		text-align:center;
+		margin:0 auto;
+	}
+	div#branch > div {
+		display:table-row;
+	}
+	div#branch > div > div {
+		display:table-cell;
+		vertical-align:middle;
+	}
+	#branch ul {
+		display:none;
+		position:relative;
+	}
+	#branch li {
+		display:block;
+		text-align:center;
+		margin:0;
+		padding:8px 0;
+	}
+	.btn-branch {
+		-webkit-font-smoothing:antialiased;
+		height:28px;
+		font-weight:bold;
+		font-size:14px;
+		letter-spacing:1px;
+		display:inline-block;
+		line-height:1;
+		text-align:center;
+	}
+	
+	#dialog {
+		z-index:11;
+		width:720px;
+		height:80px;
+		background:#c6c6c6;
+		position:absolute;
+		margin:310px 20px 20px 20px;
+		border-radius:5px;
+		-webkit-border-radius:5px;
+		opacity:0.6;
+		padding:20px;
+		font-size:14px;
+		color:#000;
+	}
+	#dialog p {opacity:1;}
+	
+</style>
+
+	<div class="conr-title">
+		<div class="search-bar">
+			<a href="story.php?mod=add"><img src="/static/img/btn_createstory.png"/></a>
+			<span style="font-size:12px;">TIPS：点击场景内容即可进行游戏</span>
+		</div>
+	</div>
+	<div id="story_header">
+		<div id="story_description">
+			<h2><!--{$story[name]}--><!--{if $story[uid] == $_G[uid]}--> <input type="button" class="btn btn-primary btn-small" value="<!--{lang edit}-->" onclick="window.location.href='story.php?mod=edit&id=<!--{$story[id]}-->';" /><!--{/if}--></h2><br>
+			<p><!--{$story[description]}--></p>
+		</div>
+		<div id="story_author">
+			<div id="u_face"><img src="<!--{$author[avatar_url]}-->" /></div>
+			<div id="u_info">
+				<div id="u_name"><a href="account.php?mod=profile&id=<!--{$author[uid]}-->" target="_blank">@<!--{$author[username]}--></a></div>
+				<div id="u_sign"><!--{$author[profile][bio]}--></div>
+			</div>
+		</div>
+		
+	</div>
+	<div id="story" style="background:url('/static/img/mapback.jpg');" onclick="run()">
+		<div id="branch">
+		<div><div>
+			<ul id="branch_container"></ul>
+		</div></div>
+		</div>
+		<div id="dialog"></div>
+		<table id="role_image_container"></table>
+	</div>
+	<div id="story_info">
+		<div id="story_comment">
+		<h3>场景评论</h3>
+			<ul>
+				<!--{loop $comments $id $comment}-->
+				<li><a href="account.php?mod=profile&id=<!--{$comment[uid]}-->" target="_blank">@<!--{$comment[username]}--></a>: <!--{$comment[content]}--></li>
+				<!--{/loop}-->
+				<br/>
+				<li>
+				<!--{if $_G[uid]}-->
+				<form id="comment_form" action="comment.php?mod=add" method="post">
+					<div style="display:none"><input type="hidden" name="formhash" value="{FORMHASH}"></div>
+					<input id="id_type" type="hidden" name="type" value="scene">
+					<input id="id_sid" type="hidden" name="sid" value="<!--{$story[id]}-->">
+					<input id="id_ssid" type="hidden" name="ssid" value="<!--{$_G[ssid]}-->">
+					<input id="id_timestamp" type="hidden" name="timestamp" value="{TIMESTAMP}">
+					<p><textarea id="id_comment" name="comment" rows="5" cols="40"></textarea></p>
+					<input id="btn_post" type="button" class="btn btn-primary btn-small" value="<!--{lang submit}-->" onclick="validatorFrom()" />
+				</form>
+				<!--{else}-->
+				请先<a href="account.php?mod=signin&t={TIMESTAMP}">登录</a>
+				<!--{/if}-->
+				</li>
+			</ul>
+		</div>
+		<div id="story_scene">
+		<h3>故事的所有场景</h3>
+			<ul>
+				<li id="tips"></li>
+				<!--{loop $scenes $id $scene}-->
+				<li><!--{if $scene[uid] == $_G[uid] || $story[uid] == $_G[uid]}--><span onclick="delScene(<!--{$scene[ssid]}-->)" style="font-size:10;margin-right:10px;color:red;">x</span><!--{/if}--><a <!--{if $scene[ssid] == $_G[ssid]}-->class="current"<!--{/if}--> href="story.php?mod=show&id=<!--{$story[id]}-->&ssid=<!--{$scene[ssid]}-->"><!--{$scene[name]}--></a> <!--{if $scene[uid] == $_G[uid] || $story[uid] == $_G[uid]}--><input type="button" class="btn btn-primary btn-mini" value="<!--{lang edit}-->" onclick="editStory($(this).parent())"/><!--{/if}--></li>
+				<li style="display:none;">排序：<input name="sort" type="text" value="<!--{$scene[sortid]}-->" style="width:30px;"/> 场景名：<input name="title" type="text" value="<!--{$scene[name]}-->" style="width:100px"/> <input type="button" class="btn btn-primary btn-mini" value="<!--{lang submit}-->" onclick="submitEdit($(this).parent(), <!--{$scene[ssid]}-->)"/></li>			
+				<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+
+<script type="text/javascript" src="/static/js/ubb.js"></script>
+<script type="text/javascript" src="/static/js/soundmanager2-nodebug-jsmin.js"></script>
+<script>
+	var storyStep = 0;
+    var roleProfile = [];
+	var inbranch = false;
+	var wait_run = false;
+	
+	<!--{loop $roles $id $role}-->
+	roleProfile[<!--{$role[rid]}-->] = {"rid":<!--{$role[rid]}-->, 
+		"name":"<!--{$role[name]}-->",
+		"postures":[
+		<!--{loop $role[postures] $idp $rp}-->
+		{"pid":<!--{$rp[pid]}-->, "name":"<!--{$rp[name]}-->", "img":"<!--{$rp[img]}-->"},
+		<!--{/loop}-->
+		]};
+	<!--{/loop}-->
+	
+	var commandJson = <!--{$command}-->;
+
+	soundManager.setup({
+		  url: '/static/soundmanager2_flash9.swf',
+		  flashVersion: 9,
+		  onready: function() {
+			soundManager.createSound({
+				id: 'bgm',
+				url: '',
+				autoLoad: false,
+				//autoPlay: true,
+				onload: function() {
+				},
+				onfinish: function() {
+					soundManager.play('bgm');
+				},
+				volume: 80
+			  });
+			soundManager.createSound({
+				id: 'snd',
+				url: '',
+				autoLoad: false,
+				//autoPlay: true,
+				onload: function() {
+				},
+				onfinish: function() {
+				},
+				volume: 100
+			  });
+			waittorun();
+		  },
+		  ontimeout: function() {
+			console.log('SM2 start-up failed.');
+			waittorun();
+		  },
+		  // more custom parameters
+		  defaultOptions: {
+			volume: 100
+		  }
+	});
+	
+	function waittorun() {
+		if (wait_run) {
+			run();
+		}
+		wait_run = true;
+	}
+	
+	$(document).ready(function(){
+		waittorun();
+	});
+	
+    function clearRole(){
+        $("#role_image_container").html('');
+    }
+	
+	function changeRolePosture(value,wait,name){
+		if (value) {
+			var shtml = '<tr>';
+			for (var i = 0; i<value.length; i++) {
+				if (value[i] != "0") {
+					var mid = value[i].split('_');
+					var rid = parseInt(mid[0]);
+					var pidIndex = parseInt(mid[1]);
+					if (pidIndex > 0) {			
+						pidIndex = pidIndex - 1;
+						shtml += '<th><div id="role_image" style="background:url('+roleProfile[rid].postures[pidIndex].img+') no-repeat center bottom"></div></th>'
+					}
+				}
+			}
+			shtml += '</tr>';
+			$("#role_image_container").html(shtml);
+		}
+	}
+	
+	function run(){
+		if (inbranch) return;
+        var p = commandJson.process;
+		try { p[storyStep].type }
+		catch(err){
+			var nextUrl = $("#story_info ul li a[class='current']").parent().next().next().children('a').attr('href');
+			if (nextUrl) window.location.href = nextUrl; else jRight('这个故事已经结束了，请浏览其他故事');
+		}
+		
+		var value = p[storyStep].value;
+		var wait = parseInt(p[storyStep].wait);
+		
+		switch(p[storyStep].type) {
+			case 'BGD':
+			    $('#story').attr('style','background:url(file.php?id='+value+')');
+				break;
+			case 'ROLE':
+			    changeRolePosture(value);
+				break;
+            case 'DLG':
+				setDialog(value);
+				break;
+            case 'COM':
+				switch(value) {
+					case 'CROLE':
+						clearRole();
+						break;
+					case 'DLG':
+						$('#dialog').css('display') == 'block' ? $('#dialog').css('display','none'):$('#dialog').css('display','block');
+						break;
+					case 'END':
+						jRight('这个故事已经结束了，请浏览其他故事');
+						return;
+				}
+                break;
+			case 'BRANCH':
+				inbranch = true;
+				//var branch = JSON.parse(value);
+				var branch = value;
+				for (var i=0;i<branch.length;i++){
+					$('#branch_container').append('<li><input type="button" class="btn btn-branch" id="id_btn_branch" value="'+branch[i].name+'" onclick="branchJmp('+branch[i].ssid+')"></li>');
+				}
+				$('#branch_container').css('display','block');
+				break;
+			case 'JMP':
+				branchJmp(value);
+				break;
+			case 'BGM':
+				//背景音乐
+				if (value == "0") {
+					soundManager.stop('bgm');
+				} else {
+					soundManager.load('bgm', {url:'file.php?id='+value});
+					soundManager.play('bgm');
+				}
+				break;
+			case 'SND':
+				//语音
+				if (value == "0") {
+					soundManager.stop('snd');
+				} else {
+					soundManager.load('snd', {url:'file.php?id='+value});
+					soundManager.play('snd');
+				}
+				break;
+			default: 
+				jAlert('这条流程没法解析');
+				break;
+		}
+		storyStep++;
+		if (wait == 0) {
+			run();
+		}
+	};
+	
+	function setDialog(value) {
+		if (value) {
+			if (value.name) {
+				$("#dialog").html('【'+value.name+'】<br/>'+ubb2html(value.content));
+			} else {
+				$("#dialog").html(ubb2html(value.content));
+			}
+		}
+	}
+	
+	function branchJmp(ssid) {
+		if (ssid == 0) {
+			$('#branch_container').css('display','none');
+			$('#id_btn_branch').remove();
+			inbranch = false;
+			//run(); it will call onclick auto
+		} else {
+			window.location.href = 'story.php?mod=show&id=<!--{$story[id]}-->&ssid='+ssid;
+		}
+	}
+	
+	function editStory(el){
+		el.hide();
+		el.next().show();	
+	}
+	
+	function submitEdit(el,sid){
+		var s = el.children('input[name="sort"]').val();
+		var t = el.children('input[name="title"]').val();
+		el.hide();
+		el.prev().show();
+		$.ajax({
+			type:'POST',
+			url: 'story.php?mod=edit&id=<!--{$story[id]}-->&ajax=1',
+			dataType: 'json',
+			data: {"sort" : s, "title": t ,"ssid":sid},
+			success: function(msg) {
+				if (msg == '0') {
+					$("#tips").css('color','#7BCA1C').fadeIn().text('提交成功，刷新后可以看到修改结果').delay(2000).fadeOut();
+				} else {
+					$("#tips").css('color','red').fadeIn().text('提交失败，数据错误').delay(2000).fadeOut();
+				}
+				//jRight('提交成功，刷新后可以看到新')
+			},
+			error: function() {
+				$("#tips").css('color','red').fadeIn().text('提交失败，可能是服务器错误，请稍候再提交').delay(2000).fadeOut();
+			}
+		});
+	}
+
+	function delScene(sid){
+		jConfirm('删除后的场景不能再恢复，确认要删除吗？', 'Confirmation Dialog', function(r) {
+			if (r){
+				$.ajax({
+					type:'POST',
+					url: 'story.php?mod=del&id=<!--{$story[id]}-->&ajax=1',
+					dataType:'json',
+					data: {"ssid": sid},
+					success: function(msg){
+						if (msg == '0') {
+							window.location.reload();
+						} else {
+							jAlert('删除场景失败！','Submit Failed');
+						}
+						//window.location.href = 'story.php?mod=list'
+					}
+				});
+			}
+       });
+	}
+	
+	function validatorFrom(){
+		if ($("#id_comment").val() == ''){
+			jAlert('您是不是忘记填写评论内容了？','Submit Failed');
+			return;
+		}
+		$('#comment_form').submit();
+	}
+</script>
+
+<!--{subtemplate common/footer}-->

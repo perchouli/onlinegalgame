@@ -1,0 +1,22 @@
+<style>
+.user_level {padding:15px 0px;}
+.user_level li{margin:8px 0px;}
+.user_level label {width:50px;float:left;}
+.profile_ul { border-bottom:1px dashed #7BCA1C;padding:15px 0px;}
+.profile_ul li {margin:8px 0px;padding:0 5px;}
+.profile_ul label {width:50px;float:left;}
+#u_sign {color: #999;}
+.colorTip{left:50%;top:-30px;}
+fieldset {line-height:35px;}
+label {float:left; width:100px;}
+</style>
+
+<div class="crumb2">
+    <p> <!--{lang action}-->：
+        <a href="account.php?mod=profile&id=<!--{$user[uid]}-->"><!--{lang view_profile}--></a><!--{if $user[uid] == $_G[uid]}--> |
+        <a href="account.php?mod=profile&do=edit&id=<!--{$user[uid]}-->"><!--{lang edit_profile}--></a> | 
+        <a href="account.php?mod=password&do=change&id=<!--{$user[uid]}-->"><!--{lang change_password}--></a> |
+        <a href="account.php?mod=profile&do=change_email&id=<!--{$user[uid]}-->"><!--{lang change_email}--></a><!--{/if}-->
+    </p>
+</div>
+<div class="clearfix"></div>

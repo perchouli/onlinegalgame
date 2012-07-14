@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS pre_story_item;
+CREATE TABLE pre_story_item (
+  siid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  uid mediumint(8) unsigned NOT NULL DEFAULT '0',
+  aid mediumint(8) unsigned NOT NULL DEFAULT '0',
+  type varchar(16) NOT NULL,
+  time int(10) unsigned NOT NULL DEFAULT '0',
+  name varchar(255) NOT NULL,
+  description varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (siid),
+  KEY uid (uid),
+  KEY aid (aid)
+) TYPE=InnoDB;

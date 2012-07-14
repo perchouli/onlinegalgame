@@ -1,0 +1,10 @@
+form{-khtml-border-radius:11px;-khtml-box-shadow:rgba(200,200,200,1) 0 4px 18px;-moz-border-radius:11px;-moz-box-shadow:rgba(200,200,200,1) 0 4px 18px;-webkit-border-radius:11px;-webkit-box-shadow:rgba(200,200,200,1) 0 4px 18px;border:1px solid #E5E5E5;border-radius:5px;box-shadow:rgba(200,200,20);padding:16px 50px 20px 30px}
+input[type='text'], input[type='password']{-moz-border-radius:3px;border:1px solid #bbb;border-radius:3px;font-size:24px;margin-bottom:16px;padding:3px;height:30px}
+input[type='submit']{margin-top:15px;}
+
+label{display:block;font-weight:700;}
+.tips{margin-bottom:10px}
+.errorlist{color:red;margin-bottom:5px;width:230px}
+.accounts_action{margin:20px 0px;}
+.accounts_action li {margin:8px 0px;}
+.ar {text-align: right;}
