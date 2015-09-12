@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} {{ story.name }} {% endblock %}
+
+{% block content %}
+
+<div id="main"></div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/jsx">
+  var mainWindow = React.render(
+    <MainWindow storyId={ {{ story.id }} } />,
+    document.getElementById('main')
+  );
+
+</script>
+{% endblock %}

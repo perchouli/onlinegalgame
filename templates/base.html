@@ -1,71 +1,34 @@
-{% load i18n %}
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<meta charset="utf-8" /> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}{% endblock %} - OnlineGalgame - 在线游戏制作平台</title>
 <link type="text/css" rel="stylesheet" href="/static/css/main.css"/>
-<link type="text/css" rel="stylesheet" href="/static/css/uniform.css"/>
 {% block style %}{% endblock %}
 </head>
 <body>
-<!--START: Header -->
-<div id="header">
-	<div class="con">
-        <h1 onclick="javascript:window.location.href ='/'"><img src="/static/images/logo_top.png" alt="Logo" /></h1>
-        <ul id="header_menu">
-            <li><img src="{{STATIC_URL}}images/icon/home.png" alt="Home Icon" />
-                {% if user.is_authenticated %}
-                <a href="/">{% trans "Home" %}</a>
-                {% else %}
-                <a href="{% url userena_signup %}" style="color:green;">{% trans "Register" %}</a>
-                {% endif %}
+    <div id="header">
+        <ul>
+            <li><a href="{% url 'story_create' %}">新建(New)</a>
             </li>
-            <li>
-                <a href="{% url role_list %}">{% trans "Role List" %}</a>
+            <li><a href="{% url 'story_play' 1 %}">探索(Explorer)</a>
             </li>
-            <li>
-                <a href="{% url story_list %}">{% trans "All Story" %}</a>
+            <li>分享(Share)
             </li>
-            <li>
-                <a href="{% url djiki-page-view '图书馆'  %}">{% trans "Wiki" %}</a>
+            <li><a href="https://github.com/perchouli/onlinegalgame">关于(About)</a>
             </li>
-            {% if user.is_authenticated %}
-			<li>
-                <a href="/accounts/{{request.user.username}}" style="color:green; font-weight:bold;">{{request.user.username}}</a>
-			</li>
-			<li>
-                <a href="{% url userena_signout %}">{% trans "Log out" %}</a>
-			</li>
-				{% else %}
-			<li>
-				<a href="{% url userena_signin %}" style="color:red">{% trans "Log in" %}</a>
-            </li>
-			{% endif %}
         </ul>
     </div>
-</div>
-<!--END: Header--> 
-<!--START: Wrapper -->
-<div id="wrapper">
     {% block breadcrumb %}{% endblock %} 
-	{% block content %}{% endblock %}
-	<div class="clear"></div>
-</div>
-<!--END: wrapper--> 
-<div class="clear"></div>
-<!--START: Footer-->
-	<div id="footer">
-		<div class="copyright"> <a href="http://www.dmyz.org"><img style="float:right;margin-right:20px;" src="{{STATIC_URL}}images/logo_bottom.png" alt="Logo Bottom"/></a>
-			<p>2011 <a href="/">onlinegalgame.com.</a> </p>
-			<p>This website is owned by <a href="#">OnlineGalgame Dev </a>  </p>
-		</div>
-	</div>
-<!--END: Footer-->
+    {% block content %}{% endblock %}
 
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/uniform.js"></script>
+<script type="text/javascript" src="/static/js/JSXTransformer.js"></script>
+<script type="text/javascript" src="/static/js/react-with-addons.min.js"></script>
+<script type="text/jsx" src="/static/js/main.jsx"></script>
 {% block js %}{% endblock %}
+<script type="text/javascript">
 
+</script>
 </body>
 </html>

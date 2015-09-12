@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} {{ story.name|default:'[New Story]' }} {% endblock %}
+
+{% block content %}
+
+<div id="main"></div>
+<!-- <input accept="image/jpeg,image/jpg,image/png,image/x-png;capture=camera" onChange={this._previewImage} type="file" /> -->
+{% endblock %}
+
+{% block js %}
+<script type="text/jsx">
+  var mainWindow = React.render(
+    <MainWindow mountEditor={true} {% if story.id %}  storyId={ {{ story.id }} } {% endif %} />,
+    document.getElementById('main')
+  );
+
+</script>
+{% endblock %}
