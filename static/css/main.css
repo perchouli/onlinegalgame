@@ -130,10 +130,11 @@ and (max-device-width : 736px) {
 .role {
   position: absolute;
   bottom: 0;
-  width: 100%;
-  height: 500px;  
+  width: 30%;
+  height: 500px;
   background-image: url(/media/roles/default/reimu.png);
   background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 .editor a.spacer {
   margin-right: 10px;
@@ -188,16 +189,6 @@ and (max-device-width : 736px) {
     transform: rotate(-90deg);
   }
 }
-.role-left, .role-right {
-  position: absolute;
-  width: 30%;
-  height: 100%;
-  background: red;
-  top: 0px;
-}
-.role-left {left: 30px;}
-.role-right {right: 30px;}
-
 
 a:hover { color: green; text-decoration: none; cursor: pointer; }
 .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }

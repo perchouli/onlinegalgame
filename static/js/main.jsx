@@ -48,7 +48,7 @@ var Editor = React.createClass({
     if (category == 'backgrounds')
       this.props.config('backgroundImage', url);
     if (category == 'roles')
-      this.props.config('roles', [{image: url}]);
+      this.props.config('roles', [{url: url}]);
 
     var command = 'sp "'+ (category == 'backgrounds' ? 'bg' : 'role') +'", {"name": "'+ name +'" }\n';
     this._insertCommand(command);
@@ -141,8 +141,14 @@ var Editor = React.createClass({
     data['commands'] = commands;
     data['name'] = this.state.editingScene.name;
     data['story_id'] = this.props.storyId;
-    if (this.state.editingScene.id)
+    if (this.state.editingScene.id) {
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4 || xhr.status != 200)
+          return;
+        alert('Success!');
+      };
       xhr.open('PUT', '/api/scenes/' + this.state.editingScene.id + '/');
+    }
     else
       xhr.open('POST', '/api/scenes/');
     xhr.send(JSON.stringify(data));
@@ -278,6 +284,7 @@ var MainWindow = React.createClass({
     }
   },
   _setRole: function (args, isDelete) {
+    console.log('args',args)
     var roles = this.state.roles;
     if (isDelete) {
       var roleIndex = roles.map(function (role) {return role.name}).indexOf(args.name);
@@ -288,7 +295,8 @@ var MainWindow = React.createClass({
       this._getURLAsName('roles', args.name, function (url) {
         roles.push({
           name: args.name,
-          image: url
+          url: url,
+          style: args
         });
       });
 
@@ -340,7 +348,6 @@ var MainWindow = React.createClass({
           break;
           case 'spdelete "role"':
             this._setRole(args, true);
-            console.log(args)
           break;
         }
       }
@@ -363,9 +370,8 @@ var MainWindow = React.createClass({
     return (
       <div className="main-window" onClick={this._play} onContextMenu={this._toggleEditor} style={mainWindowStyle}>
         {this.state.roles.map(function (role, i) {
-          var style = {
-            backgroundImage: 'url(' + role.image + ')'
-          };
+          var style = role.style || {};
+          style['backgroundImage'] = 'url(' + role.url + ')';
           return (<div key={i} className="role" style={style}></div>);
         }, this)}
         <div className="dialog-box" ref="dialogBox"></div>
