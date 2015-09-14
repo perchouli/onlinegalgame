@@ -10,7 +10,14 @@
 <body>
     <div id="header">
         <ul>
-            <li><a href="{% url 'story_create' %}">新建(New)</a>
+            <li><a href="javascript:void(0)" onclick="showStoryFrom(event)">新建(New)</a>
+                <div class="popup">
+                    <form onsubmit="saveStory(this); return false;" action="/api/stories/">
+                        <label>Name: <input name="name" type="text" /></label>
+                        <label>Description: <textarea name="description"></textarea></label>
+                        <input type="submit" value="Create" />
+                    </form>
+                </div>
             </li>
             <li><a href="{% url 'story_play' 1 %}">探索(Explorer)</a>
             </li>
@@ -24,11 +31,31 @@
     {% block content %}{% endblock %}
 
 <script type="text/javascript" src="/static/js/JSXTransformer.js"></script>
-<script type="text/javascript" src="/static/js/react-with-addons.min.js"></script>
+<script type="text/javascript" src="/static/js/react-with-addons.js"></script>
 <script type="text/jsx" src="/static/js/main.jsx"></script>
 {% block js %}{% endblock %}
 <script type="text/javascript">
+var showStoryFrom = function (e) {
+    e.preventDefault();
+    var DOMNode = e.currentTarget.parentNode.querySelector('.popup');
+    DOMNode.style.display = DOMNode.style.display ? '' : 'block';
+};
 
+var saveStory = function (form) {
+    var xhr = new XMLHttpRequest(),
+        data = {
+            name: form.querySelector('input[name="name"]').value,
+            description: form.querySelector('textarea[name="description"]').value
+        };
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4 || xhr.status != 200) return;
+        var response = JSON.parse(xhr.responseText);
+        location.href = '/stories/edit/' + response[0].id + '/';
+    }
+    xhr.open('POST', '/api/stories/');
+    xhr.send(JSON.stringify(data));
+};
 </script>
 </body>
 </html>

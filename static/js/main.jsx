@@ -40,8 +40,7 @@ var Editor = React.createClass({
     };
     xhr.send();
   },
-  _showOptionsEdit: function () {
-
+  _showBranchsEdit: function () {
   },
   _selectFile: function (e) {
     var DOMNode = e.currentTarget,
@@ -189,9 +188,9 @@ var Editor = React.createClass({
           <label>
             Scripts:
             <div className="toolbar">
-            <a onClick={this._showFileBrowser.bind(this, 'backgrounds')}>BGD</a>
-            <a onClick={this._showFileBrowser.bind(this, 'roles')}>Role</a>
-            <a onClick={this._showOptionsEdit}>Option</a>
+              <a onClick={this._showFileBrowser.bind(this, 'backgrounds')}>BGD</a>
+              <a onClick={this._showFileBrowser.bind(this, 'roles')}>Role</a>
+              <a onClick={this._showBranchsEdit}>Option</a>
             </div>
             <textarea ref="commandsEditor" className="commands" onChange={this._editCommands} value={commandsString}></textarea>
             <button onClick={this._saveScene}>Save</button><button onClick={this._deleteScene}>Delete</button>

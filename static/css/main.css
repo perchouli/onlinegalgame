@@ -68,6 +68,12 @@ and (max-device-width : 736px) {
   #header {display: none;}
   .main-window{width: 100%; margin: 0;}
 }
+.popup {
+  display: none;
+  position: absolute;
+  background: rgb(238, 238, 238) none repeat scroll 0% 0%;
+  padding: 10%;
+}
 .editor {
   display: none;
   position: absolute;
@@ -115,6 +121,12 @@ and (max-device-width : 736px) {
   font-size: 1.3em;
   font-family: Tahoma;
 }
+.editor .config .branchs {
+  position: absolute;
+  width: 40%;
+  height: 20%;
+}
+
 .dialog-box {
   position: absolute;
   bottom: 0px;

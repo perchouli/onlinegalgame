@@ -58,6 +58,12 @@ class StoryResource(Resource):
         'scene' : 'scenes',
         'commands' : json.loads
     }
+    def create(self):
+        story = Story()
+        story.name = self.data['name'] == '' and '[BLANK]' or self.data['name']
+        story.description = self.data['description']
+        story.save()
+        return [story]
 
     def detail(self, pk):
         return Story.objects.get(pk=pk)
