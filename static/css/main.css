@@ -127,6 +127,14 @@ and (max-device-width : 736px) {
   font-size: 16px;
   color: #333;
 }
+.dialog-box .branch {
+  display: block;
+  padding: 5px;
+  color: #333;
+}
+.dialog-box .branch:hover {
+  background-color: #ddd;
+}
 .role {
   position: absolute;
   bottom: 0;

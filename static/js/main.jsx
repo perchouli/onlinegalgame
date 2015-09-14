@@ -17,6 +17,8 @@ var Editor = React.createClass({
     });
     this.props.config('sceneIndex', i);
     this.props.config('commandIndex', 0);
+    this.props.config('backgroundImage', null);
+    this.props.config('roles', []);
   },
   _onChangeName: function (e) {
     var data = this.state.editingScene;
@@ -37,6 +39,9 @@ var Editor = React.createClass({
       React.render(<FileBrowser files={response} category={category} _event={_self._selectFile} />, DOMNode);
     };
     xhr.send();
+  },
+  _showOptionsEdit: function () {
+
   },
   _selectFile: function (e) {
     var DOMNode = e.currentTarget,
@@ -186,6 +191,7 @@ var Editor = React.createClass({
             <div className="toolbar">
             <a onClick={this._showFileBrowser.bind(this, 'backgrounds')}>BGD</a>
             <a onClick={this._showFileBrowser.bind(this, 'roles')}>Role</a>
+            <a onClick={this._showOptionsEdit}>Option</a>
             </div>
             <textarea ref="commandsEditor" className="commands" onChange={this._editCommands} value={commandsString}></textarea>
             <button onClick={this._saveScene}>Save</button><button onClick={this._deleteScene}>Delete</button>
@@ -198,12 +204,9 @@ var Editor = React.createClass({
 });
 
 var FileBrowser = React.createClass({
-  _close: function () {
-    React.unmountComponentAtNode(this.getDOMNode().parentNode);
-  },
   render: function () {
     return (
-      <div className="file-browser"><a className="close" onClick={this._close}>x</a>
+      <div className="file-browser"><a className="close" onClick={function(){React.unmountComponentAtNode(this.getDOMNode().parentNode)}.bind(this)}>x</a>
         {this.props.files.map(function (file, i) {
           var style = file.isSelected ? {'backgroundColor' : '#000'} : {};
           return (
@@ -214,6 +217,18 @@ var FileBrowser = React.createClass({
     );
   }
 });
+
+var Branchs = React.createClass({
+  render: function () {
+    return (
+    <div>
+      {this.props.branchs.map(function (branch, i) {
+        return (<a key={i} data-name={branch.name} className="branch" onClick={this.props._event}>{branch.label}</a>);
+      }, this)}
+    </div>
+    );
+  }
+})
 
 var MainWindow = React.createClass({
   getInitialState: function() {
@@ -284,12 +299,12 @@ var MainWindow = React.createClass({
     }
   },
   _setRole: function (args, isDelete) {
-    console.log('args',args)
     var roles = this.state.roles;
     if (isDelete) {
       var roleIndex = roles.map(function (role) {return role.name}).indexOf(args.name);
       if (roleIndex !== -1)
         roles.splice(roleIndex, 1);
+      this.setState({roles: roles});
     }
     else
       this._getURLAsName('roles', args.name, function (url) {
@@ -298,14 +313,32 @@ var MainWindow = React.createClass({
           url: url,
           style: args
         });
-      });
+        this.setState({roles: roles});
+      }.bind(this));
 
-    this.setState({roles: roles});
+  },
+  _goto: function (e) {
+    var name = e.currentTarget.dataset.name,
+      sceneIndex = this.state.scenes.map(function (scene) {return scene.name;}).indexOf(name);
+    this.setState({
+      sceneIndex: sceneIndex,
+      backgroundImage: null,
+      roles: [],
+      commandIndex: 0
+    }, function () {
+      React.unmountComponentAtNode(this.refs.dialogBox.getDOMNode());
+      this._play();
+    });
   },
   _play: function (e) {
-    if (this.state.isEditing === true) return e.preventDefault();
-    if (this.state.scenes[this.state.sceneIndex] === undefined) return e.preventDefault();
+    if (
+      (this.state.isEditing === true) ||
+      (this.state.scenes[this.state.sceneIndex] === undefined) ||
+      (this.refs.dialogBox.getDOMNode().children.length !== 0)
+    )
+      return e.preventDefault();
     // if ((this.state.sceneIndex === this.state.scenes.length - 1) && (this.state.commandIndex === this.state.scenes[this.state.sceneIndex].dialogs.length)) 
+
 
     var scene = this.state.scenes[this.state.sceneIndex],
       command = scene.commands[this.state.commandIndex];
@@ -338,7 +371,6 @@ var MainWindow = React.createClass({
         catch (e) {
           console.error(e);
         }
-
         switch (method) {
           case 'sp "bg"':
             this._setBackgroundImage(args);
@@ -348,6 +380,11 @@ var MainWindow = React.createClass({
           break;
           case 'spdelete "role"':
             this._setRole(args, true);
+          break;
+          case 'sp "branchs"':
+            var DOMNode = this.refs.dialogBox.getDOMNode();
+            React.unmountComponentAtNode(DOMNode);
+            React.render(<Branchs branchs={args} _event={this._goto} />, DOMNode);
           break;
         }
       }
@@ -374,7 +411,7 @@ var MainWindow = React.createClass({
           style['backgroundImage'] = 'url(' + role.url + ')';
           return (<div key={i} className="role" style={style}></div>);
         }, this)}
-        <div className="dialog-box" ref="dialogBox"></div>
+        <div ref="dialogBox" className="dialog-box"></div>
         <Editor ref="editor" config={this._config} storyId={this.props.storyId} />
       </div>
     );
