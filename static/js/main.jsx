@@ -40,23 +40,23 @@ var Editor = React.createClass({
     };
     xhr.send();
   },
-  _toggleBranchsEdit: function (e) {
+  _toggleBranchesEdit: function (e) {
     e.preventDefault();
-    var DOMNode = document.getElementById('branchs-edit');
+    var DOMNode = document.getElementById('branches-edit');
     DOMNode.style.display = DOMNode.style.display == 'block' ? 'none' : 'block';
   },
-  _saveBranchs: function (e) {
-    var DOMNode = document.querySelectorAll('#branchs-edit ul li'),
-      branchs = [];
+  _saveBranches: function (e) {
+    var DOMNode = document.querySelectorAll('#branches-edit ul li'),
+      branches = [];
     for (var i = 0; i < DOMNode.length; i++) {
       var li = DOMNode[i],
         label = li.querySelector('input[name="label"]').value,
         name = li.querySelector('select[name="name"]').value;
-      branchs.push({label: label, name: name});
+      branches.push({label: label, name: name});
     }
-    var command = '\nsp "branchs",' + JSON.stringify(branchs);
+    var command = '\nsp "branches",' + JSON.stringify(branches);
     this._insertCommand(command);
-    this._toggleBranchsEdit(e);
+    this._toggleBranchesEdit(e);
   },
   _selectFile: function (e) {
     var DOMNode = e.currentTarget,
@@ -215,8 +215,8 @@ var Editor = React.createClass({
             <div className="toolbar">
               <a onClick={this._renderFileBrowser.bind(this, 'backgrounds')}>BGD</a>
               <a onClick={this._renderFileBrowser.bind(this, 'roles')}>Role</a>
-              <a onClick={this._toggleBranchsEdit}>Branch</a>
-              <div className="popup" id="branchs-edit">
+              <a onClick={this._toggleBranchesEdit}>Branch</a>
+              <div className="popup" id="branches-edit">
                 <ul>
                   <li>
                     <input name="label" placeholder="Label" />
@@ -235,7 +235,7 @@ var Editor = React.createClass({
                     </select>
                   </li>
                 </ul>
-                <button onClick={this._saveBranchs}>Save</button>
+                <button onClick={this._saveBranches}>Save</button>
               </div>
             </div>
             <textarea ref="commandsEditor" className="commands" onChange={this._editCommands} value={commandsString}></textarea>
@@ -263,11 +263,11 @@ var FileBrowser = React.createClass({
   }
 });
 
-var Branchs = React.createClass({
+var Branches = React.createClass({
   render: function () {
     return (
     <div>
-      {this.props.branchs.map(function (branch, i) {
+      {this.props.branches.map(function (branch, i) {
         return (<a key={i} data-name={branch.name} className="branch" onClick={this.props._event}>{branch.label}</a>);
       }, this)}
     </div>
@@ -426,10 +426,10 @@ var MainWindow = React.createClass({
           case 'spdelete "role"':
             this._setRole(args, true);
           break;
-          case 'sp "branchs"':
+          case 'sp "branches"':
             var DOMNode = this.refs.dialogBox.getDOMNode();
             React.unmountComponentAtNode(DOMNode);
-            React.render(<Branchs branchs={args} _event={this._goto} />, DOMNode);
+            React.render(<Branches branches={args} _event={this._goto} />, DOMNode);
           break;
         }
       }
