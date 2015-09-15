@@ -50,10 +50,7 @@ a { color: #7BCA1C; text-decoration: none; }
   -moz-box-shadow:    3px 3px 2px 0px rgba(22, 22, 22, 0.82);
   box-shadow:         3px 3px 2px 0px rgba(22, 22, 22, 0.82);
   background-color: rgb(216, 216, 216);
-  background-color: -moz-linear-gradient(270deg, rgb(216, 216, 216) 1%, rgb(247, 247, 247) 100%);
   background-color: -webkit-linear-gradient(270deg, rgb(216, 216, 216) 1%, rgb(247, 247, 247) 100%);
-  background-color: -o-linear-gradient(270deg, rgb(216, 216, 216) 1%, rgb(247, 247, 247) 100%);
-  background-color: -ms-linear-gradient(270deg, rgb(216, 216, 216) 1%, rgb(247, 247, 247) 100%);
   background-color: linear-gradient(0deg, rgb(216, 216, 216) 1%, rgb(247, 247, 247) 100%);
   /*transition: all 1s ease-in;*/
 }
@@ -72,7 +69,9 @@ and (max-device-width : 736px) {
   display: none;
   position: absolute;
   background: rgb(238, 238, 238) none repeat scroll 0% 0%;
-  padding: 10%;
+  padding: 20px;
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(50, 50, 50, 0.35);
+          box-shadow: 3px 3px 5px 0px rgba(50, 50, 50, 0.35);
 }
 .editor {
   display: none;
@@ -141,7 +140,6 @@ and (max-device-width : 736px) {
 }
 .dialog-box .branch {
   display: block;
-  padding: 5px;
   color: #333;
 }
 .dialog-box .branch:hover {
@@ -151,7 +149,7 @@ and (max-device-width : 736px) {
   position: absolute;
   bottom: 0;
   width: 30%;
-  height: 500px;
+  height: 100%;
   background-image: url(/media/roles/default/reimu.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;

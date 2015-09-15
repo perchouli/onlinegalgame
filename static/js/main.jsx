@@ -25,7 +25,7 @@ var Editor = React.createClass({
     data['name'] = e.target.value;
     this.setState({editingScene: data});
   },
-  _showFileBrowser: function (category) {
+  _renderFileBrowser: function (category) {
     var _self = this;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/' + category + '/', true);
@@ -40,7 +40,23 @@ var Editor = React.createClass({
     };
     xhr.send();
   },
-  _showBranchsEdit: function () {
+  _toggleBranchsEdit: function (e) {
+    e.preventDefault();
+    var DOMNode = document.getElementById('branchs-edit');
+    DOMNode.style.display = DOMNode.style.display == 'block' ? 'none' : 'block';
+  },
+  _saveBranchs: function (e) {
+    var DOMNode = document.querySelectorAll('#branchs-edit ul li'),
+      branchs = [];
+    for (var i = 0; i < DOMNode.length; i++) {
+      var li = DOMNode[i],
+        label = li.querySelector('input[name="label"]').value,
+        name = li.querySelector('select[name="name"]').value;
+      branchs.push({label: label, name: name});
+    }
+    var command = '\nsp "branchs",' + JSON.stringify(branchs);
+    this._insertCommand(command);
+    this._toggleBranchsEdit(e);
   },
   _selectFile: function (e) {
     var DOMNode = e.currentTarget,
@@ -54,7 +70,7 @@ var Editor = React.createClass({
     if (category == 'roles')
       this.props.config('roles', [{url: url}]);
 
-    var command = 'sp "'+ (category == 'backgrounds' ? 'bg' : 'role') +'", {"name": "'+ name +'" }\n';
+    var command = '\nsp "'+ (category == 'backgrounds' ? 'bg' : 'role') +'", {"name": "'+ name +'" }\n';
     this._insertCommand(command);
   },
   _insertCommand: function (command) {
@@ -139,22 +155,31 @@ var Editor = React.createClass({
     this.props.config('scenes', scenes);
   },
   _saveScene: function (e) {
-    var commands = this.state.editingScene.commands,
+    var editingScene = this.state.editingScene,
+      commands = editingScene.commands,
       data = {},
       xhr = new XMLHttpRequest();
     data['commands'] = commands;
-    data['name'] = this.state.editingScene.name;
+    data['name'] = editingScene.name;
     data['story_id'] = this.props.storyId;
-    if (this.state.editingScene.id) {
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4 || xhr.status != 200)
-          return;
-        alert('Success!');
-      };
-      xhr.open('PUT', '/api/scenes/' + this.state.editingScene.id + '/');
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState != 4 || xhr.status != 200)
+        return;
+      var response = JSON.parse(xhr.responseText);
+      if (response.length > 0) {
+        editingScene.id = response.id;
+        this.setState({editingScene: editingScene});
+      }
+      alert('Success!');
+    }.bind(this);
+
+    if (editingScene.id) {
+      xhr.open('PUT', '/api/scenes/' + editingScene.id + '/');
     }
-    else
+    else {
       xhr.open('POST', '/api/scenes/');
+    }
     xhr.send(JSON.stringify(data));
     e.preventDefault()
   },
@@ -188,9 +213,30 @@ var Editor = React.createClass({
           <label>
             Scripts:
             <div className="toolbar">
-              <a onClick={this._showFileBrowser.bind(this, 'backgrounds')}>BGD</a>
-              <a onClick={this._showFileBrowser.bind(this, 'roles')}>Role</a>
-              <a onClick={this._showBranchsEdit}>Option</a>
+              <a onClick={this._renderFileBrowser.bind(this, 'backgrounds')}>BGD</a>
+              <a onClick={this._renderFileBrowser.bind(this, 'roles')}>Role</a>
+              <a onClick={this._toggleBranchsEdit}>Branch</a>
+              <div className="popup" id="branchs-edit">
+                <ul>
+                  <li>
+                    <input name="label" placeholder="Label" />
+                    <select name="name">
+                      {this.state.scenes.map(function (scene, i) {
+                        return (<option value={scene.name}>{scene.name}</option>);
+                      }, this)};
+                    </select>
+                  </li>
+                  <li>
+                    <input name="label" placeholder="Label" />
+                    <select name="name">
+                      {this.state.scenes.map(function (scene, i) {
+                        return (<option value={scene.name}>{scene.name}</option>);
+                      }, this)};
+                    </select>
+                  </li>
+                </ul>
+                <button onClick={this._saveBranchs}>Save</button>
+              </div>
             </div>
             <textarea ref="commandsEditor" className="commands" onChange={this._editCommands} value={commandsString}></textarea>
             <button onClick={this._saveScene}>Save</button><button onClick={this._deleteScene}>Delete</button>
