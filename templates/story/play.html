@@ -9,11 +9,10 @@
 {% endblock %}
 
 {% block js %}
-<script type="text/jsx">
-  var mainWindow = React.render(
-    <MainWindow storyId={ {{ story.id }} } />,
+<script>
+var mainWindow = React.render(
+    React.createElement(MainWindow, {mountEditor: true}),
     document.getElementById('main')
-  );
-
+);
 </script>
 {% endblock %}
