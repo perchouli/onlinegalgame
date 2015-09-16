@@ -9,11 +9,15 @@
 {% endblock %}
 
 {% block js %}
-<script type="text/jsx">
-  var mainWindow = React.render(
-    <MainWindow mountEditor={true} {% if story.id %}  storyId={ {{ story.id }} } {% endif %} />,
-    document.getElementById('main')
-  );
 
+<script>
+var mainWindow = React.render(
+    React.createElement(MainWindow,
+    {
+        {% if story.id %}  storyId: {{ story.id }}, {% endif %}
+        mountEditor: true
+    }),
+    document.getElementById('main')
+);
 </script>
 {% endblock %}
