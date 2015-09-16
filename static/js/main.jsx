@@ -5,12 +5,6 @@ var Editor = React.createClass({
       editingScene: {}
     };
   },
-  componentDidMount: function () {
-
-  },
-  componentDidUpdate: function () {
-
-  },
   _editScence: function (i) {
     this.setState({
       editingScene: this.state.scenes[i]
@@ -33,7 +27,7 @@ var Editor = React.createClass({
       if (xhr.readyState != 4 || xhr.status != 200)
         return;
 
-      var DOMNode = _self.refs.fileBrowser.getDOMNode();
+      var DOMNode = _self.refs.fileBrowser;
       var response = JSON.parse(xhr.responseText);
       React.unmountComponentAtNode(DOMNode);
       React.render(<FileBrowser files={response} category={category} _event={_self._selectFile} />, DOMNode);
@@ -75,7 +69,7 @@ var Editor = React.createClass({
   },
   _insertCommand: function (command) {
     var editingScene = this.state.editingScene,
-      commandsString = this.refs.commandsEditor.getDOMNode().value,
+      commandsString = this.refs.commandsEditor.value,
       caretPos = this._getInputSelection().end;
     commandsString = commandsString.slice(0, caretPos) + command + commandsString.slice(caretPos);
 
@@ -90,7 +84,7 @@ var Editor = React.createClass({
     this.setState({editingScene: editingScene});
   },
   _getInputSelection: function(e) {
-    var el = this.refs.commandsEditor.getDOMNode(),
+    var el = this.refs.commandsEditor,
       start = 0, end = 0, normalizedValue, range,
       textInputRange, len, endRange;
 
@@ -168,7 +162,7 @@ var Editor = React.createClass({
         return;
       var response = JSON.parse(xhr.responseText);
       if (response.length > 0) {
-        editingScene.id = response.id;
+        editingScene.id = response[0].id;
         this.setState({editingScene: editingScene});
       }
       alert('Success!');
@@ -187,9 +181,12 @@ var Editor = React.createClass({
     if (confirm('Delete? (cannot undo)')) {
       var scenes = this.state.scenes,
         sceneIndex = this.state.scenes.map(function (scene) {return scene.id}).indexOf(this.state.editingScene.id);
-      var xhr = new XMLHttpRequest();
-      xhr.open('DELETE', '/api/scenes/' + this.state.editingScene.id + '/');
-      xhr.send();
+
+      if (this.state.editingScene.id) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('DELETE', '/api/scenes/' + this.state.editingScene.id + '/');
+        xhr.send();
+      }
 
       scenes.splice(sceneIndex, 1);
       this.setState({editingScene: {}});
@@ -371,7 +368,7 @@ var MainWindow = React.createClass({
       roles: [],
       commandIndex: 0
     }, function () {
-      React.unmountComponentAtNode(this.refs.dialogBox.getDOMNode());
+      React.unmountComponentAtNode(this.refs.dialogBox);
       this._play();
     });
   },
@@ -379,7 +376,7 @@ var MainWindow = React.createClass({
     if (
       (this.state.isEditing === true) ||
       (this.state.scenes[this.state.sceneIndex] === undefined) ||
-      (this.refs.dialogBox.getDOMNode().children.length !== 0)
+      (this.refs.dialogBox.children.length !== 0)
     )
       return e.preventDefault();
     // if ((this.state.sceneIndex === this.state.scenes.length - 1) && (this.state.commandIndex === this.state.scenes[this.state.sceneIndex].dialogs.length)) 
@@ -427,7 +424,7 @@ var MainWindow = React.createClass({
             this._setRole(args, true);
           break;
           case 'sp "branches"':
-            var DOMNode = this.refs.dialogBox.getDOMNode();
+            var DOMNode = this.refs.dialogBox;
             React.unmountComponentAtNode(DOMNode);
             React.render(<Branches branches={args} _event={this._goto} />, DOMNode);
           break;
