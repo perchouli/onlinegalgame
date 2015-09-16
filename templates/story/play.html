@@ -11,7 +11,7 @@
 {% block js %}
 <script>
 var mainWindow = React.render(
-    React.createElement(MainWindow, {mountEditor: true}),
+    React.createElement(MainWindow,  {storyId: {{ story.id }} }),
     document.getElementById('main')
 );
 </script>
