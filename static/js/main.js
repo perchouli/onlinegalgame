@@ -329,7 +329,7 @@ var FileBrowser = React.createClass({
       React.createElement(
         'a',
         { className: 'close', onClick: (function () {
-            React.unmountComponentAtNode(this.getDOMNode().parentNode);
+            React.unmountComponentAtNode(React.findDOMNode(this).parentNode);
           }).bind(this) },
         'x'
       ),
@@ -406,7 +406,7 @@ var MainWindow = React.createClass({
   _toggleEditor: function _toggleEditor(e) {
     if (this.props.mountEditor) {
       e.preventDefault();
-      var DOMNode = this.refs.editor.getDOMNode();
+      var DOMNode = React.findDOMNode(this.refs.editor);
 
       if (DOMNode.style.display == '' || DOMNode.style.display == 'none') DOMNode.style.display = 'block';else DOMNode.style.display = 'none';
 
@@ -464,14 +464,18 @@ var MainWindow = React.createClass({
   },
   _play: function _play(e) {
     if (this.state.isEditing === true || this.state.scenes[this.state.sceneIndex] === undefined || this.refs.dialogBox.children.length !== 0) return e.preventDefault();
-    // if ((this.state.sceneIndex === this.state.scenes.length - 1) && (this.state.commandIndex === this.state.scenes[this.state.sceneIndex].dialogs.length))
+
+    if (this.state.sceneIndex === this.state.scenes.length - 1 && this.state.commandIndex === this.state.scenes[this.state.sceneIndex].commands.length) {
+      alert('Ending');
+      return e.preventDefault();
+    }
 
     var scene = this.state.scenes[this.state.sceneIndex],
         command = scene.commands[this.state.commandIndex];
 
     if (command === '') {
       this.setState({ commandIndex: this.state.commandIndex + 1 }, (function () {
-        this.getDOMNode().click();
+        React.findDOMNode(this).click();
       }).bind(this));
       //return e.preventDefault();
     }
@@ -535,4 +539,3 @@ var MainWindow = React.createClass({
     );
   }
 });
-

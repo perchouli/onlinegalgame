@@ -248,7 +248,7 @@ var Editor = React.createClass({
 var FileBrowser = React.createClass({
   render: function () {
     return (
-      <div className="file-browser"><a className="close" onClick={function(){React.unmountComponentAtNode(this.getDOMNode().parentNode)}.bind(this)}>x</a>
+      <div className="file-browser"><a className="close" onClick={function(){React.unmountComponentAtNode(React.findDOMNode(this).parentNode)}.bind(this)}>x</a>
         {this.props.files.map(function (file, i) {
           var style = file.isSelected ? {'backgroundColor' : '#000'} : {};
           return (
@@ -309,7 +309,7 @@ var MainWindow = React.createClass({
   _toggleEditor: function (e) {
     if (this.props.mountEditor) {
       e.preventDefault();
-      var DOMNode = this.refs.editor.getDOMNode()
+      var DOMNode = React.findDOMNode(this.refs.editor);
 
       if (DOMNode.style.display == '' || DOMNode.style.display == 'none')
         DOMNode.style.display = 'block';
@@ -379,7 +379,12 @@ var MainWindow = React.createClass({
       (this.refs.dialogBox.children.length !== 0)
     )
       return e.preventDefault();
-    // if ((this.state.sceneIndex === this.state.scenes.length - 1) && (this.state.commandIndex === this.state.scenes[this.state.sceneIndex].dialogs.length)) 
+
+    if ((this.state.sceneIndex === this.state.scenes.length - 1) &&
+      (this.state.commandIndex === this.state.scenes[this.state.sceneIndex].commands.length)) {
+      alert('Ending');
+      return e.preventDefault();
+    }
 
 
     var scene = this.state.scenes[this.state.sceneIndex],
@@ -387,7 +392,7 @@ var MainWindow = React.createClass({
 
     if (command === '') {
       this.setState({commandIndex: this.state.commandIndex + 1}, function () {
-        this.getDOMNode().click();
+        React.findDOMNode(this).click();
       }.bind(this));
       //return e.preventDefault();
     }
