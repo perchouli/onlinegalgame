@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>{% block title %}{% endblock %} - OnlineGalgame - 在线游戏制作平台</title>
 <link type="text/css" rel="stylesheet" href="/static/css/main.css"/>
 {% block style %}{% endblock %}
@@ -10,7 +10,7 @@
 <body>
     <div id="header">
         <ul>
-            <li><a href="javascript:void(0)" onclick="showStoryFrom(event)">新建(New)</a>
+            <li><a href="javascript:void(0)" onclick="togglePopup(event)">新建(New)</a>
                 <div class="popup">
                     <form onsubmit="saveStory(this); return false;" action="/api/stories/">
                         <label>Name: <input name="name" type="text" /></label>
@@ -19,12 +19,13 @@
                     </form>
                 </div>
             </li>
-            <li><a href="{% url 'story_play' 1 %}">探索(Explorer)</a>
+            <li><a href="{% url 'story_play' 1 %}">探索(Explorer)</a></li>
+            <li><a href="javascript:void(0)" onclick="togglePopup(event)">分享(Share)</a>
+                <div class="popup">
+
+                </div>
             </li>
-            <li>分享(Share)
-            </li>
-            <li><a href="https://github.com/perchouli/onlinegalgame">关于(About)</a>
-            </li>
+            <li><a href="https://github.com/perchouli/onlinegalgame">关于(About)</a></li>
         </ul>
     </div>
     {% block breadcrumb %}{% endblock %} 
@@ -34,11 +35,12 @@
 <script src="/static/js/main.js"></script>
 {% block js %}{% endblock %}
 <script type="text/javascript">
-var showStoryFrom = function (e) {
+var togglePopup = function (e) {
     e.preventDefault();
     var DOMNode = e.currentTarget.parentNode.querySelector('.popup');
     DOMNode.style.display = DOMNode.style.display ? '' : 'block';
 };
+
 
 var saveStory = function (form) {
     var xhr = new XMLHttpRequest(),

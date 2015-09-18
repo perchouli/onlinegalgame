@@ -54,16 +54,27 @@ a { color: #7BCA1C; text-decoration: none; }
   background-color: linear-gradient(0deg, rgb(216, 216, 216) 1%, rgb(247, 247, 247) 100%);
   /*transition: all 1s ease-in;*/
 }
+
 .main-window:before {
   content: '';
   display: block;
   padding-top: 65%;
 }
+
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 736px) {
   #header {display: none;}
-  .main-window{width: 100%; margin: 0;}
+  #main {height: 100%;}
+  .main-window{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+  .main-window:before {
+    content: '';
+    padding: 0;
+  }
 }
 .popup {
   display: none;
@@ -199,12 +210,11 @@ and (max-device-width : 736px) {
 
 
 @media (orientation: portrait) {
-  body {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
+  #main {
+
+  }
+  .main-window {
+
   }
 }
 
