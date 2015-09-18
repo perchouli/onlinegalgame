@@ -22,7 +22,7 @@
             <li><a href="{% url 'story_play' 1 %}">探索(Explorer)</a></li>
             <li><a href="javascript:void(0)" onclick="togglePopup(event)">分享(Share)</a>
                 <div class="popup">
-
+                    <div class="addthis_sharing_toolbox"></div>
                 </div>
             </li>
             <li><a href="https://github.com/perchouli/onlinegalgame">关于(About)</a></li>
@@ -58,5 +58,6 @@ var saveStory = function (form) {
     xhr.send(JSON.stringify(data));
 };
 </script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f4b5cca4f2908ae" async="async"></script>
 </body>
 </html>
