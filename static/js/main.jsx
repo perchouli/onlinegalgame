@@ -376,7 +376,7 @@ var MainWindow = React.createClass({
     });
   },
   _play: function (e) {
-    if ((this._isMobile() && (e.type === 'click')) ||
+    if (
       (this.state.isEditing === true) ||
       (this.state.scenes[this.state.sceneIndex] === undefined) ||
       (this.refs.dialogBox.children.length !== 0)
@@ -455,7 +455,7 @@ var MainWindow = React.createClass({
     var mainWindowStyle = {};
     mainWindowStyle['backgroundImage'] = this.state.backgroundImage ? 'url(' + this.state.backgroundImage + ')' : null;
     return (
-      <div className="main-window" onClick={this._play} onTouchStart={this._play} onContextMenu={this._toggleEditor} style={mainWindowStyle}>
+      <div className="main-window" onClick={this._isMobile ? null : this._play} onTouchStart={this._play} onContextMenu={this._toggleEditor} style={mainWindowStyle}>
         {this.state.roles.map(function (role, i) {
           var style = role.style || {};
           style['backgroundImage'] = 'url(' + role.url + ')';

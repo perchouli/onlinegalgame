@@ -467,7 +467,7 @@ var MainWindow = React.createClass({
     });
   },
   _play: function _play(e) {
-    if (this._isMobile() && e.type === 'click' || this.state.isEditing === true || this.state.scenes[this.state.sceneIndex] === undefined || this.refs.dialogBox.children.length !== 0) return e.preventDefault();
+    if (this.state.isEditing === true || this.state.scenes[this.state.sceneIndex] === undefined || this.refs.dialogBox.children.length !== 0) return e.preventDefault();
 
     if (this.state.sceneIndex === this.state.scenes.length - 1 && this.state.commandIndex === this.state.scenes[this.state.sceneIndex].commands.length) {
       alert('Ending');
@@ -532,7 +532,7 @@ var MainWindow = React.createClass({
     mainWindowStyle['backgroundImage'] = this.state.backgroundImage ? 'url(' + this.state.backgroundImage + ')' : null;
     return React.createElement(
       'div',
-      { className: 'main-window', onClick: this._play, onTouchStart: this._play, onContextMenu: this._toggleEditor, style: mainWindowStyle },
+      { className: 'main-window', onClick: this._isMobile ? null : this._play, onTouchStart: this._play, onContextMenu: this._toggleEditor, style: mainWindowStyle },
       this.state.roles.map(function (role, i) {
         var style = role.style || {};
         style['backgroundImage'] = 'url(' + role.url + ')';
