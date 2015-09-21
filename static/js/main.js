@@ -358,7 +358,7 @@ var Branches = React.createClass({
       this.props.branches.map(function (branch, i) {
         return React.createElement(
           'a',
-          { key: i, 'data-name': branch.name, className: 'branch', onClick: this.props._event },
+          { key: i, 'data-name': branch.name, className: 'branch', onTouchStart: this.props._event, onClick: this.props._event },
           branch.label
         );
       }, this)
@@ -532,7 +532,7 @@ var MainWindow = React.createClass({
     mainWindowStyle['backgroundImage'] = this.state.backgroundImage ? 'url(' + this.state.backgroundImage + ')' : null;
     return React.createElement(
       'div',
-      { className: 'main-window', onClick: this._isMobile ? null : this._play, onTouchStart: this._play, onContextMenu: this._toggleEditor, style: mainWindowStyle },
+      { className: 'main-window', onClick: this._isMobile() ? null : this._play, onTouchStart: this._play, onContextMenu: this._toggleEditor, style: mainWindowStyle },
       this.state.roles.map(function (role, i) {
         var style = role.style || {};
         style['backgroundImage'] = 'url(' + role.url + ')';
