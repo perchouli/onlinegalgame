@@ -29,8 +29,8 @@ var Editor = React.createClass({
 
       var DOMNode = _self.refs.fileBrowser;
       var response = JSON.parse(xhr.responseText);
-      React.unmountComponentAtNode(DOMNode);
-      React.render(<FileBrowser files={response} category={category} _event={_self._selectFile} />, DOMNode);
+      ReactDOM.unmountComponentAtNode(DOMNode);
+      ReactDOM.render(<FileBrowser files={response} category={category} _event={_self._selectFile} />, DOMNode);
     };
     xhr.send();
   },
@@ -219,16 +219,16 @@ var Editor = React.createClass({
                     <input name="label" placeholder="Label" />
                     <select name="name">
                       {this.state.scenes.map(function (scene, i) {
-                        return (<option value={scene.name}>{scene.name}</option>);
-                      }, this)};
+                        return (<option key={i} value={scene.name}>{scene.name}</option>)
+                      }, this)}
                     </select>
                   </li>
                   <li>
                     <input name="label" placeholder="Label" />
                     <select name="name">
                       {this.state.scenes.map(function (scene, i) {
-                        return (<option value={scene.name}>{scene.name}</option>);
-                      }, this)};
+                        return (<option key={i} value={scene.name}>{scene.name}</option>)
+                      }, this)}
                     </select>
                   </li>
                 </ul>
@@ -248,7 +248,7 @@ var Editor = React.createClass({
 var FileBrowser = React.createClass({
   render: function () {
     return (
-      <div className="file-browser"><a className="close" onClick={function(){React.unmountComponentAtNode(React.findDOMNode(this).parentNode)}.bind(this)}>x</a>
+      <div className="file-browser"><a className="close" onClick={function(){ReactDOM.unmountComponentAtNode(React.findDOMNode(this).parentNode)}.bind(this)}>x</a>
         {this.props.files.map(function (file, i) {
           var style = file.isSelected ? {'backgroundColor' : '#000'} : {};
           return (
@@ -309,7 +309,7 @@ var MainWindow = React.createClass({
   _toggleEditor: function (e) {
     if (this.props.mountEditor) {
       e.preventDefault();
-      var DOMNode = React.findDOMNode(this.refs.editor);
+      var DOMNode = ReactDOM.findDOMNode(this.refs.editor);
 
       if (DOMNode.style.display == '' || DOMNode.style.display == 'none')
         DOMNode.style.display = 'block';
@@ -368,7 +368,7 @@ var MainWindow = React.createClass({
       roles: [],
       commandIndex: 0
     }, function () {
-      React.unmountComponentAtNode(this.refs.dialogBox);
+      ReactDOM.unmountComponentAtNode(this.refs.dialogBox);
       this._play();
     });
   },
@@ -392,7 +392,7 @@ var MainWindow = React.createClass({
 
     if (command === '') {
       this.setState({commandIndex: this.state.commandIndex + 1}, function () {
-        React.findDOMNode(this).click();
+        ReactDOM.findDOMNode(this).click();
       }.bind(this));
       //return e.preventDefault();
     }
@@ -400,7 +400,7 @@ var MainWindow = React.createClass({
     if (command !== undefined) {
       var commaFirstPos = command.indexOf(',');
       if (command.substr(0,4) == '&gt;')
-        React.findDOMNode(this.refs.dialogBox).innerHTML = command.substr(4);
+        ReactDOM.findDOMNode(this.refs.dialogBox).innerHTML = command.substr(4);
       else if (commaFirstPos === -1) {
         switch (command) {
           case 'spdelete "bg"':
@@ -430,8 +430,8 @@ var MainWindow = React.createClass({
           break;
           case 'sp "branches"':
             var DOMNode = this.refs.dialogBox;
-            React.unmountComponentAtNode(DOMNode);
-            React.render(<Branches branches={args} _event={this._goto} />, DOMNode);
+            ReactDOM.unmountComponentAtNode(DOMNode);
+            ReactDOM.render(<Branches branches={args} _event={this._goto} />, DOMNode);
           break;
         }
       }

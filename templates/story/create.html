@@ -11,7 +11,7 @@
 {% block js %}
 
 <script>
-var mainWindow = React.render(
+var mainWindow = ReactDOM.render(
     React.createElement(MainWindow,
     {
         {% if story.id %}  storyId: {{ story.id }}, {% endif %}

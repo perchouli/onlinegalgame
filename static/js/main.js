@@ -32,8 +32,8 @@ var Editor = React.createClass({
 
       var DOMNode = _self.refs.fileBrowser;
       var response = JSON.parse(xhr.responseText);
-      React.unmountComponentAtNode(DOMNode);
-      React.render(React.createElement(FileBrowser, { files: response, category: category, _event: _self._selectFile }), DOMNode);
+      ReactDOM.unmountComponentAtNode(DOMNode);
+      ReactDOM.render(React.createElement(FileBrowser, { files: response, category: category, _event: _self._selectFile }), DOMNode);
     };
     xhr.send();
   },
@@ -269,11 +269,10 @@ var Editor = React.createClass({
                     this.state.scenes.map(function (scene, i) {
                       return React.createElement(
                         'option',
-                        { value: scene.name },
+                        { key: i, value: scene.name },
                         scene.name
                       );
-                    }, this),
-                    ';'
+                    }, this)
                   )
                 ),
                 React.createElement(
@@ -286,11 +285,10 @@ var Editor = React.createClass({
                     this.state.scenes.map(function (scene, i) {
                       return React.createElement(
                         'option',
-                        { value: scene.name },
+                        { key: i, value: scene.name },
                         scene.name
                       );
-                    }, this),
-                    ';'
+                    }, this)
                   )
                 )
               ),
@@ -329,7 +327,7 @@ var FileBrowser = React.createClass({
       React.createElement(
         'a',
         { className: 'close', onClick: (function () {
-            React.unmountComponentAtNode(React.findDOMNode(this).parentNode);
+            ReactDOM.unmountComponentAtNode(React.findDOMNode(this).parentNode);
           }).bind(this) },
         'x'
       ),
@@ -406,7 +404,7 @@ var MainWindow = React.createClass({
   _toggleEditor: function _toggleEditor(e) {
     if (this.props.mountEditor) {
       e.preventDefault();
-      var DOMNode = React.findDOMNode(this.refs.editor);
+      var DOMNode = ReactDOM.findDOMNode(this.refs.editor);
 
       if (DOMNode.style.display == '' || DOMNode.style.display == 'none') DOMNode.style.display = 'block';else DOMNode.style.display = 'none';
 
@@ -458,7 +456,7 @@ var MainWindow = React.createClass({
       roles: [],
       commandIndex: 0
     }, function () {
-      React.unmountComponentAtNode(this.refs.dialogBox);
+      ReactDOM.unmountComponentAtNode(this.refs.dialogBox);
       this._play();
     });
   },
@@ -475,14 +473,14 @@ var MainWindow = React.createClass({
 
     if (command === '') {
       this.setState({ commandIndex: this.state.commandIndex + 1 }, (function () {
-        React.findDOMNode(this).click();
+        ReactDOM.findDOMNode(this).click();
       }).bind(this));
       //return e.preventDefault();
     }
 
     if (command !== undefined) {
       var commaFirstPos = command.indexOf(',');
-      if (command.substr(0, 4) == '&gt;') React.findDOMNode(this.refs.dialogBox).innerHTML = command.substr(4);else if (commaFirstPos === -1) {
+      if (command.substr(0, 4) == '&gt;') ReactDOM.findDOMNode(this.refs.dialogBox).innerHTML = command.substr(4);else if (commaFirstPos === -1) {
         switch (command) {
           case 'spdelete "bg"':
             this._setBackgroundImage(null);
@@ -509,8 +507,8 @@ var MainWindow = React.createClass({
             break;
           case 'sp "branches"':
             var DOMNode = this.refs.dialogBox;
-            React.unmountComponentAtNode(DOMNode);
-            React.render(React.createElement(Branches, { branches: args, _event: this._goto }), DOMNode);
+            ReactDOM.unmountComponentAtNode(DOMNode);
+            ReactDOM.render(React.createElement(Branches, { branches: args, _event: this._goto }), DOMNode);
             break;
         }
       }

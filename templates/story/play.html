@@ -10,7 +10,7 @@
 
 {% block js %}
 <script>
-var mainWindow = React.render(
+var mainWindow = ReactDOM.render(
     React.createElement(MainWindow,  {storyId: {{ story.id }} }),
     document.getElementById('main')
 );
