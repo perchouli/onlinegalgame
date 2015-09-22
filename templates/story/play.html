@@ -14,5 +14,7 @@ var mainWindow = ReactDOM.render(
     React.createElement(MainWindow,  {storyId: {{ story.id }} }),
     document.getElementById('main')
 );
+
+MainWindow.preload({{images|safe}});
 </script>
 {% endblock %}

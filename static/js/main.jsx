@@ -273,6 +273,18 @@ var Branches = React.createClass({
 })
 
 var MainWindow = React.createClass({
+  statics: {
+    preload: function (imageArray, index) {
+      index = index || 0;
+      if (imageArray && imageArray.length > index) {
+        var img = new Image ();
+        img.onload = function() {
+          this.preload(imageArray, index + 1);
+        }.bind(this);
+        img.src = imageArray[index];
+      }
+    }
+  },
   getInitialState: function() {
     return {
       scenes: [],
@@ -385,7 +397,9 @@ var MainWindow = React.createClass({
 
     if ((this.state.sceneIndex === this.state.scenes.length - 1) &&
       (this.state.commandIndex === this.state.scenes[this.state.sceneIndex].commands.length)) {
-      alert('Ending');
+      alert('Ending' + 
+        (this.props.mountEditor ? ', Right click on main window to launch editor 在主窗口点击右键开始编辑' : '')
+      );
       return e.preventDefault();
     }
 
