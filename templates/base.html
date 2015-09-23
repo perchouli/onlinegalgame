@@ -19,7 +19,7 @@
                     </form>
                 </div>
             </li>
-            <li><a href="{% url 'story_play' 1 %}">探索(Explorer)</a></li>
+            <li><a href="{% url 'story_list' %}">探索(Explorer)</a></li>
             <li><a href="javascript:void(0)" onclick="togglePopup(event)">分享(Share)</a>
                 <div class="popup">
                     <div class="addthis_sharing_toolbox"></div>
@@ -31,7 +31,7 @@
     {% block breadcrumb %}{% endblock %} 
     {% block content %}{% endblock %}
 
-<script type="text/javascript" src="/static/js/react-with-addons-0.14.0-rc1.js"></script>
+<script type="text/javascript" src="/static/js/react-with-addons-0.14.0-rc1.min.js"></script>
 <script type="text/javascript" src="/static/js/react-dom-0.14.0-rc1.min.js"></script>
 <script src="/static/js/main.js"></script>
 {% block js %}{% endblock %}
