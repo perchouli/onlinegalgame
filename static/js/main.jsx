@@ -374,6 +374,14 @@ var MainWindow = React.createClass({
       }.bind(this));
 
   },
+  _toggleTitle: function (close) {
+    if (close !== true)
+      this.refs.dialogBox.setAttribute('style', 'display: flex; justify-content: center; align-items: center; height: 100%; background: transparent none repeat scroll 0% 0%; font-size: 3em;');
+    else {
+      this.refs.dialogBox.removeAttribute('style');
+      this.refs.dialogBox.innerHTML = null;
+    }
+  },
   _goto: function (e) {
     var name = e.currentTarget.dataset.name,
       sceneIndex = this.state.scenes.map(function (scene) {return scene.name;}).indexOf(name);
@@ -384,7 +392,7 @@ var MainWindow = React.createClass({
       commandIndex: 0
     }, function () {
       ReactDOM.unmountComponentAtNode(this.refs.dialogBox);
-      this._play();
+      this._play(e);
     });
   },
   _play: function (e) {
@@ -417,9 +425,15 @@ var MainWindow = React.createClass({
     if (command !== undefined) {
       var commaFirstPos = command.indexOf(',');
       if (command.substr(0,4) == '&gt;')
-        ReactDOM.findDOMNode(this.refs.dialogBox).innerHTML = command.substr(4);
+        this.refs.dialogBox.innerHTML = command.substr(4);
       else if (commaFirstPos === -1) {
         switch (command) {
+          case '*start title':
+            this._toggleTitle();
+          break;
+          case '*end title':
+            this._toggleTitle(true);
+          break;
           case 'spdelete "bg"':
             this._setBackgroundImage(null);
           break;

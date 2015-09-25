@@ -129,16 +129,6 @@ a { color: #7BCA1C; text-decoration: none; }
   height: 20%;
 }
 
-.title-box {
-  display: flex;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  font-size: 3em;
-}
 .dialog-box {
   position: absolute;
   bottom: 0px;
@@ -150,6 +140,11 @@ a { color: #7BCA1C; text-decoration: none; }
   padding: 2%;
   font-size: 16px;
   color: #333;
+
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .dialog-box .branch {
   display: block;
