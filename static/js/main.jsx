@@ -495,3 +495,17 @@ var MainWindow = React.createClass({
     );
   }
 });
+
+var mainDOMNode = document.getElementById('main');
+if (mainDOMNode !== null) {
+  var storyId = mainDOMNode.dataset.storyId;
+
+  ReactDOM.render(
+      React.createElement(MainWindow,
+      {
+          storyId: storyId,
+          mountEditor: mainDOMNode.dataset.mountEditor
+      }),
+      mainDOMNode
+  );
+}

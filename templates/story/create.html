@@ -4,20 +4,13 @@
 
 {% block content %}
 
-<div id="main"></div>
+<div id="main" data-mount-editor="true" data-story-id={{ story.id }}></div>
 <!-- <input accept="image/jpeg,image/jpg,image/png,image/x-png;capture=camera" onChange={this._previewImage} type="file" /> -->
 {% endblock %}
 
 {% block js %}
 
 <script>
-var mainWindow = ReactDOM.render(
-    React.createElement(MainWindow,
-    {
-        {% if story.id %}  storyId: {{ story.id }}, {% endif %}
-        mountEditor: true
-    }),
-    document.getElementById('main')
-);
+
 </script>
 {% endblock %}

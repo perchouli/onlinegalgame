@@ -4,17 +4,12 @@
 
 {% block content %}
 
-<div id="main"></div>
+<div id="main" data-story-id={{ story.id }}></div>
 
 {% endblock %}
 
 {% block js %}
 <script>
-var mainWindow = ReactDOM.render(
-    React.createElement(MainWindow,  {storyId: {{ story.id }} }),
-    document.getElementById('main')
-);
-
-MainWindow.preload({{images|safe}});
+//MainWindow.preload({{images|safe}});
 </script>
 {% endblock %}

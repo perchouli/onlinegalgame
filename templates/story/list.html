@@ -4,21 +4,20 @@
 
 {% block content %}
 
-<div id="main">
-    <div class="story-list" style="background-color: #d8d8d8;">
-        {% for story in stories %}
-            <div class="row">
-                <h2><a href="{%url 'story_play' story.id %}">{{ story.name }}</a></h2>
-                <p>{{ story.description }}</p>
-            </div>
-        {% endfor %}
-        <div class="pagination">Pages: 
-            {% for i in paginator.page_range %}
-            <a href="?page={{i}}">{{i}}</a>
-            {% endfor %}
+<div class="story-list" style="background-color: #d8d8d8;">
+    {% for story in stories %}
+        <div class="row">
+            <h2><a href="{%url 'story_play' story.id %}">{{ story.name }}</a></h2>
+            <p>{{ story.description }}</p>
         </div>
+    {% endfor %}
+    <div class="pagination">Pages: 
+        {% for i in paginator.page_range %}
+        <a href="?page={{i}}">{{i}}</a>
+        {% endfor %}
     </div>
 </div>
+
 {% endblock %}
 
 {% block js %}
